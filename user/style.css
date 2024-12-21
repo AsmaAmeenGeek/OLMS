@@ -308,10 +308,17 @@ body.dark {
     }
 }
 
+<<<<<<< HEAD
 /* Profile Page */
 .profile_page {
     margin: 100px 50px 60px 300px;
     
+=======
+/* Profile Page Styles */
+.profile_page {
+    margin: 150px 60px;
+    /* Adjust margin to align with the sidebar */
+>>>>>>> bb55a305e516887dbbf3fc64882d3a1032569e84
 }
 
 .profile_box {
@@ -338,9 +345,13 @@ body.dark {
     margin-bottom: 10px;
 }
 
+<<<<<<< HEAD
 .profile_email,
 .profile_serialNo,
 .profile_mobileNumber {
+=======
+.profile_email, .profile_serialNo, .profile_mobileNumber{
+>>>>>>> bb55a305e516887dbbf3fc64882d3a1032569e84
     font-size: 16px;
     font-weight: 500;
     color: #666;
@@ -364,7 +375,11 @@ body.dark {
 }
 
 /* Message table styling */
+<<<<<<< HEAD
 .message_content {
+=======
+.content {
+>>>>>>> bb55a305e516887dbbf3fc64882d3a1032569e84
     flex: 1;
     padding: 20px;
     display: flex;
@@ -373,8 +388,13 @@ body.dark {
 
 .message-section {
     margin-top: 100px;
+<<<<<<< HEAD
     margin-left: 280px;
     margin-bottom: 20px;
+=======
+    flex-grow: 1;
+    margin-left: 300px;
+>>>>>>> bb55a305e516887dbbf3fc64882d3a1032569e84
 }
 
 .message-table {
@@ -382,7 +402,11 @@ body.dark {
     border-collapse: collapse;
     background-color: #fff;
     border-radius: 8px;
+<<<<<<< HEAD
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+=======
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+>>>>>>> bb55a305e516887dbbf3fc64882d3a1032569e84
     overflow: hidden;
 }
 
@@ -406,6 +430,7 @@ body.dark {
 .message-table tbody tr:nth-child(even) {
     background-color: #fafafa;
 }
+<<<<<<< HEAD
 
 .due_btn {
     float: right;
@@ -636,3 +661,5 @@ footer h3 {
 
 
 
+=======
+>>>>>>> bb55a305e516887dbbf3fc64882d3a1032569e84
