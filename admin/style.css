@@ -282,7 +282,25 @@ body.dark {
   resize: vertical;
 }
 
+<<<<<<< HEAD
+.send-btn {
+  background-color: #D8D2D0;
+  color: #784939;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  width: 98px;
+  height: 37px;
+  font-weight: bold;
+}
 
+.send-btn:hover {
+  background-color: #c9ac9f;
+}
+=======
+
+>>>>>>> bb55a305e516887dbbf3fc64882d3a1032569e84
 
 /* Profile Page Styles */
 .profile_page {
@@ -326,6 +344,25 @@ body.dark {
   margin-bottom: 20px;
 }
 
+<<<<<<< HEAD
+.edit_button {
+  display: inline-block;
+  padding: 10px 20px;
+  font-size: 16px;
+  color: #784939;
+  background-color: #D8D2D0;
+  border-radius: 5px;
+  text-decoration: none;
+  transition: background-color 0.3s;
+  margin-top: 20px;
+}
+
+.edit_button:hover {
+  background-color: #c9ac9f;
+}
+
+
+=======
 
 
 /* Edit Profile Page Styles */
@@ -401,6 +438,7 @@ body.dark {
   margin-top: 120px; /* Adjust this value to match or slightly exceed the navbar height */
   padding: 0 30px; /* Optional: add some padding to the sides */
 }
+>>>>>>> bb55a305e516887dbbf3fc64882d3a1032569e84
 
 
 @media screen and (max-width: 768px) {
@@ -420,6 +458,8 @@ body.dark {
   .sidebar.close .bottom_content {
     left: -100%;
   }
+<<<<<<< HEAD
+=======
 
   .span9 {
     margin-top: 60px; /* Slightly lower margin for mobile screens */
@@ -436,4 +476,5 @@ body.dark {
   .container1_box {
     padding: 20px;
   }
+>>>>>>> bb55a305e516887dbbf3fc64882d3a1032569e84
 }
