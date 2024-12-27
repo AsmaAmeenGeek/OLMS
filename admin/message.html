@@ -1,3 +1,13 @@
+<?php
+require('dbconn.php');
+?>
+
+<?php 
+if ($_SESSION['RollNo']) {
+    ?>
+
+
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -145,13 +155,36 @@
           <label for="message">Message:</label>
           <textarea id="message" name="message" rows="5" required></textarea>
 
-
-          <button type="submit" class="send-btn">Send</button>
-
           <button type="submit" class="btn">Send</button>
       </form>
   </div>
     
     <script src="script.js"></script>
+
+    <?php
+if(isset($_POST['submit']))
+{
+    $rollno=$_POST['RollNo'];
+    $message=$_POST['Message'];
+
+$sql1="insert into OLMS.message (RollNo,Message,Date,Time) values ('$rollno','$message',curdate(),curtime())";
+
+if($conn->query($sql1) === TRUE){
+echo "<script type='text/javascript'>alert('Success')</script>";
+}
+else
+{//echo $conn->error;
+echo "<script type='text/javascript'>alert('Error')</script>";
+}
+    
+}
+?>
+
+
   </body>
 </html>
+
+<?php }
+else {
+    echo "<script type='text/javascript'>alert('Access Denied!!!')</script>";
+} ?>
