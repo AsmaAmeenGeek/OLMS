@@ -8,7 +8,7 @@ require('dbconn.php');
 
 <head>
 
-    <title>Library Management System </title>
+    <title>Million Library</title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -87,7 +87,7 @@ require('dbconn.php');
         $p = $_POST['Password'];
 
 
-        $sql = "select * from LMS.user where RollNo='$u'";
+        $sql = "select * from olms.user where RollNo='$u'";
 
         $result = $conn->query($sql);
         $row = $result->fetch_assoc();
@@ -113,12 +113,12 @@ require('dbconn.php');
         $name = $_POST['Name'];
         $email = $_POST['Email'];
         $password = $_POST['Password'];
-        $mobno = $_POST['PhoneNumber'];
+        $mobno = $_POST['MobNo'];
         $rollno = $_POST['RollNo'];
         $category = $_POST['Category'];
         $type = 'Student';
 
-        $sql = "insert into LMS.user (Name,Type,Category,RollNo,EmailId,MobNo,Password) values ('$name','$type','$category','$rollno','$email','$mobno','$password')";
+        $sql = "insert into olms.user (Name,Type,Category,RollNo,EmailId,MobNo,Password) values ('$name','$type','$category','$rollno','$email','$mobno','$password')";
 
         if ($conn->query($sql) === TRUE) {
             echo "<script type='text/javascript'>alert('Registration Successful')</script>";
