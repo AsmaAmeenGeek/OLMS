@@ -347,7 +347,6 @@ body.dark {
 /* Profile Page Styles */
 .profile_page {
   margin: 150px 60px;
-  /* Ensure the profile box is responsive */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -362,7 +361,6 @@ body.dark {
   width: 100%;
   margin: 0 auto;
   text-align: center;
-  /* Add a responsive font-size for smaller screens */
 }
 
 .profile_image {
@@ -386,13 +384,6 @@ body.dark {
   color: #666;
   margin-bottom: 20px;
 }
-
-
-
-
-
-
-
 
 
 /* Edit Profile Page Styles */
