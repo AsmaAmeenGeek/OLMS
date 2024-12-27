@@ -1,3 +1,13 @@
+<?php
+require('dbconn.php');
+?>
+
+<?php 
+if ($_SESSION['RollNo']) {
+    ?>
+
+
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -43,7 +53,7 @@
           </li>
 
           <li class="item">
-            <a href="profile.html" class="nav_link submenu_item">
+            <a href="profile.php" class="nav_link submenu_item">
               <span class="navlink_icon">
                 <i class='bx bx-user-circle'></i>
               </span>
@@ -52,7 +62,7 @@
           </li>
          
            <li class="item">
-            <a href="message.html" class="nav_link submenu_item">
+            <a href="message.php" class="nav_link submenu_item">
               <span class="navlink_icon">
                 <i class='bx bx-chat' ></i>
               </span>
@@ -83,6 +93,7 @@
             <a href="#" class="nav_link submenu_item">
 
             <a href="addBook.html" class="nav_link submenu_item">
+
               <span class="navlink_icon">
                 <i class='bx bxs-edit'></i>
               </span>
@@ -135,23 +146,45 @@
       </div>
     </nav>
 
+    <div class="message-box">
+      <h2>Send a Message</h2>
+      <form id="messageForm">
+          <label for="rollNumber">Receiver Roll Number:</label>
+          <input type="text" id="rollNumber" name="rollNumber" required>
 
-    <!-- Profile Page -->
-<div class="profile_page">
-    <div class="profile_box">
-      <img src="images/profile.jpg" alt="User Image" class="profile_image" />
-      <h2 class="profile_name">John Doe</h2>
-      <p class="profile_email"><p><b>Email ID: </b> john.doe@example.com</p>
-      <p class="profile_mobileNumber"><p><b>Mobile Number: </b> +94 76 132 4632</p>
+          <label for="message">Message:</label>
+          <textarea id="message" name="message" rows="5" required></textarea>
 
-      <a href="editProfile.html" class="btn">Edit Details</a>
-
-    </div>
+          <button type="submit" class="btn">Send</button>
+      </form>
   </div>
-  
-
-    
     
     <script src="script.js"></script>
+
+    <?php
+if(isset($_POST['submit']))
+{
+    $rollno=$_POST['RollNo'];
+    $message=$_POST['Message'];
+
+$sql1="insert into OLMS.message (RollNo,Message,Date,Time) values ('$rollno','$message',curdate(),curtime())";
+
+if($conn->query($sql1) === TRUE){
+echo "<script type='text/javascript'>alert('Success')</script>";
+}
+else
+{//echo $conn->error;
+echo "<script type='text/javascript'>alert('Error')</script>";
+}
+    
+}
+?>
+
+
   </body>
 </html>
+
+<?php }
+else {
+    echo "<script type='text/javascript'>alert('Access Denied!!!')</script>";
+} ?>

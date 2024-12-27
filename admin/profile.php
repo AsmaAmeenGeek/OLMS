@@ -2,10 +2,9 @@
 require('dbconn.php');
 ?>
 
-<?php 
+<?php
 if ($_SESSION['RollNo']) {
-    ?>
-
+  ?>
 
 
 <!DOCTYPE html>
@@ -53,7 +52,7 @@ if ($_SESSION['RollNo']) {
           </li>
 
           <li class="item">
-            <a href="profile.html" class="nav_link submenu_item">
+            <a href="profile.php" class="nav_link submenu_item">
               <span class="navlink_icon">
                 <i class='bx bx-user-circle'></i>
               </span>
@@ -62,7 +61,7 @@ if ($_SESSION['RollNo']) {
           </li>
          
            <li class="item">
-            <a href="message.html" class="nav_link submenu_item">
+            <a href="message.php" class="nav_link submenu_item">
               <span class="navlink_icon">
                 <i class='bx bx-chat' ></i>
               </span>
@@ -93,7 +92,6 @@ if ($_SESSION['RollNo']) {
             <a href="#" class="nav_link submenu_item">
 
             <a href="addBook.html" class="nav_link submenu_item">
-
               <span class="navlink_icon">
                 <i class='bx bxs-edit'></i>
               </span>
@@ -146,45 +144,43 @@ if ($_SESSION['RollNo']) {
       </div>
     </nav>
 
-    <div class="message-box">
-      <h2>Send a Message</h2>
-      <form id="messageForm">
-          <label for="rollNumber">Receiver Roll Number:</label>
-          <input type="text" id="rollNumber" name="rollNumber" required>
 
-          <label for="message">Message:</label>
-          <textarea id="message" name="message" rows="5" required></textarea>
+    <!-- Profile Page -->
+    <div class="profile_page">
+    <div class="profile_box">
+      
+      <?php
+        $rollno = $_SESSION['RollNo'];
+        $sql = "select * from olms.user where RollNo='$rollno'";
+        $result = $conn->query($sql);
+        $row = $result->fetch_assoc();
 
-          <button type="submit" class="btn">Send</button>
-      </form>
+        $name = $row['Name'];
+        $category = $row['Category'];
+        $email = $row['EmailId'];
+        $mobno = $row['MobNo'];
+        ?>
+
+        <img src="images/profile.jpg" alt="User Image" class="profile_image" />
+        <h2 class="profile_name"><center><?php echo $name ?></center></h2>
+        <p class="profile_email">
+        <p><b>Email ID: </b><?php echo $email ?></p>
+        <p class="profile_mobileNumber">
+        <p><b>Mobile Number: </b><?php echo $mobno ?></p>
+
+        <a href="editProfile.html" class="btn">Edit Details</a>
+
+
+    </div>
   </div>
+  
+
+    
     
     <script src="script.js"></script>
-
-    <?php
-if(isset($_POST['submit']))
-{
-    $rollno=$_POST['RollNo'];
-    $message=$_POST['Message'];
-
-$sql1="insert into OLMS.message (RollNo,Message,Date,Time) values ('$rollno','$message',curdate(),curtime())";
-
-if($conn->query($sql1) === TRUE){
-echo "<script type='text/javascript'>alert('Success')</script>";
-}
-else
-{//echo $conn->error;
-echo "<script type='text/javascript'>alert('Error')</script>";
-}
-    
-}
-?>
-
-
   </body>
 </html>
 
-<?php }
-else {
-    echo "<script type='text/javascript'>alert('Access Denied!!!')</script>";
+<?php } else {
+  echo "<script type='text/javascript'>alert('Access Denied!!!')</script>";
 } ?>
