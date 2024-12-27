@@ -3,7 +3,7 @@ session_start();
 $dbservername = "127.0.0.1:3307";
 $dbusername = "root";
 $dbpassword = "";
-$db="lms";
+$db="olms";
 // Create connection
 $conn = mysqli_connect($dbservername, $dbusername, $dbpassword,$db);
 // Check connection
