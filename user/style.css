@@ -311,11 +311,6 @@ body.dark {
 /* Profile Page */
 .profile_page {
     margin: 100px 50px 60px 300px;
-    
-/* Profile Page Styles */
-.profile_page {
-    margin: 150px 60px;
-    /* Adjust margin to align with the sidebar */
 }
 
 .profile_box {
@@ -368,11 +363,7 @@ body.dark {
 }
 
 /* Message table styling */
-
-.message_content {
-
 .content {
-
     flex: 1;
     padding: 20px;
     display: flex;
