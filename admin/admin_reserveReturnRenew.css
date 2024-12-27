@@ -17,24 +17,6 @@ nav h1 {
     margin: 0;
 }
 
-.nav-buttons {
-    display: flex;
-    gap: 10px;
-}
-
-.nav-buttons button {
-    background-color: #3c3c3c;
-    color: white;
-    border: none;
-    padding: 10px 15px;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.nav-buttons button:hover {
-    background-color: #5b5b5b;
-}
-
 .sidebar {
     width: 200px;
     background-color: #fff;
