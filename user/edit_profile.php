@@ -39,6 +39,7 @@ session_start();
     <nav class="sidebar">
         <div class="menu_content">
             <ul class="menu_items">
+            <div class="menu_title menu_dahsboard"></div>
                 <li class="item">
                     <a href="home.html" class="nav_link submenu_item">
                         <span class="navlink_icon">
@@ -111,7 +112,7 @@ session_start();
 
         <?php
         $rollno = $_SESSION['RollNo'];
-        $sql = "SELECT * FROM LMS.user WHERE RollNo = ?";
+        $sql = "SELECT * FROM olms.user WHERE RollNo = ?";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("s", $rollno);
         $stmt->execute();
@@ -183,7 +184,7 @@ session_start();
         $mobno = $_POST['MobNo'];
         $pswd = !empty($_POST['Password']) ? password_hash($_POST['Password'], PASSWORD_BCRYPT) : $row['Password'];
 
-        $sql1 = "UPDATE LMS.user SET Name = ?, Category = ?, EmailId = ?, MobNo = ?, Password = ? WHERE RollNo = ?";
+        $sql1 = "UPDATE olms.user SET Name = ?, Category = ?, EmailId = ?, MobNo = ?, Password = ? WHERE RollNo = ?";
         $stmt = $conn->prepare($sql1);
         $stmt->bind_param("ssssss", $name, $category, $email, $mobno, $pswd, $rollno);
 

@@ -138,11 +138,11 @@ if ($_SESSION['RollNo']){
             <tbody>
                 <?php
                 $rollno = $_SESSION['RollNo'];
-                $sql="select * FROM LMS.message where RollNo = '$rollno' order by Date DESC, Time DESC";
+                $sql="select * FROM olms.message where RollNo = '$rollno' order by Date DESC, Time DESC";
                 $result=$conn-> query($sql);
                 while($row=$result-> fetch_assoc())
                 {
-                    $msg=$row['Msg'];
+                    $msg=$row['Message'];
                     $date=$row['Date'];
                     $time=$row['Time'];
                     ?>

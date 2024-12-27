@@ -133,43 +133,43 @@ ob_end_clean();
       <?php
       // Ensure the session RollNo is set
       if (!isset($_SESSION['RollNo'])) {
-          echo "<p>Error: User is not logged in. Please <a href='login.html'>log in</a>.</p>";
-          exit;
+        echo "<p>Error: User is not logged in. Please <a href='login.html'>log in</a>.</p>";
+        exit;
       }
 
       $rollno = $_SESSION['RollNo'];
-      $sql = "SELECT * FROM LMS.user WHERE RollNo='$rollno'";
+      $sql = "SELECT * FROM olms.user WHERE RollNo='$rollno'";
       $result = $conn->query($sql);
 
       if ($result && $result->num_rows > 0) {
-          $row = $result->fetch_assoc();
-          $name = $row['Name'];
-          $category = $row['Category'];
-          $email = $row['EmailId'];
-          $mobno = $row['MobNo'];
+        $row = $result->fetch_assoc();
+        $name = $row['Name'];
+        $category = $row['Category'];
+        $email = $row['EmailId'];
+        $mobno = $row['MobNo'];
       } else {
-          echo "<p>Error: No user found with Roll No: $rollno</p>";
-          $name = $category = $email = $mobno = "N/A";
+        echo "<p>Error: No user found with Roll No: $rollno</p>";
+        $name = $category = $email = $mobno = "N/A";
       }
       ?>
-      
-        <h1 class="card-title">
+
+      <h1 class="card-title">
         <center><?php echo htmlspecialchars($name); ?></center>
-        </h1>
-        <br>
-        <p><b>Email ID: </b><?php echo htmlspecialchars($email); ?></p>
-        <br>
-        <p><b>Roll No: </B><?php echo htmlspecialchars($rollno); ?></p>
-        <br>
-        <p><b>Category: </b><?php echo htmlspecialchars($category); ?></p>
-        <br>
-        <p><b>Mobile number: </b><?php echo htmlspecialchars($mobno); ?></p>
-        </b>
-      
+      </h1>
+      <br>
+      <p><b>Email ID: </b><?php echo htmlspecialchars($email); ?></p>
+      <br>
+      <p><b>Roll No: </B><?php echo htmlspecialchars($rollno); ?></p>
+      <br>
+      <p><b>Category: </b><?php echo htmlspecialchars($category); ?></p>
+      <br>
+      <p><b>Mobile number: </b><?php echo htmlspecialchars($mobno); ?></p>
+      </b>
+
       <a href="edit_profile.php" class="edit_button">Edit Details</a>
     </div>
   </div>
-  
+
   </div>
   </div>
 
