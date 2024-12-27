@@ -3,82 +3,56 @@ require('dbconn.php');
 ?>
 
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 
 <head>
-
     <title>Million Library</title>
-
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <meta name="keywords"
-        content="Library Member Login Form Widget Responsive, Login Form Web Template, Flat Pricing Tables, Flat Drop-Downs, Sign-Up Web Templates, Flat Web Templates, Login Sign-up Responsive Web Template, Smartphone Compatible Web Template, Free Web Designs for Nokia, Samsung, LG, Sony Ericsson, Motorola Web Design" />
-    <script
-        type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
-
-    <link rel="stylesheet" href="css/style.css" type="text/css" media="all">
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="styles.css">
     <link href="//fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
-
-
 </head>
 
 <body>
+    <div class="background">
+        <div class="container">
+            <h1>MILLION LIBRARY</h1>
+            <div class="form-container">
+                <div class="form-box">
+                    <h2>Sign In</h2>
+                    <form action="" method="post">
+                        <input type="text" name="RollNo" placeholder="RollNo" required>
+                        <input type="password" name="Password" placeholder="Password" required>
+                        <button type="submit" name="signin">Sign In</button>
+                    </form>
+                </div>
 
-    <h1>LIBRARY MANAGEMENT SYSTEM</h1>
-
-    <div class="container">
-
-        <div class="login">
-            <h2>Sign In</h2>
-            <form action="index.php" method="post">
-                <input type="text" Name="RollNo" placeholder="RollNo" required="">
-                <input type="password" Name="Password" placeholder="Password" required="">
-
-
-                <div class="send-button">
-                    <input type="submit" name="signin" ; value="Sign In">
-            </form>
+                <!-- Sign Up Section -->
+                <div class="form-box">
+                    <h2>Sign Up</h2>
+                    <form action="" method="post">
+                        <input type="text" name="Name" placeholder="Name" required>
+                        <input type="text" name="Email" placeholder="Email" required>
+                        <input type="password" name="Password" placeholder="Password" required>
+                        <input type="text" name="PhoneNumber" placeholder="Phone Number" required>
+                        <input type="text" name="RollNo" placeholder="Roll Number" required>
+                        <select name="Category" required>
+                            <option value="GEN">General</option>
+                            <option value="OBC">OBC</option>
+                            <option value="SC">SC</option>
+                            <option value="ST">ST</option>
+                        </select>
+                        <button type="submit" name="signup">Sign Up</button>
+                    </form>
+                </div>
+            </div>
+            <p>By creating an account, you agree to our <a class="underline" href="terms.html">Terms and Conditions</a></p>
+            <div class="clear"></div>
         </div>
-
-        <div class="clear"></div>
     </div>
 
-    <div class="register">
-        <h2>Sign Up</h2>
-        <form action="index.php" method="post">
-            <input type="text" Name="Name" placeholder="Name" required>
-            <input type="text" Name="Email" placeholder="Email" required>
-            <input type="password" Name="Password" placeholder="Password" required>
-            <input type="text" Name="PhoneNumber" placeholder="Phone Number" required>
-            <input type="text" Name="RollNo" placeholder="Roll Number" required="">
-
-            <select name="Category" id="Category">
-                <option value="GEN">General</option>
-                <option value="OBC">OBC</option>
-                <option value="SC">SC</option>
-                <option value="ST">ST</option>
-            </select>
-            <br>
-
-
-            <br>
-            <div class="send-button">
-                <input type="submit" name="signup" value="Sign Up">
-        </form>
-    </div>
-    <p>By creating an account, you agree to our <a class="underline" href="terms.html">Terms</a></p>
-    <div class="clear"></div>
-    </div>
-
-    <div class="clear"></div>
-
-    </div>
-
-    <div class="footer w3layouts agileits">
-        <p> &copy; 2018 Library Member Login. All Rights Reserved </a></p>
-
+    <div class="footer">
+        <p>&copy; 2024 Million Library. All Rights Reserved.</p>
     </div>
 
     <?php
@@ -113,7 +87,7 @@ require('dbconn.php');
         $name = $_POST['Name'];
         $email = $_POST['Email'];
         $password = $_POST['Password'];
-        $mobno = $_POST['MobNo'];
+        $mobno = $_POST['PhoneNumber'];
         $rollno = $_POST['RollNo'];
         $category = $_POST['Category'];
         $type = 'Student';
@@ -123,6 +97,7 @@ require('dbconn.php');
         if ($conn->query($sql) === TRUE) {
             echo "<script type='text/javascript'>alert('Registration Successful')</script>";
         } else {
+            //echo "Error: " . $sql . "<br>" . $conn->error;
             echo "<script type='text/javascript'>alert('User Exists')</script>";
         }
     }
