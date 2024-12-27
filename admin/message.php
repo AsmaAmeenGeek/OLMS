@@ -53,7 +53,7 @@ if ($_SESSION['RollNo']) {
           </li>
 
           <li class="item">
-            <a href="profile.html" class="nav_link submenu_item">
+            <a href="profile.php" class="nav_link submenu_item">
               <span class="navlink_icon">
                 <i class='bx bx-user-circle'></i>
               </span>
@@ -62,7 +62,7 @@ if ($_SESSION['RollNo']) {
           </li>
          
            <li class="item">
-            <a href="message.html" class="nav_link submenu_item">
+            <a href="message.php" class="nav_link submenu_item">
               <span class="navlink_icon">
                 <i class='bx bx-chat' ></i>
               </span>

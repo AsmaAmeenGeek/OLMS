@@ -1,3 +1,12 @@
+<?php
+require('dbconn.php');
+?>
+
+<?php
+if ($_SESSION['RollNo']) {
+  ?>
+
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -43,7 +52,7 @@
           </li>
 
           <li class="item">
-            <a href="profile.html" class="nav_link submenu_item">
+            <a href="profile.php" class="nav_link submenu_item">
               <span class="navlink_icon">
                 <i class='bx bx-user-circle'></i>
               </span>
@@ -137,14 +146,30 @@
 
 
     <!-- Profile Page -->
-<div class="profile_page">
+    <div class="profile_page">
     <div class="profile_box">
-      <img src="images/profile.jpg" alt="User Image" class="profile_image" />
-      <h2 class="profile_name">John Doe</h2>
-      <p class="profile_email"><p><b>Email ID: </b> john.doe@example.com</p>
-      <p class="profile_mobileNumber"><p><b>Mobile Number: </b> +94 76 132 4632</p>
+      
+      <?php
+        $rollno = $_SESSION['RollNo'];
+        $sql = "select * from olms.user where RollNo='$rollno'";
+        $result = $conn->query($sql);
+        $row = $result->fetch_assoc();
 
-      <a href="editProfile.html" class="btn">Edit Details</a>
+        $name = $row['Name'];
+        $category = $row['Category'];
+        $email = $row['EmailId'];
+        $mobno = $row['MobNo'];
+        ?>
+
+        <img src="images/profile.jpg" alt="User Image" class="profile_image" />
+        <h2 class="profile_name"><center><?php echo $name ?></center></h2>
+        <p class="profile_email">
+        <p><b>Email ID: </b><?php echo $email ?></p>
+        <p class="profile_mobileNumber">
+        <p><b>Mobile Number: </b><?php echo $mobno ?></p>
+
+        <a href="editProfile.html" class="btn">Edit Details</a>
+
 
     </div>
   </div>
@@ -155,3 +180,7 @@
     <script src="script.js"></script>
   </body>
 </html>
+
+<?php } else {
+  echo "<script type='text/javascript'>alert('Access Denied!!!')</script>";
+} ?>
