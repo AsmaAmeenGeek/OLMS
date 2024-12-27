@@ -80,7 +80,7 @@ if ($_SESSION['RollNo']){
                 </li>
 
                 <li class="item">
-                    <a href="currently_reserved.html" class="nav_link submenu_item">
+                    <a href="pre_borrowed_book.html" class="nav_link submenu_item">
                         <span class="navlink_icon">
                             <i class='bx bxs-edit'></i>
                         </span>
@@ -89,7 +89,7 @@ if ($_SESSION['RollNo']){
                 </li>
 
                 <li class="item">
-                    <a href="#" class="nav_link submenu_item">
+                    <a href="currently_reserved.html" class="nav_link submenu_item">
                         <span class="navlink_icon">
                             <i class='bx bx-right-indent'></i>
                         </span>
