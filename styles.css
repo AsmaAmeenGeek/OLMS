@@ -60,10 +60,7 @@ body, html {
 }
 
 .form-box input, .form-box select {
-    padding: 10px;
-    margin-bottom: 15px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
+    padding: 10px;   
     font-size: 1rem;
 }
 
@@ -87,8 +84,7 @@ body, html {
     color: #555;
 }
 
-.form-box a {
-    
+.form-box a {        
     text-decoration: none;
 }
 

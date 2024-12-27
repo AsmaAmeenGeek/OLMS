@@ -72,7 +72,7 @@ ob_end_clean();
         </li>
 
         <li class="item">
-          <a href="all_books.html" class="nav_link submenu_item">
+          <a href="all_books.php" class="nav_link submenu_item">
             <span class="navlink_icon">
               <i class='bx bxs-user-detail'></i>
             </span>

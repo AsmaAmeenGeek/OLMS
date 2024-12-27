@@ -68,7 +68,7 @@ session_start();
                 </li>
 
                 <li class="item">
-                    <a href="all_books.html" class="nav_link submenu_item">
+                    <a href="all_books.php" class="nav_link submenu_item">
                         <span class="navlink_icon">
                             <i class='bx bxs-user-detail'></i>
                         </span>
@@ -103,6 +103,17 @@ session_start();
                     </a>
                 </li>
             </ul>
+      <!-- Sidebar Open / Close -->
+      <div class="bottom_content">
+                <div class="bottom expand_sidebar">
+                    <span> Expand</span>
+                    <i class='bx bx-log-in'></i>
+                </div>
+                <div class="bottom collapse_sidebar">
+                    <span> Collapse</span>
+                    <i class='bx bx-log-out'></i>
+                </div>
+            </div>
         </div>
     </nav>
 
