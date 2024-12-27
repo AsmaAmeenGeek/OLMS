@@ -71,7 +71,7 @@ if ($_SESSION['RollNo']){
                 </li>
 
                 <li class="item">
-                    <a href="book_details.html" class="nav_link submenu_item">
+                    <a href="all_books.html" class="nav_link submenu_item">
                         <span class="navlink_icon">
                             <i class='bx bx-book'></i>
                         </span>
