@@ -3,7 +3,11 @@ require('dbconn.php');
 ?>
 
 <?php
-if ($_SESSION['RollNo']) {
+if (!isset($_SESSION['RollNo'])) {
+    header("Location: login.php");
+    exit();
+}
+
     ?>
 
     <!DOCTYPE html>
@@ -41,6 +45,7 @@ if ($_SESSION['RollNo']) {
         <nav class="sidebar">
             <div class="menu_content">
                 <ul class="menu_items">
+                <div class="menu_title menu_dahsboard"></div>
                     <li class="item">
                         <a href="home.html" class="nav_link submenu_item">
                             <span class="navlink_icon">
@@ -146,35 +151,35 @@ if ($_SESSION['RollNo']) {
                         </tr>
                     </thead>
                     <tbody>
-                    <?php
-                    while ($row = $result->fetch_assoc()) {
-                        $bookid = $row['BookId'];
-                        $name = $row['Title'];
-                        $avail = $row['Availability'];
-                        ?>
-                        <tr>
-                            <td><?php echo $bookid ?></td>
-                            <td><?php echo $name ?></td>
-                            <td><b><?php
-                            if ($avail > 0)
-                                echo "<font color=\"green\">AVAILABLE</font>";
-                            else
-                                echo "<font color=\"red\">NOT AVAILABLE</font>";
-                            ?></b></td>
-                            <td>
-                                <center>
-                                <a href="books_details.php?BookId=<?php echo $bookid; ?>" class="table_btn">Details</a>
-                                    <?php
-                                    if ($avail > 0)
-                                        echo "<a href=\"issue_request.php?id=" . $bookid . "\" class=\"table_btn\">Issue</a>";
-                                    ?>
-                                </center>
-                            </td>
-                        </tr>
-                    <?php }
+                        <?php
+                        while ($row = $result->fetch_assoc()) {
+                            $bookid = $row['BookId'];
+                            $name = $row['Title'];
+                            $avail = $row['Availability'];
+                            ?>
+                            <tr>
+                                <td><?php echo $bookid ?></td>
+                                <td><?php echo $name ?></td>
+                                <td><b><?php
+                                if ($avail > 0)
+                                    echo "<font color=\"green\">AVAILABLE</font>";
+                                else
+                                    echo "<font color=\"red\">NOT AVAILABLE</font>";
+                                ?></b></td>
+                                <td>
+                                    <center>
+                                        <a href="books_details.php?BookId=<?php echo $bookid; ?>" class="table_btn">Details</a>
+                                        <?php
+                                        if ($avail > 0)
+                                            echo "<a href=\"issue_request.php?id=" . $bookid . "\" class=\"table_btn\">Issue</a>";
+                                        ?>
+                                    </center>
+                                </td>
+                            </tr>
+                        <?php }
             } ?>
-                    </tbody>
-                </table>
+                </tbody>
+            </table>
         </main>
 
         <footer>
@@ -205,7 +210,3 @@ if ($_SESSION['RollNo']) {
     </body>
 
     </html>
-
-<?php } else {
-    echo "<script type='text/javascript'>alert('Access Denied!!!')</script>";
-} ?>

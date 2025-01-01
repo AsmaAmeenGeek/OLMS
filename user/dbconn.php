@@ -1,8 +1,8 @@
 <?php
 session_start();
-$dbservername = "127.0.0.1:3307";
+$dbservername = "127.0.0.1";
 $dbusername = "root";
-$dbpassword = "";
+$dbpassword = "asr@712jmn100";
 $db="olms";
 // Create connection
 $conn = mysqli_connect($dbservername, $dbusername, $dbpassword,$db);
