@@ -4,7 +4,7 @@ require('dbconn.php');
 
 <?php
 if (!isset($_SESSION['RollNo'])) {
-    header("Location: login.php");
+    header("Location: index.php");
     exit();
 }
 
