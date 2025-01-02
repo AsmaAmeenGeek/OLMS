@@ -7,53 +7,53 @@ if ($_SESSION['RollNo']) {
     ?>
 
 
-<!DOCTYPE html>
-<html lang="en">
+    <!DOCTYPE html>
+    <html lang="en">
 
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <!-- Boxicons CSS -->
-    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
-    <title>OLMS</title>
-    <link rel="stylesheet" href="style.css" />
-</head>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <!-- Boxicons CSS -->
+        <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
+        <title>OLMS</title>
+        <link rel="stylesheet" href="style.css" />
+    </head>
 
-<body>
-    <!-- navbar -->
-    <nav class="navbar">
-        <div class="logo_item">
-            <i class="bx bx-menu" id="sidebarOpen"></i>
-            <img src="images/logo.jpg" alt="">MillionOLMS
-        </div>
+    <body>
+        <!-- navbar -->
+        <nav class="navbar">
+            <div class="logo_item">
+                <i class="bx bx-menu" id="sidebarOpen"></i>
+                <img src="images/logo.jpg" alt="">MillionOLMS
+            </div>
 
-        <div class="search_bar">
-            <input type="text" placeholder="Search" />
-        </div>
+            <div class="search_bar">
+                <input type="text" placeholder="Search" />
+            </div>
 
-        <div class="navbar_content">
-            <i class="bi bi-grid"></i>
-            <i class="bx bx-sun" id="darkLight"></i>
-            <img src="images/profile.jpg" alt="" class="profile" />
-        </div>
-    </nav>
+            <div class="navbar_content">
+                <i class="bi bi-grid"></i>
+                <i class="bx bx-sun" id="darkLight"></i>
+                <img src="images/profile.jpg" alt="" class="profile" />
+            </div>
+        </nav>
 
-    <!-- sidebar -->
-    <nav class="sidebar">
-        <div class="menu_content">
-            <div class="menu_items">
-                <div class="menu_title menu_dahsboard"></div>
+        <!-- sidebar -->
+        <nav class="sidebar">
+            <div class="menu_content">
+                <div class="menu_items">
+                    <div class="menu_title menu_dahsboard"></div>
 
-                <li class="item">
-                    <a href="home.html" class="nav_link submenu_item">
-                        <span class="navlink_icon">
-                            <i class="bx bx-home-alt"></i>
-                        </span>
-                        <span class="navlink">Home</span>
-                    </a>
-                </li>
+                    <li class="item">
+                        <a href="home.html" class="nav_link submenu_item">
+                            <span class="navlink_icon">
+                                <i class="bx bx-home-alt"></i>
+                            </span>
+                            <span class="navlink">Home</span>
+                        </a>
+                    </li>
 
-                <li class="item">
+                    <li class="item">
                         <a href="profile.php" class="nav_link submenu_item">
                             <span class="navlink_icon">
                                 <i class='bx bx-user-circle'></i>
@@ -83,7 +83,7 @@ if ($_SESSION['RollNo']) {
                     <li class="item">
                         <a href="pre_borrowed_book.html" class="nav_link submenu_item">
                             <span class="navlink_icon">
-                                <i class='bx bxs-edit'></i>
+                                <i class='bx bx-book'></i>
                             </span>
                             <span class="navlink">Previously Borrowed <br> Books</span>
                         </a>
@@ -92,12 +92,12 @@ if ($_SESSION['RollNo']) {
                     <li class="item">
                         <a href="currently_reserved.html" class="nav_link submenu_item">
                             <span class="navlink_icon">
-                                <i class='bx bx-right-indent'></i>
+                                <i class='bx bxs-edit'></i>
                             </span>
                             <span class="navlink">Currently Reserved <br> Books</span>
                         </a>
                     </li>
-
+                    
                     <li class="item">
                         <a href="#" class="nav_link submenu_item">
                             <span class="navlink_icon">
@@ -107,130 +107,130 @@ if ($_SESSION['RollNo']) {
                         </a>
                     </li>
 
-                </ul>
+                    </ul>
 
-                <!-- Sidebar Open / Close -->
-                <div class="bottom_content">
-                    <div class="bottom expand_sidebar">
-                        <span> Expand</span>
-                        <i class='bx bx-log-in'></i>
-                    </div>
-                    <div class="bottom collapse_sidebar">
-                        <span> Collapse</span>
-                        <i class='bx bx-log-out'></i>
+                    <!-- Sidebar Open / Close -->
+                    <div class="bottom_content">
+                        <div class="bottom expand_sidebar">
+                            <span> Expand</span>
+                            <i class='bx bx-log-in'></i>
+                        </div>
+                        <div class="bottom collapse_sidebar">
+                            <span> Collapse</span>
+                            <i class='bx bx-log-out'></i>
+                        </div>
                     </div>
                 </div>
-            </div>
         </nav>
 
-            </div>
         </div>
-    </nav>
+        </div>
+        </nav>
 
-    <section class="edit-section">
-        <h2>Edit Details</h2>
-        <img src="images/profile.jpg" alt="User Image" class="profile_image1" />
+        <section class="edit-section">
+            <h2>Edit Details</h2>
+            <img src="images/profile.jpg" alt="User Image" class="profile_image1" />
+
+            <?php
+            $rollno = $_SESSION['RollNo'];
+            $sql = "SELECT * FROM olms.user WHERE RollNo = ?";
+            $stmt = $conn->prepare($sql);
+            $stmt->bind_param("s", $rollno);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            $row = $result->fetch_assoc();
+
+            $name = $row['Name'];
+            $category = $row['Category'];
+            $email = $row['EmailId'];
+            $mobno = $row['MobNo'];
+            $pswd = $row['Password'];
+            ?>
+
+            <form action="edit_profile.php" method="post">
+                <label for="name">Name:</label>
+                <input type="text" id="name" placeholder="Enter your name" name="Name"
+                    value="<?php echo htmlspecialchars($name); ?>">
+
+                <label for="Category"><b>Category:</b></label>
+                <select name="Category">
+                    <option value="<?php echo htmlspecialchars($category); ?>"><?php echo htmlspecialchars($category); ?>
+                    </option>
+                    <option value="GEN">GEN</option>
+                    <option value="OBC">OBC</option>
+                    <option value="SC">SC</option>
+                    <option value="ST">ST</option>
+                </select>
+
+                <label for="email">E-mail ID:</label>
+                <input type="email" id="email" placeholder="Enter your email" name="EmailId"
+                    value="<?php echo htmlspecialchars($email); ?>">
+
+                <label for="mobile">Mobile number:</label>
+                <input type="tel" id="mobile" placeholder="Enter your mobile number" name="MobNo"
+                    value="<?php echo htmlspecialchars($mobno); ?>">
+
+                <label for="password">New Password:</label>
+                <input type="password" id="password" placeholder="Enter new password" name="Password">
+
+                <button type="submit" name="submit" class="save-btn">Save</button>
+            </form>
+        </section>
+
+        <footer>
+            <div class="footer-content">
+                <div>
+                    <h3>Million Library</h3>
+                    <p>OLMS</p>
+                </div>
+                <div>
+                    <ul>
+                        <li><a href="Help.html">About Us</a></li>
+                        <li><a href="Help.html">Contact Us</a></li>
+                        <li><a href="Help.html">Terms and conditions</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <ul>
+                        <li><a href="Help.html">Plans</a></li>
+                        <li><a href="Help.html">FAQs</a></li>
+                        <li><a href="Help.html">Help</a></li>
+                    </ul>
+                </div>
+            </div>
+        </footer>
+
+        <p style="margin-left: 690px; margin-top: 20px;">&copy; 2024 Million Library. All rights reserved.</p>
+
+        <script src="script.js"></script>
 
         <?php
-        $rollno = $_SESSION['RollNo'];
-        $sql = "SELECT * FROM olms.user WHERE RollNo = ?";
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("s", $rollno);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        $row = $result->fetch_assoc();
+        if (isset($_POST['submit'])) {
+            $name = $_POST['Name'];
+            $category = $_POST['Category'];
+            $email = $_POST['EmailId'];
+            $mobno = $_POST['MobNo'];
+            $pswd = !empty($_POST['Password']) ? password_hash($_POST['Password'], PASSWORD_BCRYPT) : $row['Password'];
 
-        $name = $row['Name'];
-        $category = $row['Category'];
-        $email = $row['EmailId'];
-        $mobno = $row['MobNo'];
-        $pswd = $row['Password'];
-        ?>
+            $sql1 = "UPDATE olms.user SET Name = ?, Category = ?, EmailId = ?, MobNo = ?, Password = ? WHERE RollNo = ?";
+            $stmt = $conn->prepare($sql1);
+            $stmt->bind_param("ssssss", $name, $category, $email, $mobno, $pswd, $rollno);
 
-        <form action="edit_profile.php" method="post">
-            <label for="name">Name:</label>
-            <input type="text" id="name" placeholder="Enter your name" name="Name"
-                value="<?php echo htmlspecialchars($name); ?>">
-
-            <label for="Category"><b>Category:</b></label>
-            <select name="Category">
-                <option value="<?php echo htmlspecialchars($category); ?>"><?php echo htmlspecialchars($category); ?>
-                </option>
-                <option value="GEN">GEN</option>
-                <option value="OBC">OBC</option>
-                <option value="SC">SC</option>
-                <option value="ST">ST</option>
-            </select>
-
-            <label for="email">E-mail ID:</label>
-            <input type="email" id="email" placeholder="Enter your email" name="EmailId"
-                value="<?php echo htmlspecialchars($email); ?>">
-
-            <label for="mobile">Mobile number:</label>
-            <input type="tel" id="mobile" placeholder="Enter your mobile number" name="MobNo"
-                value="<?php echo htmlspecialchars($mobno); ?>">
-
-            <label for="password">New Password:</label>
-            <input type="password" id="password" placeholder="Enter new password" name="Password">
-
-            <button type="submit" name="submit" class="save-btn">Save</button>
-        </form>
-    </section>
-
-    <footer>
-        <div class="footer-content">
-            <div>
-                <h3>Million Library</h3>
-                <p>OLMS</p>
-            </div>
-            <div>
-                <ul>
-                    <li><a href="Help.html">About Us</a></li>
-                    <li><a href="Help.html">Contact Us</a></li>
-                    <li><a href="Help.html">Terms and conditions</a></li>
-                </ul>
-            </div>
-            <div>
-                <ul>
-                    <li><a href="Help.html">Plans</a></li>
-                    <li><a href="Help.html">FAQs</a></li>
-                    <li><a href="Help.html">Help</a></li>
-                </ul>
-            </div>
-        </div>
-    </footer>
-
-    <p style="margin-left: 690px; margin-top: 20px;">&copy; 2024 Million Library. All rights reserved.</p>
-
-    <script src="script.js"></script>
-
-    <?php
-    if (isset($_POST['submit'])) {
-        $name = $_POST['Name'];
-        $category = $_POST['Category'];
-        $email = $_POST['EmailId'];
-        $mobno = $_POST['MobNo'];
-        $pswd = !empty($_POST['Password']) ? password_hash($_POST['Password'], PASSWORD_BCRYPT) : $row['Password'];
-
-        $sql1 = "UPDATE olms.user SET Name = ?, Category = ?, EmailId = ?, MobNo = ?, Password = ? WHERE RollNo = ?";
-        $stmt = $conn->prepare($sql1);
-        $stmt->bind_param("ssssss", $name, $category, $email, $mobno, $pswd, $rollno);
-
-        if ($stmt->execute()) {
-            echo "<script>
+            if ($stmt->execute()) {
+                echo "<script>
                     alert('Profile updated successfully!');
                     window.location.href = 'profile.php';
                   </script>";
-            exit();
-        } else {
-            echo "<p class='error'>Error updating profile: " . $conn->error . "</p>";
+                exit();
+            } else {
+                echo "<p class='error'>Error updating profile: " . $conn->error . "</p>";
+            }
         }
-    }
-    ob_end_flush(); // End output buffering
-    ?>
-</body>
+        ob_end_flush(); // End output buffering
+        ?>
+    </body>
 
-</html>
+    </html>
 
 
 <?php } else {

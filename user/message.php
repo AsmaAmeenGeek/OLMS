@@ -82,7 +82,7 @@ if ($_SESSION['RollNo']) {
                     <li class="item">
                         <a href="pre_borrowed_book.html" class="nav_link submenu_item">
                             <span class="navlink_icon">
-                                <i class='bx bxs-edit'></i>
+                                <i class='bx bx-book'></i>
                             </span>
                             <span class="navlink">Previously Borrowed <br> Books</span>
                         </a>
@@ -91,12 +91,11 @@ if ($_SESSION['RollNo']) {
                     <li class="item">
                         <a href="currently_reserved.html" class="nav_link submenu_item">
                             <span class="navlink_icon">
-                                <i class='bx bx-right-indent'></i>
+                                <i class='bx bxs-edit'></i>
                             </span>
                             <span class="navlink">Currently Reserved <br> Books</span>
                         </a>
                     </li>
-
                     <li class="item">
                         <a href="#" class="nav_link submenu_item">
                             <span class="navlink_icon">
@@ -125,7 +124,7 @@ if ($_SESSION['RollNo']) {
         <main class="message_content">
             <section class="message-section">
                 <div>
-                <a href="due_fund.html" class="due_btn">Due Fund</a>
+                    <a href="due_fund.html" class="due_btn">Due Fund</a>
                 </div>
                 <table class="message-table">
                     <thead>
