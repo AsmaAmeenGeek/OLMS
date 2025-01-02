@@ -24,7 +24,7 @@ ob_end_clean();
   <nav class="navbar">
     <div class="logo_item">
       <i class="bx bx-menu" id="sidebarOpen"></i>
-      <img src="images/logo.jpg" alt=""></i>MillionOLMS
+      <img src="images/logo.jpg" alt="">MillionOLMS
     </div>
 
     <div class="search_bar">
@@ -181,22 +181,22 @@ ob_end_clean();
       </div>
       <div>
         <ul>
-          <li><a href="#">About Us</a></li>
-          <li><a href="#">Contact Us</a></li>
-          <li><a href="#">Terms and conditions</a></li>
+          <li><a href="Help.html">About Us</a></li>
+          <li><a href="Help.html">Contact Us</a></li>
+          <li><a href="Help.html">Terms and conditions</a></li>
         </ul>
       </div>
       <div>
         <ul>
-          <li><a href="#">Plans</a></li>
-          <li><a href="#">FAQs</a></li>
-          <li><a href="#">Help</a></li>
+          <li><a href="Help.html">Plans</a></li>
+          <li><a href="Help.html">FAQs</a></li>
+          <li><a href="Help.html">Help</a></li>
         </ul>
       </div>
     </div>
   </footer>
 
-  <p style="margin-left: 650px; margin-top: 20px;">&copy; 2024 Million Library. All rights reserved.</p>
+  <p style="margin-left: 690px; margin-top: 20px;">&copy; 2024 Million Library. All rights reserved.</p>
 
 
   <script src="script.js"></script>
