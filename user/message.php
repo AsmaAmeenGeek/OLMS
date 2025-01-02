@@ -23,7 +23,7 @@ if ($_SESSION['RollNo']) {
         <nav class="navbar">
             <div class="logo_item">
                 <i class="bx bx-menu" id="sidebarOpen"></i>
-                <img src="images/logo.jpg" alt=""></i>MillionOLMS
+                <img src="images/logo.jpg" alt="">MillionOLMS
             </div>
 
             <div class="search_bar">
@@ -125,8 +125,7 @@ if ($_SESSION['RollNo']) {
         <main class="message_content">
             <section class="message-section">
                 <div>
-                    <button class="due_btn"><a style="text-decoration:none; color: aliceblue;" href="Due_fund.html">Due
-                            Fund</a></button>
+                <a href="due_fund.html" class="due_btn">Due Fund</a>
                 </div>
                 <table class="message-table">
                     <thead>
@@ -166,16 +165,16 @@ if ($_SESSION['RollNo']) {
                 </div>
                 <div>
                     <ul>
-                        <li><a href="#">About Us</a></li>
-                        <li><a href="#">Contact Us</a></li>
-                        <li><a href="#">Terms and conditions</a></li>
+                        <li><a href="Help.html">About Us</a></li>
+                        <li><a href="Help.html">Contact Us</a></li>
+                        <li><a href="Help.html">Terms and conditions</a></li>
                     </ul>
                 </div>
                 <div>
                     <ul>
-                        <li><a href="#">Plans</a></li>
-                        <li><a href="#">FAQs</a></li>
-                        <li><a href="#">Help</a></li>
+                        <li><a href="Help.html">Plans</a></li>
+                        <li><a href="Help.html">FAQs</a></li>
+                        <li><a href="Help.html">Help</a></li>
                     </ul>
                 </div>
             </div>
