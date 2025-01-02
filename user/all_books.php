@@ -73,7 +73,7 @@ if (!isset($_SESSION['RollNo'])) {
                 <li class="item">
                     <a href="all_books.php" class="nav_link submenu_item">
                         <span class="navlink_icon">
-                            <i class='bx bxs-user-detail'></i>
+                            <i class='bx bx-book'></i>
                         </span>
                         <span class="navlink">All Books</span>
                     </a>
