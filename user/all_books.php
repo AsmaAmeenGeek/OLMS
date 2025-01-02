@@ -22,191 +22,191 @@ if (!isset($_SESSION['RollNo'])) {
     <link rel="stylesheet" href="style.css" />
 </head>
 
-    <body>
-        <!-- navbar -->
-        <nav class="navbar">
-            <div class="logo_item">
-                <i class="bx bx-menu" id="sidebarOpen"></i>
-                <img src="images/logo.jpg" alt="">MillionOLMS
-            </div>
+<body>
+    <!-- navbar -->
+    <nav class="navbar">
+        <div class="logo_item">
+            <i class="bx bx-menu" id="sidebarOpen"></i>
+            <img src="images/logo.jpg" alt="">MillionOLMS
+        </div>
 
-            <div class="search_bar">
-                <input type="text" placeholder="Search" />
-            </div>
+        <div class="search_bar">
+            <input type="text" placeholder="Search" />
+        </div>
 
-            <div class="navbar_content">
-                <i class="bi bi-grid"></i>
-                <i class='bx bx-sun' id="darkLight"></i>
-                <img src="images/profile.jpg" alt="" class="profile" />
-            </div>
-        </nav>
+        <div class="navbar_content">
+            <i class="bi bi-grid"></i>
+            <i class='bx bx-sun' id="darkLight"></i>
+            <img src="images/profile.jpg" alt="" class="profile" />
+        </div>
+    </nav>
 
-        <!-- sidebar -->
-        <nav class="sidebar">
-            <div class="menu_content">
-                <ul class="menu_items">
+    <!-- sidebar -->
+    <nav class="sidebar">
+        <div class="menu_content">
+            <ul class="menu_items">
                 <div class="menu_title menu_dahsboard"></div>
-                    <li class="item">
-                        <a href="home.html" class="nav_link submenu_item">
-                            <span class="navlink_icon">
-                                <i class="bx bx-home-alt"></i>
-                            </span>
-                            <span class="navlink">Home</span>
-                        </a>
-                    </li>
-                    <li class="item">
-                        <a href="profile.php" class="nav_link submenu_item">
-                            <span class="navlink_icon">
-                                <i class='bx bx-user-circle'></i>
-                            </span>
-                            <span class="navlink">My Profile</span>
-                        </a>
-                    </li>
-                    <li class="item">
-                        <a href="message.php" class="nav_link submenu_item">
-                            <span class="navlink_icon">
-                                <i class='bx bx-chat'></i>
-                            </span>
-                            <span class="navlink">Messages</span>
-                        </a>
-                    </li>
-                    <li class="item">
-                        <a href="all_books.php" class="nav_link submenu_item">
-                            <span class="navlink_icon">
-                                <i class='bx bxs-user-detail'></i>
-                            </span>
-                            <span class="navlink">All Books</span>
-                        </a>
-                    </li>
-                    <li class="item">
-                        <a href="pre_borrowed_book.html" class="nav_link submenu_item">
-                            <span class="navlink_icon">
-                                <i class='bx bx-book'></i>
-                            </span>
-                            <span class="navlink">Previously Borrowed <br> Books</span>
-                        </a>
-                    </li>
-                    <li class="item">
-                        <a href="currently_reserved.html" class="nav_link submenu_item">
-                            <span class="navlink_icon">
-                                <i class='bx bxs-edit'></i>
-                            </span>
-                            <span class="navlink">Currently Reserved <br> Books</span>
-                        </a>
-                    </li>
-                    <li class="item">
-                        <a href="#" class="nav_link submenu_item">
-                            <span class="navlink_icon">
-                                <i class='bx bx-log-out-circle'></i>
-                            </span>
-                            <span class="navlink">Logout</span>
-                        </a>
-                    </li>
-                </ul>
+                <li class="item">
+                    <a href="home.html" class="nav_link submenu_item">
+                        <span class="navlink_icon">
+                            <i class="bx bx-home-alt"></i>
+                        </span>
+                        <span class="navlink">Home</span>
+                    </a>
+                </li>
+                <li class="item">
+                    <a href="profile.php" class="nav_link submenu_item">
+                        <span class="navlink_icon">
+                            <i class='bx bx-user-circle'></i>
+                        </span>
+                        <span class="navlink">My Profile</span>
+                    </a>
+                </li>
+                <li class="item">
+                    <a href="message.php" class="nav_link submenu_item">
+                        <span class="navlink_icon">
+                            <i class='bx bx-chat'></i>
+                        </span>
+                        <span class="navlink">Messages</span>
+                    </a>
+                </li>
+                <li class="item">
+                    <a href="all_books.php" class="nav_link submenu_item">
+                        <span class="navlink_icon">
+                            <i class='bx bxs-user-detail'></i>
+                        </span>
+                        <span class="navlink">All Books</span>
+                    </a>
+                </li>
+                <li class="item">
+                    <a href="pre_borrowed_book.html" class="nav_link submenu_item">
+                        <span class="navlink_icon">
+                            <i class='bx bx-book'></i>
+                        </span>
+                        <span class="navlink">Previously Borrowed <br> Books</span>
+                    </a>
+                </li>
+                <li class="item">
+                    <a href="currently_reserved.html" class="nav_link submenu_item">
+                        <span class="navlink_icon">
+                            <i class='bx bxs-edit'></i>
+                        </span>
+                        <span class="navlink">Currently Reserved <br> Books</span>
+                    </a>
+                </li>
+                <li class="item">
+                    <a href="#" class="nav_link submenu_item">
+                        <span class="navlink_icon">
+                            <i class='bx bx-log-out-circle'></i>
+                        </span>
+                        <span class="navlink">Logout</span>
+                    </a>
+                </li>
+            </ul>
 
-                <!-- Sidebar Open / Close -->
-                <div class="bottom_content">
-                    <div class="bottom expand_sidebar">
-                        <span> Expand</span>
-                        <i class='bx bx-log-in'></i>
-                    </div>
-                    <div class="bottom collapse_sidebar">
-                        <span> Collapse</span>
-                        <i class='bx bx-log-out'></i>
-                    </div>
+            <!-- Sidebar Open / Close -->
+            <div class="bottom_content">
+                <div class="bottom expand_sidebar">
+                    <span> Expand</span>
+                    <i class='bx bx-log-in'></i>
+                </div>
+                <div class="bottom collapse_sidebar">
+                    <span> Collapse</span>
+                    <i class='bx bx-log-out'></i>
                 </div>
             </div>
-        </nav>
+        </div>
+    </nav>
 
-        <main class="main-content">
-            <div class="search-bar">
-                <label for="search">Search:</label>
-                <input type="text" id="search" placeholder="Enter Name / ID of Book">
-                <button type="submit">Search</button>
-            </div>
+    <main class="main-content">
+        <div class="search-bar">
+            <label for="search">Search:</label>
+            <input type="text" id="search" placeholder="Enter Name / ID of Book">
+            <button type="submit">Search</button>
+        </div>
 
-            <?php
-            if (isset($_POST['submit'])) {
-                $s = $_POST['title'];
-                $sql = "SELECT * FROM olms.book WHERE BookId='$s' OR Title LIKE '%$s%'";
-            } else {
-                // Updated query to order by BookId in ascending order
-                $sql = "SELECT * FROM olms.book ORDER BY BookId ASC";
-            }
+        <?php
+        if (isset($_POST['submit'])) {
+            $s = $_POST['title'];
+            $sql = "SELECT * FROM olms.book WHERE BookId='$s' OR Title LIKE '%$s%'";
+        } else {
+            // Updated query to order by BookId in ascending order
+            $sql = "SELECT * FROM olms.book ORDER BY BookId ASC";
+        }
 
-            $result = $conn->query($sql);
-            $rowcount = mysqli_num_rows($result);
+        $result = $conn->query($sql);
+        $rowcount = mysqli_num_rows($result);
 
-            if (!$rowcount) {
-                echo "<br><center><h2><b><i>No Results</i></b></h2></center>";
-            } else {
-                ?>
-                <table>
-                    <thead>
+        if (!$rowcount) {
+            echo "<br><center><h2><b><i>No Results</i></b></h2></center>";
+        } else {
+            ?>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Book ID</th>
+                        <th>Book Name</th>
+                        <th>Availability</th>
+                        <th> </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    while ($row = $result->fetch_assoc()) {
+                        $bookid = $row['BookId'];
+                        $name = $row['Title'];
+                        $avail = $row['Availability'];
+                        ?>
                         <tr>
-                            <th>Book ID</th>
-                            <th>Book Name</th>
-                            <th>Availability</th>
-                            <th> </th>
+                            <td><?php echo $bookid ?></td>
+                            <td><?php echo $name ?></td>
+                            <td><b><?php
+                            if ($avail > 0)
+                                echo "<font color=\"green\">AVAILABLE</font>";
+                            else
+                                echo "<font color=\"red\">NOT AVAILABLE</font>";
+                            ?></b></td>
+                            <td>
+                                <center>
+                                    <a href="books_details.php?BookId=<?php echo $bookid; ?>" class="table_btn">Details</a>
+                                    <?php
+                                    if ($avail > 0)
+                                        echo "<a href=\"issue_request.php?id=" . $bookid . "\" class=\"table_btn\">Issue</a>";
+                                    ?>
+                                </center>
+                            </td>
                         </tr>
-                    </thead>
-                    <tbody>
-                        <?php
-                        while ($row = $result->fetch_assoc()) {
-                            $bookid = $row['BookId'];
-                            $name = $row['Title'];
-                            $avail = $row['Availability'];
-                            ?>
-                            <tr>
-                                <td><?php echo $bookid ?></td>
-                                <td><?php echo $name ?></td>
-                                <td><b><?php
-                                if ($avail > 0)
-                                    echo "<font color=\"green\">AVAILABLE</font>";
-                                else
-                                    echo "<font color=\"red\">NOT AVAILABLE</font>";
-                                ?></b></td>
-                                <td>
-                                    <center>
-                                        <a href="books_details.php?BookId=<?php echo $bookid; ?>" class="table_btn">Details</a>
-                                        <?php
-                                        if ($avail > 0)
-                                            echo "<a href=\"issue_request.php?id=" . $bookid . "\" class=\"table_btn\">Issue</a>";
-                                        ?>
-                                    </center>
-                                </td>
-                            </tr>
-                        <?php }
-            } ?>
-                </tbody>
-            </table>
-        </main>
+                    <?php }
+        } ?>
+            </tbody>
+        </table>
+    </main>
 
-        <footer>
-            <div class="footer-content">
-                <div>
-                    <h3>Million Library</h3>
-                    <p>OLMS</p>
-                </div>
-                <div>
-                    <ul>
-                        <li><a href="Help.html">About Us</a></li>
-                        <li><a href="Help.html">Contact Us</a></li>
-                        <li><a href="Help.html">Terms and conditions</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <ul>
-                        <li><a href="Help.html">Plans</a></li>
-                        <li><a href="Help.html">FAQs</a></li>
-                        <li><a href="Help.html">Help</a></li>
-                    </ul>
-                </div>
+    <footer>
+        <div class="footer-content">
+            <div>
+                <h3>Million Library</h3>
+                <p>OLMS</p>
             </div>
-        </footer>
+            <div>
+                <ul>
+                    <li><a href="Help.html">About Us</a></li>
+                    <li><a href="Help.html">Contact Us</a></li>
+                    <li><a href="Help.html">Terms and conditions</a></li>
+                </ul>
+            </div>
+            <div>
+                <ul>
+                    <li><a href="Help.html">Plans</a></li>
+                    <li><a href="Help.html">FAQs</a></li>
+                    <li><a href="Help.html">Help</a></li>
+                </ul>
+            </div>
+        </div>
+    </footer>
 
-        <p style="margin-left: 650px; margin-top: 20px;">&copy; 2024 Million Library. All rights reserved.</p>
-        <script src="script.js"></script>
-    </body>
+    <p style="margin-left: 650px; margin-top: 20px;">&copy; 2024 Million Library. All rights reserved.</p>
+    <script src="script.js"></script>
+</body>
 
-    </html>
+</html>
