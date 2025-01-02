@@ -1,8 +1,11 @@
 <?php
-ob_start();
 require('dbconn.php');
-session_start();
 ?>
+
+<?php
+if ($_SESSION['RollNo']) {
+    ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -30,7 +33,7 @@ session_start();
 
         <div class="navbar_content">
             <i class="bi bi-grid"></i>
-            <i class='bx bx-sun' id="darkLight"></i>
+            <i class="bx bx-sun" id="darkLight"></i>
             <img src="images/profile.jpg" alt="" class="profile" />
         </div>
     </nav>
@@ -38,8 +41,9 @@ session_start();
     <!-- sidebar -->
     <nav class="sidebar">
         <div class="menu_content">
-            <ul class="menu_items">
-            <div class="menu_title menu_dahsboard"></div>
+            <div class="menu_items">
+                <div class="menu_title menu_dahsboard"></div>
+
                 <li class="item">
                     <a href="home.html" class="nav_link submenu_item">
                         <span class="navlink_icon">
@@ -50,69 +54,75 @@ session_start();
                 </li>
 
                 <li class="item">
-                    <a href="profile.php" class="nav_link submenu_item">
-                        <span class="navlink_icon">
-                            <i class='bx bx-user-circle'></i>
-                        </span>
-                        <span class="navlink">My Profile</span>
-                    </a>
-                </li>
+                        <a href="profile.php" class="nav_link submenu_item">
+                            <span class="navlink_icon">
+                                <i class='bx bx-user-circle'></i>
+                            </span>
+                            <span class="navlink">My Profile</span>
+                        </a>
+                    </li>
 
-                <li class="item">
-                    <a href="message.php" class="nav_link submenu_item">
-                        <span class="navlink_icon">
-                            <i class='bx bx-chat'></i>
-                        </span>
-                        <span class="navlink">Messages</span>
-                    </a>
-                </li>
+                    <li class="item">
+                        <a href="message.php" class="nav_link submenu_item">
+                            <span class="navlink_icon">
+                                <i class='bx bx-chat'></i>
+                            </span>
+                            <span class="navlink">Messages</span>
+                        </a>
+                    </li>
 
-                <li class="item">
-                    <a href="all_books.php" class="nav_link submenu_item">
-                        <span class="navlink_icon">
-                            <i class='bx bxs-user-detail'></i>
-                        </span>
-                        <span class="navlink">All Books</span>
-                    </a>
-                </li>
+                    <li class="item">
+                        <a href="all_books.php" class="nav_link submenu_item">
+                            <span class="navlink_icon">
+                                <i class='bx bx-book'></i>
+                            </span>
+                            <span class="navlink">All Books</span>
+                        </a>
+                    </li>
 
-                <li class="item">
-                    <a href="pre_borrowed_book.html" class="nav_link submenu_item">
-                        <span class="navlink_icon">
-                            <i class='bx bx-book'></i>
-                        </span>
-                        <span class="navlink">Previously Borrowed <br> Books</span>
-                    </a>
-                </li>
+                    <li class="item">
+                        <a href="pre_borrowed_book.html" class="nav_link submenu_item">
+                            <span class="navlink_icon">
+                                <i class='bx bxs-edit'></i>
+                            </span>
+                            <span class="navlink">Previously Borrowed <br> Books</span>
+                        </a>
+                    </li>
 
-                <li class="item">
-                    <a href="currently_reserved.html" class="nav_link submenu_item">
-                        <span class="navlink_icon">
-                            <i class='bx bxs-edit'></i>
-                        </span>
-                        <span class="navlink">Currently Reserved <br> Books</span>
-                    </a>
-                </li>
+                    <li class="item">
+                        <a href="currently_reserved.html" class="nav_link submenu_item">
+                            <span class="navlink_icon">
+                                <i class='bx bx-right-indent'></i>
+                            </span>
+                            <span class="navlink">Currently Reserved <br> Books</span>
+                        </a>
+                    </li>
 
-                <li class="item">
-                    <a href="#" class="nav_link submenu_item">
-                        <span class="navlink_icon">
-                            <i class='bx bx-log-out-circle'></i>
-                        </span>
-                        <span class="navlink">Logout</span>
-                    </a>
-                </li>
-            </ul>
-      <!-- Sidebar Open / Close -->
-      <div class="bottom_content">
-                <div class="bottom expand_sidebar">
-                    <span> Expand</span>
-                    <i class='bx bx-log-in'></i>
+                    <li class="item">
+                        <a href="#" class="nav_link submenu_item">
+                            <span class="navlink_icon">
+                                <i class='bx bx-log-out-circle'></i>
+                            </span>
+                            <span class="navlink">Logout</span>
+                        </a>
+                    </li>
+
+                </ul>
+
+                <!-- Sidebar Open / Close -->
+                <div class="bottom_content">
+                    <div class="bottom expand_sidebar">
+                        <span> Expand</span>
+                        <i class='bx bx-log-in'></i>
+                    </div>
+                    <div class="bottom collapse_sidebar">
+                        <span> Collapse</span>
+                        <i class='bx bx-log-out'></i>
+                    </div>
                 </div>
-                <div class="bottom collapse_sidebar">
-                    <span> Collapse</span>
-                    <i class='bx bx-log-out'></i>
-                </div>
+            </div>
+        </nav>
+
             </div>
         </div>
     </nav>
@@ -139,11 +149,13 @@ session_start();
 
         <form action="edit_profile.php" method="post">
             <label for="name">Name:</label>
-            <input type="text" id="name" placeholder="Enter your name" name="Name" value="<?php echo htmlspecialchars($name); ?>">
+            <input type="text" id="name" placeholder="Enter your name" name="Name"
+                value="<?php echo htmlspecialchars($name); ?>">
 
             <label for="Category"><b>Category:</b></label>
             <select name="Category">
-                <option value="<?php echo htmlspecialchars($category); ?>"><?php echo htmlspecialchars($category); ?></option>
+                <option value="<?php echo htmlspecialchars($category); ?>"><?php echo htmlspecialchars($category); ?>
+                </option>
                 <option value="GEN">GEN</option>
                 <option value="OBC">OBC</option>
                 <option value="SC">SC</option>
@@ -151,10 +163,12 @@ session_start();
             </select>
 
             <label for="email">E-mail ID:</label>
-            <input type="email" id="email" placeholder="Enter your email" name="EmailId" value="<?php echo htmlspecialchars($email); ?>">
+            <input type="email" id="email" placeholder="Enter your email" name="EmailId"
+                value="<?php echo htmlspecialchars($email); ?>">
 
             <label for="mobile">Mobile number:</label>
-            <input type="tel" id="mobile" placeholder="Enter your mobile number" name="MobNo" value="<?php echo htmlspecialchars($mobno); ?>">
+            <input type="tel" id="mobile" placeholder="Enter your mobile number" name="MobNo"
+                value="<?php echo htmlspecialchars($mobno); ?>">
 
             <label for="password">New Password:</label>
             <input type="password" id="password" placeholder="Enter new password" name="Password">
@@ -171,21 +185,24 @@ session_start();
             </div>
             <div>
                 <ul>
-                    <li><a href="#">About Us</a></li>
-                    <li><a href="#">Contact Us</a></li>
-                    <li><a href="#">Terms and conditions</a></li>
+                    <li><a href="Help.html">About Us</a></li>
+                    <li><a href="Help.html">Contact Us</a></li>
+                    <li><a href="Help.html">Terms and conditions</a></li>
                 </ul>
             </div>
             <div>
                 <ul>
-                    <li><a href="#">Plans</a></li>
-                    <li><a href="#">FAQs</a></li>
-                    <li><a href="#">Help</a></li>
+                    <li><a href="Help.html">Plans</a></li>
+                    <li><a href="Help.html">FAQs</a></li>
+                    <li><a href="Help.html">Help</a></li>
                 </ul>
             </div>
         </div>
-        <p>&copy; 2024 Million Library. All rights reserved.</p>
     </footer>
+
+    <p style="margin-left: 690px; margin-top: 20px;">&copy; 2024 Million Library. All rights reserved.</p>
+
+    <script src="script.js"></script>
 
     <?php
     if (isset($_POST['submit'])) {
@@ -214,3 +231,8 @@ session_start();
 </body>
 
 </html>
+
+
+<?php } else {
+    echo "<script type='text/javascript'>alert('Access Denied!!!')</script>";
+} ?>
