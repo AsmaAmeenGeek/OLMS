@@ -371,11 +371,8 @@ body.dark {
 }
 
 .message-section {
-    margin-top: 100px;
-    margin-bottom: 20px;
     flex-grow: 1;
-    margin-left: 281px;
-    margin-right: 25px;
+    margin: 100px 0 20px 281px;
 }
 
 .message-table {
@@ -408,7 +405,6 @@ body.dark {
 .message-table tbody tr:nth-child(even) {
     background-color: #fafafa;
 }
-
 
 .due_btn {
     float: right;
@@ -520,9 +516,7 @@ table td button:hover {
 .edit-section {
     width: 75%;
     padding-left: 30px;
-    margin-left: 600px;
-    margin-top: 100px;
-    margin-bottom: 20px;
+    margin: 100px 0 20px 600px;
     background-color: #fff;
     border-radius: 10px;
     padding: 20px;
@@ -535,8 +529,7 @@ table td button:hover {
     height: 120px;
     object-fit: cover;
     border-radius: 50%;
-    margin-bottom: 15px;
-    margin-left: 200px;
+    margin: 0 0 15px 200px;
 }
 
 .profile-placeholder {
@@ -578,9 +571,8 @@ input {
     border-radius: 5px;
     text-decoration: none;
     transition: background-color 0.3s;
-    margin-top: 20px;
     width: 40%;
-    margin-left: 180px;
+    margin: 20px 0 0 180px;
     text-align: center;
 }
 
@@ -621,8 +613,7 @@ footer {
     padding: 10px;
     display: flex;
     justify-content: space-between;
-    margin-left: 300px;
-    margin-right: 100px;
+    margin: 0 100px 0 300px;
     width: 79%;
 }
 
