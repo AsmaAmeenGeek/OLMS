@@ -47,16 +47,23 @@ h1 {
     border-radius: 5px;
 }
 
-.form-box button {
-    border: none;
+
+.edit_button {
+    display: inline-block;
+    padding: 10px 100px;
+    font-size: 16px;
+    color: #784939;
+    background: #D8D2D0;
+    border: 1px solid #784939;
     border-radius: 5px;
-    padding: 10px 20px;
-    transition: background-color 0.3s ease;
+    text-decoration: none;
+    transition: background-color 0.3s;
+    margin-top: 20px;
 }
 
-.form-box button:hover {
-    background-color: #0056b3;
-    color: white;
+
+.edit_button:hover {
+    background-color: #c9ac9f;
 }
 
 .footer {
@@ -72,7 +79,7 @@ h1 {
 }
 
 .footer a {
-    color: #ffcc00; 
+    color: #c9ac9f; 
     text-decoration: none;
     transition: color 0.3s;
 }

@@ -11,7 +11,6 @@ require('dbconn.php');
     <meta charset="UTF-8">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
-    <link href="//fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
 </head>
 
 <body>
@@ -30,7 +29,7 @@ require('dbconn.php');
                         <div class="mb-3">
                             <input type="password" name="Password" class="form-control" placeholder="Password" required>
                         </div>
-                        <button type="submit" name="signin" class="btn btn-primary w-100">Sign In</button>
+                        <button type="submit" name="signin" class="edit_button">Sign In</button>
                     </form>
                 </div>
 
@@ -62,7 +61,7 @@ require('dbconn.php');
                                 <option value="ST">ST</option>
                             </select>
                         </div>
-                        <button type="submit" name="signup" class="btn btn-success w-100">Sign Up</button>
+                        <button type="submit" name="signup" class="edit_button">Sign Up</button>
                     </form>
                 </div>
             </div>
