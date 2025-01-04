@@ -163,9 +163,9 @@ if (!isset($_SESSION['RollNo'])) {
                             <td><?php echo $name ?></td>
                             <td><b><?php
                             if ($avail > 0)
-                                echo "<font color=\"green\">AVAILABLE</font>";
+                                echo "<font color=\"green\">Available</font>";
                             else
-                                echo "<font color=\"red\">NOT AVAILABLE</font>";
+                                echo "<font color=\"red\">Not Available</font>";
                             ?></b></td>
                             <td>
                                 <center>
