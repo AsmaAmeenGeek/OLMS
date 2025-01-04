@@ -177,15 +177,54 @@ if (isset($_GET['BookId'])) {
             <!-- Book details Page -->
             <main class="main-content">
                 <div class="content">
-                    <h3>Book Details</h3>
                     <div class="book-details">
                         <h1>Book Details</h1>
-                        <p><strong>Book ID:</strong> <?php echo $book['BookId']; ?></p>
-                        <p><strong>Title:</strong> <?php echo $book['Title']; ?></p>
-                        <p><strong>Availability:</strong>
-                            <?php echo $book['Availability'] > 0 ? "Available" : "Not Available"; ?></p>
+                        <?php
+                        $x = $_GET['BookId']; // Using BookId from the GET parameter
+                        $sql = "SELECT * FROM OLMS.book WHERE BookId = ?";
+                        $stmt = $conn->prepare($sql);
+                        $stmt->bind_param("i", $x);
+                        $stmt->execute();
+                        $result = $stmt->get_result();
+
+                        if ($result->num_rows > 0) {
+                            $row = $result->fetch_assoc();
+                            $bookid = $row['BookId'];
+                            $name = $row['Title'];
+                            $publisher = $row['Publisher'];
+                            $year = $row['Year'];
+                            $avail = $row['Availability'];
+
+                            echo "<p><strong>Book ID:</strong> $bookid</p>";
+                            echo "<p><strong>Title:</strong> $name</p>";
+
+                            // Fetch authors
+                            $sql1 = "SELECT * FROM OLMS.author WHERE BookId = ?";
+                            $stmt1 = $conn->prepare($sql1);
+                            $stmt1->bind_param("i", $bookid);
+                            $stmt1->execute();
+                            $authorResult = $stmt1->get_result();
+
+                            echo "<p><strong>Author:</strong> ";
+                            $authors = [];
+                            while ($authorRow = $authorResult->fetch_assoc()) {
+                                $authors[] = $authorRow['Author'];
+                            }
+                            echo implode(", ", $authors) . "</p>";
+
+                            echo "<p><strong>Publisher:</strong> $publisher</p>";
+                            echo "<p><strong>Year:</strong> $year</p>";
+                            echo "<p><strong>Availability:</strong> ";
+                            echo $avail > 0 ? "$avail copies" : "Not Available";
+                            echo "</p>";
+                        } else {
+                            echo "<p>Book details not found.</p>";
+                        }
+                        ?>
                         <a href="all_books.php"><button>Go back</button></a>
                     </div>
+
+
                 </div>
             </main>
 
