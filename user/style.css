@@ -428,12 +428,13 @@ body.dark {
     grid-area: main;
     padding: 20px;
     margin-left: 280px;
+    margin-top: 80px;
 }
 
 .search-bar {
     display: flex;
     align-items: center;
-    margin-top: 80px;
+    margin-top: 20px;
 }
 
 .search-bar label {
