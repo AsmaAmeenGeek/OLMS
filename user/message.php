@@ -124,7 +124,7 @@ if ($_SESSION['RollNo']) {
         <main class="message_content">
             <section class="message-section">
                 <div>
-                    <a href="due_fund.html" class="due_btn">Due Fund</a>
+                    <a href="due.php" class="due_btn">Due Fund</a>
                 </div>
                 <table class="message-table">
                     <thead>
