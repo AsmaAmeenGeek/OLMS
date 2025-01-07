@@ -97,7 +97,7 @@ if ($_SESSION['RollNo']) {
                         </a>
                     </li>
                     <li class="item">
-                        <a href="#" class="nav_link submenu_item">
+                        <a href="logout.php" class="nav_link submenu_item">
                             <span class="navlink_icon">
                                 <i class='bx bx-log-out-circle'></i>
                             </span>

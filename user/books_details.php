@@ -132,7 +132,7 @@ if (isset($_GET['BookId'])) {
                         </li>
 
                         <li class="item">
-                            <a href="pre_borrowed_book.html" class="nav_link submenu_item">
+                            <a href="pre_borrowed_book.php" class="nav_link submenu_item">
                                 <span class="navlink_icon">
                                     <i class='bx bx-book'></i>
                                 </span>
@@ -150,7 +150,7 @@ if (isset($_GET['BookId'])) {
                         </li>
 
                         <li class="item">
-                            <a href="#" class="nav_link submenu_item">
+                            <a href="logout.php" class="nav_link submenu_item">
                                 <span class="navlink_icon">
                                     <i class='bx bx-log-out-circle'></i>
                                 </span>
