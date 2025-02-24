@@ -8,63 +8,6 @@
     <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
     <title>OLMS - Help</title>
     <link rel="stylesheet" href="style.css" />
-
-    <style>
-        /* Main Content Styles */
-        .navbar-placeholder {
-            height: 100px;
-            /* Same height as the navbar */
-            width: 100%;
-        }
-
-        .content {
-            flex: 1;
-            padding: 30px;
-            background: #fff;
-            box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
-            width: 90%;
-            max-width: 800px;
-            border-radius: 5px;
-            margin: 0 auto;
-            /* Center content */
-        }
-
-        .content h3 {
-            margin-bottom: 20px;
-            border-bottom: 1px solid #ddd;
-            padding-bottom: 10px;
-        }
-
-        .faq {
-            margin-top: 20px;
-        }
-
-        .faq-item {
-            margin-bottom: 15px;
-        }
-
-        .faq-item h4 {
-            margin-bottom: 5px;
-            color: #007bff;
-        }
-
-        .faq-item p {
-            margin-left: 10px;
-            line-height: 1.6;
-        }
-
-        /* Contact Section */
-        .contact-details {
-            margin-top: 30px;
-            border-top: 1px solid #ddd;
-            padding-top: 20px;
-        }
-
-        .contact-details h4 {
-            margin-bottom: 10px;
-            color: #333;
-        }
-    </style>
 </head>
 
 <body>
