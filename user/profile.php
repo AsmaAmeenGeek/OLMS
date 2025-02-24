@@ -154,16 +154,16 @@ ob_end_clean();
       ?>
 
       <h1 class="card-title">
-        <center><?php echo htmlspecialchars($name); ?></center>
+        <center><?php echo ($name); ?></center>
       </h1>
       <br>
-      <p><b>Email ID: </b><?php echo htmlspecialchars($email); ?></p>
+      <p><b>Email ID: </b><?php echo ($email); ?></p>
       <br>
-      <p><b>Roll No: </B><?php echo htmlspecialchars($rollno); ?></p>
+      <p><b>Roll No: </B><?php echo ($rollno); ?></p>
       <br>
-      <p><b>Category: </b><?php echo htmlspecialchars($category); ?></p>
+      <p><b>Category: </b><?php echo ($category); ?></p>
       <br>
-      <p><b>Mobile number: </b><?php echo htmlspecialchars($mobno); ?></p>
+      <p><b>Mobile number: </b><?php echo ($mobno); ?></p>
       </b>
 
       <a href="edit_profile.php" class="edit_button">Edit Details</a>
