@@ -2,14 +2,15 @@
 require('dbconn.php');
 ?>
 
-<?php 
+<?php
 if ($_SESSION['RollNo']) {
-    ?>
+  ?>
 
 
 
-<!DOCTYPE html>
-<html lang="en">
+  <!DOCTYPE html>
+  <html lang="en">
+
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -18,6 +19,7 @@ if ($_SESSION['RollNo']) {
     <title>OLMS</title>
     <link rel="stylesheet" href="style.css" />
   </head>
+
   <body>
     <!-- navbar -->
     <nav class="navbar">
@@ -60,26 +62,26 @@ if ($_SESSION['RollNo']) {
               <span class="navlink">My Profile</span>
             </a>
           </li>
-         
-           <li class="item">
+
+          <li class="item">
             <a href="message.php" class="nav_link submenu_item">
               <span class="navlink_icon">
-                <i class='bx bx-chat' ></i>
+                <i class='bx bx-chat'></i>
               </span>
               <span class="navlink">Messages</span>
             </a>
           </li>
-          
-           <li class="item">
+
+          <li class="item">
             <a href="#" class="nav_link submenu_item">
               <span class="navlink_icon">
-                <i class='bx bxs-user-detail' ></i>
+                <i class='bx bxs-user-detail'></i>
               </span>
               <span class="navlink">Manage Students</span>
             </a>
           </li>
-          
-           <li class="item">
+
+          <li class="item">
             <a href="#" class="nav_link submenu_item">
               <span class="navlink_icon">
                 <i class='bx bx-book'></i>
@@ -87,21 +89,21 @@ if ($_SESSION['RollNo']) {
               <span class="navlink">All Books</span>
             </a>
           </li>
-          
-           <li class="item">
+
+          <li class="item">
 
             <a href="#" class="nav_link submenu_item">
 
-            <a href="addBook.html" class="nav_link submenu_item">
+              <a href="addBook.html" class="nav_link submenu_item">
 
-              <span class="navlink_icon">
-                <i class='bx bxs-edit'></i>
-              </span>
-              <span class="navlink">Add Books</span>
-            </a>
+                <span class="navlink_icon">
+                  <i class='bx bxs-edit'></i>
+                </span>
+                <span class="navlink">Add Books</span>
+              </a>
           </li>
-          
-           <li class="item">
+
+          <li class="item">
             <a href="#" class="nav_link submenu_item">
               <span class="navlink_icon">
                 <i class='bx bx-right-indent'></i>
@@ -109,8 +111,8 @@ if ($_SESSION['RollNo']) {
               <span class="navlink">Reserve/Return<br>Requests</span>
             </a>
           </li>
-          
-           <li class="item">
+
+          <li class="item">
             <a href="#" class="nav_link submenu_item">
               <span class="navlink_icon">
                 <i class='bx bx-list-ul'></i>
@@ -118,11 +120,11 @@ if ($_SESSION['RollNo']) {
               <span class="navlink">Currently Issued<br>Books</span>
             </a>
           </li>
-         
-           <li class="item">
+
+          <li class="item">
             <a href="#" class="nav_link submenu_item">
               <span class="navlink_icon">
-                <i class='bx bx-log-out-circle' ></i>
+                <i class='bx bx-log-out-circle'></i>
               </span>
               <span class="navlink">Logout</span>
             </a>
@@ -130,13 +132,13 @@ if ($_SESSION['RollNo']) {
 
         </ul>
 
-        
+
 
         <!-- Sidebar Open / Close -->
         <div class="bottom_content">
           <div class="bottom expand_sidebar">
             <span> Expand</span>
-            <i class='bx bx-log-in' ></i>
+            <i class='bx bx-log-in'></i>
           </div>
           <div class="bottom collapse_sidebar">
             <span> Collapse</span>
@@ -149,42 +151,40 @@ if ($_SESSION['RollNo']) {
     <div class="message-box">
       <h2>Send a Message</h2>
       <form id="messageForm">
-          <label for="rollNumber">Receiver Roll Number:</label>
-          <input type="text" id="rollNumber" name="rollNumber" required>
+        <label for="rollNumber">Receiver Roll Number:</label>
+        <input type="text" id="rollNumber" name="rollNumber" required>
 
-          <label for="message">Message:</label>
-          <textarea id="message" name="message" rows="5" required></textarea>
+        <label for="message">Message:</label>
+        <textarea id="message" name="message" rows="5" required></textarea>
 
-          <button type="submit" class="btn">Send</button>
+        <button type="submit" class="btn">Send</button>
+
       </form>
-  </div>
-    
+    </div>
+
     <script src="script.js"></script>
 
     <?php
-if(isset($_POST['submit']))
-{
-    $rollno=$_POST['RollNo'];
-    $message=$_POST['Message'];
+    if (isset($_POST['submit'])) {
+      $rollno = $_POST['RollNo'];
+      $message = $_POST['Message'];
 
-$sql1="insert into OLMS.message (RollNo,Message,Date,Time) values ('$rollno','$message',curdate(),curtime())";
+      $sql1 = "insert into OLMS.message (RollNo,Message,Date,Time) values ('$rollno','$message',curdate(),curtime())";
 
-if($conn->query($sql1) === TRUE){
-echo "<script type='text/javascript'>alert('Success')</script>";
-}
-else
-{//echo $conn->error;
-echo "<script type='text/javascript'>alert('Error')</script>";
-}
-    
-}
-?>
+      if ($conn->query($sql1) === TRUE) {
+        echo "<script type='text/javascript'>alert('Success')</script>";
+      } else {//echo $conn->error;
+        echo "<script type='text/javascript'>alert('Error')</script>";
+      }
+
+    }
+    ?>
 
 
   </body>
-</html>
 
-<?php }
-else {
-    echo "<script type='text/javascript'>alert('Access Denied!!!')</script>";
+  </html>
+
+<?php } else {
+  echo "<script type='text/javascript'>alert('Access Denied!!!')</script>";
 } ?>
