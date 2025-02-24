@@ -22,52 +22,7 @@ if (isset($_GET['BookId'])) {
             <!-- Boxicons CSS -->
             <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
             <title>OLMS</title>
-            <link rel="stylesheet" href="style.css" />
-
-            <style>
-                .navbar-placeholder {
-                    height: 100px;
-                    width: 100%;
-                }
-
-                .content {
-                    flex: 1;
-                    padding: 30px;
-                    background: #fff;
-                    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
-                    width: 90%;
-                    max-width: 800px;
-                    border-radius: 5px;
-                    margin: 0 auto;
-                }
-
-
-                .content h3 {
-                    margin-bottom: 20px;
-                    border-bottom: 1px solid #ddd;
-                    padding-bottom: 10px;
-                }
-
-                .book-details {
-                    line-height: 1.8;
-                }
-
-                .book-details p span {
-                    font-weight: bold;
-                }
-
-                button {
-                    display: inline-block;
-                    padding: 1px 20px;
-                    font-size: 16px;
-                    color: #784939;
-                    background-color: #D8D2D0;
-                    border-radius: 5px;
-                    text-decoration: none;
-                    transition: background-color 0.3s;
-                    margin-top: 20px;
-                }
-            </style>
+            <link rel="stylesheet" href="style.css"/>
         </head>
 
         <body>
