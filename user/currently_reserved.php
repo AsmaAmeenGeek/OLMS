@@ -194,16 +194,16 @@
             </div>
             <div>
                 <ul>
-                    <li><a href="#">About Us</a></li>
-                    <li><a href="#">Contact Us</a></li>
-                    <li><a href="#">Terms and conditions</a></li>
+                    <li><a href="Help.html">About Us</a></li>
+                    <li><a href="Help.html">Contact Us</a></li>
+                    <li><a href="Help.html">Terms and conditions</a></li>
                 </ul>
             </div>
             <div>
                 <ul>
-                    <li><a href="#">Plans</a></li>
-                    <li><a href="#">FAQs</a></li>
-                    <li><a href="#">Help</a></li>
+                    <li><a href="Help.html">Plans</a></li>
+                    <li><a href="Help.html">FAQs</a></li>
+                    <li><a href="Help.html">Help</a></li>
                 </ul>
             </div>
         </div>
