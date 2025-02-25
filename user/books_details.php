@@ -51,7 +51,7 @@ if (isset($_GET['BookId'])) {
                         <div class="menu_title menu_dahsboard"></div>
                         <!-- start -->
                         <li class="item">
-                            <a href="home.html" class="nav_link submenu_item">
+                            <a href="home.php" class="nav_link submenu_item">
                                 <span class="navlink_icon">
                                     <i class="bx bx-home-alt"></i>
                                 </span>
@@ -96,7 +96,7 @@ if (isset($_GET['BookId'])) {
                         </li>
 
                         <li class="item">
-                            <a href="currently_reserved.html" class="nav_link submenu_item">
+                            <a href="currently_reserved.php" class="nav_link submenu_item">
                                 <span class="navlink_icon">
                                     <i class='bx bxs-edit'></i>
                                 </span>
