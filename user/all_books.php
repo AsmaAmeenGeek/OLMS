@@ -120,18 +120,22 @@ if (!isset($_SESSION['RollNo'])) {
     </nav>
 
     <main class="main-content">
-        <div class="search-bar">
-            <label for="search">Search:</label>
-            <input type="text" id="search" placeholder="Enter Name / ID of Book">
-            <button type="submit">Search</button>
-        </div>
+
+        <form method="POST" action="">
+            <div class="search-bar">
+                <label for="search">Search:</label>
+                <input type="text" id="search" name="title" placeholder="Enter Name / ID of Book">
+                <button type="submit" name="submit">Search</button>
+            </div>
+        </form>
+
 
         <?php
         if (isset($_POST['submit'])) {
-            $s = $_POST['title'];
+            $s = $_POST['title']; // Get the search term from the form
             $sql = "SELECT * FROM olms.book WHERE BookId='$s' OR Title LIKE '%$s%'";
         } else {
-            // Updated query to order by BookId in ascending order
+            // Default query to show all books ordered by BookId
             $sql = "SELECT * FROM olms.book ORDER BY BookId ASC";
         }
 
@@ -141,6 +145,7 @@ if (!isset($_SESSION['RollNo'])) {
         if (!$rowcount) {
             echo "<br><center><h2><b><i>No Results</i></b></h2></center>";
         } else {
+            // Display the search results in a table
             ?>
             <table>
                 <thead>
@@ -191,16 +196,16 @@ if (!isset($_SESSION['RollNo'])) {
             </div>
             <div>
                 <ul>
-                    <li><a href="Help.html">About Us</a></li>
-                    <li><a href="Help.html">Contact Us</a></li>
-                    <li><a href="Help.html">Terms and conditions</a></li>
+                    <li><a href="Help.php">About Us</a></li>
+                    <li><a href="Help.php">Contact Us</a></li>
+                    <li><a href="Help.php">Terms and conditions</a></li>
                 </ul>
             </div>
             <div>
                 <ul>
-                    <li><a href="Help.html">Plans</a></li>
-                    <li><a href="Help.html">FAQs</a></li>
-                    <li><a href="Help.html">Help</a></li>
+                    <li><a href="Help.php">Plans</a></li>
+                    <li><a href="Help.php">FAQs</a></li>
+                    <li><a href="Help.php">Help</a></li>
                 </ul>
             </div>
         </div>
