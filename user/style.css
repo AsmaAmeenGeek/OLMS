@@ -426,14 +426,14 @@ body.dark {
 .main-content {
   grid-area: main;
   padding: 20px;
-  margin-left: 280px;
-  margin-top: 80px;
+  margin: 80px 0 0 280px;
 }
 
 .search-bar {
   display: flex;
   align-items: center;
   margin-top: 20px;
+  
 }
 
 .search-bar label {
@@ -582,8 +582,7 @@ input {
 
 /* Home */
 .home_content {
-  margin-top: 100px;
-  margin-left: 280px;
+  margin: 100px 0 0 280px;
   flex: 1;
   padding: 20px;
 }
@@ -608,7 +607,6 @@ input {
 /* Main Content Styles */
 .navbar-placeholder {
   height: 100px;
-  /* Same height as the navbar */
   width: 100%;
 }
 
@@ -621,7 +619,6 @@ input {
   max-width: 800px;
   border-radius: 5px;
   margin: 0 auto;
-  /* Center content */
 }
 
 .content h3 {
