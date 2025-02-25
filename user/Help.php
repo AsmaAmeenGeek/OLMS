@@ -36,7 +36,7 @@
                 <div class="menu_title menu_dahsboard"></div>
                 <!-- start -->
                 <li class="item">
-                    <a href="home.html" class="nav_link submenu_item">
+                    <a href="home.php" class="nav_link submenu_item">
                         <span class="navlink_icon">
                             <i class="bx bx-home-alt"></i>
                         </span>
@@ -81,7 +81,7 @@
                 </li>
 
                 <li class="item">
-                    <a href="currently_reserved.html" class="nav_link submenu_item">
+                    <a href="currently_reserved.php" class="nav_link submenu_item">
                         <span class="navlink_icon">
                             <i class='bx bxs-edit'></i>
                         </span>
@@ -192,16 +192,16 @@
             </div>
             <div>
                 <ul>
-                    <li><a href="Help.html">About Us</a></li>
-                    <li><a href="Help.html">Contact Us</a></li>
-                    <li><a href="Help.html">Terms and conditions</a></li>
+                    <li><a href="Help.php">About Us</a></li>
+                    <li><a href="Help.php">Contact Us</a></li>
+                    <li><a href="Help.php">Terms and conditions</a></li>
                 </ul>
             </div>
             <div>
                 <ul>
-                    <li><a href="Help.html">Plans</a></li>
-                    <li><a href="Help.html">FAQs</a></li>
-                    <li><a href="Help.html">Help</a></li>
+                    <li><a href="Help.php">Plans</a></li>
+                    <li><a href="Help.php">FAQs</a></li>
+                    <li><a href="Help.php">Help</a></li>
                 </ul>
             </div>
         </div>
