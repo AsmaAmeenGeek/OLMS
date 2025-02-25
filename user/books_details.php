@@ -176,7 +176,7 @@ if (isset($_GET['BookId'])) {
                             echo "<p>Book details not found.</p>";
                         }
                         ?>
-                        <a href="all_books.php"><button>Go back</button></a>
+                        <a href="all_books.php"><button class="save-btn">Go back</button></a>
                     </div>
 
 
@@ -190,19 +190,19 @@ if (isset($_GET['BookId'])) {
                         <p>OLMS</p>
                     </div>
                     <div>
-                        <ul>
-                            <li><a href="Help.html">About Us</a></li>
-                            <li><a href="Help.html">Contact Us</a></li>
-                            <li><a href="Help.html">Terms and conditions</a></li>
-                        </ul>
-                    </div>
-                    <div>
-                        <ul>
-                            <li><a href="Help.html">Plans</a></li>
-                            <li><a href="Help.html">FAQs</a></li>
-                            <li><a href="Help.html">Help</a></li>
-                        </ul>
-                    </div>
+                <ul>
+                    <li><a href="Help.php">About Us</a></li>
+                    <li><a href="Help.php">Contact Us</a></li>
+                    <li><a href="Help.php">Terms and conditions</a></li>
+                </ul>
+            </div>
+            <div>
+                <ul>
+                    <li><a href="Help.php">Plans</a></li>
+                    <li><a href="Help.php">FAQs</a></li>
+                    <li><a href="Help.php">Help</a></li>
+                </ul>
+            </div>
                 </div>
             </footer>
 
