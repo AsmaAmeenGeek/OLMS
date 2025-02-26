@@ -89,9 +89,8 @@ if ($_SESSION['RollNo']) {
           
            <li class="item">
 
-            <a href="#" class="nav_link submenu_item">
 
-            <a href="addBook.html" class="nav_link submenu_item">
+            <a href="addBook.php" class="nav_link submenu_item">
               <span class="navlink_icon">
                 <i class='bx bxs-edit'></i>
               </span>
@@ -168,7 +167,7 @@ if ($_SESSION['RollNo']) {
         <p class="profile_mobileNumber">
         <p><b>Mobile Number: </b><?php echo $mobno ?></p>
 
-        <a href="editProfile.html" class="btn">Edit Details</a>
+        <a href="editProfile.php" class="btn">Edit Details</a>
 
 
     </div>
