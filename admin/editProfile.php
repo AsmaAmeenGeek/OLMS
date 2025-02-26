@@ -95,11 +95,8 @@ if ($_SESSION['RollNo']) {
           </li>
 
           <li class="item">
-<<<<<<< Updated upstream
-            <a href="addBook.html" class="nav_link submenu_item">
-=======
-            <a href="addBook.php" class="nav_link submenu_item">
->>>>>>> Stashed changes
+
+          <a href="addBook.php" class="nav_link submenu_item">
               <span class="navlink_icon">
                 <i class='bx bxs-edit'></i>
               </span>
@@ -126,11 +123,7 @@ if ($_SESSION['RollNo']) {
           </li>
 
           <li class="item">
-<<<<<<< Updated upstream
-            <a href="#" class="nav_link submenu_item">
-=======
-            <a href="logout.php" class="nav_link submenu_item">
->>>>>>> Stashed changes
+          <a href="logout.php" class="nav_link submenu_item">
               <span class="navlink_icon">
                 <i class='bx bx-log-out-circle'></i>
               </span>
@@ -203,14 +196,9 @@ if ($_SESSION['RollNo']) {
             </div>
 
             <div class="control-group">
-              <label class="control-label" for="Password"><b>New Password:</b></label>
+              <label class="control-label" for="Password"><b>New Password (Enter the new password):</b></label>
               <div class="controls">
                 <input type="password" id="Password" name="Password" class="span8">
-<<<<<<< Updated upstream
-                <small>Leave blank to keep current password.</small>
-=======
-                <small>Enter Your new password.</small>
->>>>>>> Stashed changes
               </div>
             </div>
 
