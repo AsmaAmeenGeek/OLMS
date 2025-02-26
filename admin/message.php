@@ -1,12 +1,24 @@
 <?php
-require('dbconn.php');
-?>
+require('dbconn.php'); // Ensure session_start() is called here
 
-<?php
 if ($_SESSION['RollNo']) {
+  if (isset($_POST['submit'])) {
+    $rollno = $_POST['rollNumber'];
+    $message = $_POST['message'];
+
+    // Insert the message into the database
+    $sql = "INSERT INTO message (RollNo, Message, Date, Time) 
+             VALUES ('$rollno', '$message', CURDATE(), CURTIME())";
+
+    if ($conn->query($sql) === TRUE) {
+      // Redirect to the same page after successful insertion
+      header("Location: message.php");
+      exit(); // Ensure no further code is executed after the redirect
+    } else {
+      echo "<script type='text/javascript'>alert('Error: " . $conn->error . "')</script>";
+    }
+  }
   ?>
-
-
 
   <!DOCTYPE html>
   <html lang="en">
@@ -25,7 +37,7 @@ if ($_SESSION['RollNo']) {
     <nav class="navbar">
       <div class="logo_item">
         <i class="bx bx-menu" id="sidebarOpen"></i>
-        <img src="images/logo.jpg" alt=""></i>MillionOLMS
+        <img src="images/logo.jpg" alt="">MillionOLMS
       </div>
 
       <div class="search_bar">
@@ -91,16 +103,12 @@ if ($_SESSION['RollNo']) {
           </li>
 
           <li class="item">
-
-            <a href="#" class="nav_link submenu_item">
-
-              <a href="addBook.html" class="nav_link submenu_item">
-
-                <span class="navlink_icon">
-                  <i class='bx bxs-edit'></i>
-                </span>
-                <span class="navlink">Add Books</span>
-              </a>
+            <a href="addBook.html" class="nav_link submenu_item">
+              <span class="navlink_icon">
+                <i class='bx bxs-edit'></i>
+              </span>
+              <span class="navlink">Add Books</span>
+            </a>
           </li>
 
           <li class="item">
@@ -129,10 +137,7 @@ if ($_SESSION['RollNo']) {
               <span class="navlink">Logout</span>
             </a>
           </li>
-
         </ul>
-
-
 
         <!-- Sidebar Open / Close -->
         <div class="bottom_content">
@@ -150,37 +155,18 @@ if ($_SESSION['RollNo']) {
 
     <div class="message-box">
       <h2>Send a Message</h2>
-      <form id="messageForm">
+      <form id="messageForm" method="POST" action="">
         <label for="rollNumber">Receiver Roll Number:</label>
         <input type="text" id="rollNumber" name="rollNumber" required>
 
         <label for="message">Message:</label>
         <textarea id="message" name="message" rows="5" required></textarea>
 
-        <button type="submit" class="btn">Send</button>
-
+        <button type="submit" name="submit" class="btn">Send</button>
       </form>
     </div>
 
     <script src="script.js"></script>
-
-    <?php
-    if (isset($_POST['submit'])) {
-      $rollno = $_POST['RollNo'];
-      $message = $_POST['Message'];
-
-      $sql1 = "insert into OLMS.message (RollNo,Message,Date,Time) values ('$rollno','$message',curdate(),curtime())";
-
-      if ($conn->query($sql1) === TRUE) {
-        echo "<script type='text/javascript'>alert('Success')</script>";
-      } else {//echo $conn->error;
-        echo "<script type='text/javascript'>alert('Error')</script>";
-      }
-
-    }
-    ?>
-
-
   </body>
 
   </html>
