@@ -97,7 +97,7 @@ if ($_SESSION['RollNo']) {
                             <span class="navlink">Currently Reserved <br> Books</span>
                         </a>
                     </li>
-                    
+
                     <li class="item">
                         <a href="logout.php" class="nav_link submenu_item">
                             <span class="navlink_icon">
