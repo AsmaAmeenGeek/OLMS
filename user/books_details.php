@@ -22,7 +22,7 @@ if (isset($_GET['BookId'])) {
             <!-- Boxicons CSS -->
             <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
             <title>OLMS</title>
-            <link rel="stylesheet" href="style.css"/>
+            <link rel="stylesheet" href="style.css" />
         </head>
 
         <body>
@@ -176,7 +176,16 @@ if (isset($_GET['BookId'])) {
                             echo "<p>Book details not found.</p>";
                         }
                         ?>
-                        <a href="all_books.php"><button class="save-btn">Go back</button></a>
+                        <div class="button-container">
+                            <a href="all_books.php" class="btn-link">
+                                <button class="go-back-btn">Go back</button>
+                            </a>
+
+                            <a href="reserve.php?BookId=<?= $bookid ?>" class="btn-link">
+                                <button class="reserve-btn">Reserve book</button>
+                            </a>
+                        </div>
+
                     </div>
 
 
@@ -190,19 +199,19 @@ if (isset($_GET['BookId'])) {
                         <p>OLMS</p>
                     </div>
                     <div>
-                <ul>
-                    <li><a href="Help.php">About Us</a></li>
-                    <li><a href="Help.php">Contact Us</a></li>
-                    <li><a href="Help.php">Terms and conditions</a></li>
-                </ul>
-            </div>
-            <div>
-                <ul>
-                    <li><a href="Help.php">Plans</a></li>
-                    <li><a href="Help.php">FAQs</a></li>
-                    <li><a href="Help.php">Help</a></li>
-                </ul>
-            </div>
+                        <ul>
+                            <li><a href="Help.php">About Us</a></li>
+                            <li><a href="Help.php">Contact Us</a></li>
+                            <li><a href="Help.php">Terms and conditions</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <ul>
+                            <li><a href="Help.php">Plans</a></li>
+                            <li><a href="Help.php">FAQs</a></li>
+                            <li><a href="Help.php">Help</a></li>
+                        </ul>
+                    </div>
                 </div>
             </footer>
 
