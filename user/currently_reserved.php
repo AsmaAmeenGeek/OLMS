@@ -1,3 +1,41 @@
+<?php
+include 'dbconn.php';
+
+
+if (!isset($_SESSION['RollNo'])) {
+    header("Location: index.php");
+    exit();
+}
+
+$user_id = $_SESSION['RollNo']; // Ensure this is properly set
+
+// Fetch currently reserved books
+$query = "SELECT r.id, b.BookId, b.Title AS Title, r.Date_Reserved, r.Status 
+          FROM reservation r 
+          JOIN book b ON r.BookId = b.BookId 
+          WHERE r.RollNo = ?";
+
+
+$stmt = $conn->prepare($query);
+if (!$stmt) {
+    die("Query Error: " . $conn->error);
+}
+
+$stmt->bind_param("s", $user_id);
+$stmt->execute();
+if ($stmt->error) {
+    die("Execute Error: " . $stmt->error);
+}
+
+$result = $stmt->get_result();
+
+// Debugging: Output the number of rows returned
+if ($result->num_rows === 0) {
+    echo "No records found for user ID: " . htmlspecialchars($user_id);
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -28,6 +66,7 @@
             <img src="images/profile.jpg" alt="" class="profile" />
         </div>
     </nav>
+    <div class="navbar-placeholder"></div>
 
     <!-- sidebar -->
     <nav class="sidebar">
@@ -114,104 +153,46 @@
         </div>
     </nav>
 
-    <main class="main-content">
-        <div class="search-bar">
-            <label for="search">Search:</label>
-            <input type="text" id="search" placeholder="Enter Name / ID of Book">
-            <button type="button">Search</button>
-        </div>
-        <table>
-            <thead>
-                <tr>
-                    <th>Book ID</th>
-                    <th>Book Name</th>
-                    <th>Issued Date</th>
-                    <th>Due Date</th>
-                    <th> </th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>Book Title 1</td>
-                    <td>04/05/2024</td>
-                    <td>10/07/2024</td>
-                    <td>
-                        <button>Renew</button>
-                        <button>Return</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>Book Title 2</td>
-                    <td>21/10/2024</td>
-                    <td>10/12/2024</td>
-                    <td>
-                        <button>Renew</button>
-                        <button>Return</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>4</td>
-                    <td>Book Title 4</td>
-                    <td>04/10/2024</td>
-                    <td>14/11/2024</td>
-                    <td>
-                        <button>Renew</button>
-                        <button>Return</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>5</td>
-                    <td>Book Title 5</td>
-                    <td>20/08/2024</td>
-                    <td>10/10/2024</td>
-                    <td>
-                        <button>Renew</button>
-                        <button>Return</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>Book Title 2</td>
-                    <td>26/08/2024</td>
-                    <td>10/12/2024</td>
-                    <td>
-                        <button>Renew</button>
-                        <button>Return</button>
-                    </td>
-                </tr>
 
-            </tbody>
-        </table>
-    </main>
+    <main class="main-reserved">
+    <h2>Currently Reserved Books</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Book ID</th> <!-- New header for Book ID -->
+                <th>Book Name</th>
+                <th>Reserve Date</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody id="bookTable">
+            <?php if ($result->num_rows > 0): ?>
+                <?php while ($row = $result->fetch_assoc()): ?>
+                    <tr>
+                        <td><?php echo htmlspecialchars($row['BookId']); ?></td> <!-- Display Book ID -->
+                        <td><?php echo htmlspecialchars($row['Title']); ?></td>
+                        <td><?php echo htmlspecialchars($row['Date_Reserved']); ?></td>
+                        <td><?php echo htmlspecialchars($row['Status']); ?></td>
+                        <td>
+                            <?php if ($row['Status'] === 'Pending'): ?>
+                                <a href="cancel_reservation.php?id=<?php echo $row['id']; ?>" class="table_btn"
+                                    onclick="return confirm('Are you sure you want to cancel this reservation?');">Cancel</a>
+                            <?php else: ?>
+                                <span>N/A</span>
+                            <?php endif; ?>
+                        </td>
+                    </tr>
+                <?php endwhile; ?>
+            <?php else: ?>
+                <tr>
+                    <td colspan="5">No reserved books found for user ID: <?php echo htmlspecialchars($user_id); ?></td>
+                </tr>
+            <?php endif; ?>
+        </tbody>
+    </table>
+</main>
 
-    <footer>
-        <div class="footer-content">
-            <div>
-                <h3>Million Library</h3>
-                <p>OLMS</p>
-            </div>
-            <div>
-                <ul>
-                    <li><a href="Help.php">About Us</a></li>
-                    <li><a href="Help.php">Contact Us</a></li>
-                    <li><a href="Help.php">Terms and conditions</a></li>
-                </ul>
-            </div>
-            <div>
-                <ul>
-                    <li><a href="Help.php">Plans</a></li>
-                    <li><a href="Help.php">FAQs</a></li>
-                    <li><a href="Help.php">Help</a></li>
-                </ul>
-            </div>
-        </div>
-    </footer>
-
-    <p style="margin-left: 690px; margin-top: 20px;">&copy; 2024 Million Library. All rights reserved.</p>
-
-    <script src="script.js"></script>
 </body>
 
 </html>
