@@ -1,7 +1,6 @@
 <?php
 include 'dbconn.php';
 
-
 if (!isset($_SESSION['RollNo'])) {
     header("Location: index.php");
     exit();
@@ -29,7 +28,7 @@ if ($stmt->error) {
 
 $result = $stmt->get_result();
 
-// Debugging: Output the number of rows returned
+//Output the number of rows returned
 if ($result->num_rows === 0) {
     echo "No records found for user ID: " . htmlspecialchars($user_id);
 }
@@ -159,7 +158,7 @@ if ($result->num_rows === 0) {
     <table>
         <thead>
             <tr>
-                <th>Book ID</th> <!-- New header for Book ID -->
+                <th>Book ID</th>
                 <th>Book Name</th>
                 <th>Reserve Date</th>
                 <th>Status</th>
@@ -170,7 +169,7 @@ if ($result->num_rows === 0) {
             <?php if ($result->num_rows > 0): ?>
                 <?php while ($row = $result->fetch_assoc()): ?>
                     <tr>
-                        <td><?php echo htmlspecialchars($row['BookId']); ?></td> <!-- Display Book ID -->
+                        <td><?php echo htmlspecialchars($row['BookId']); ?></td>
                         <td><?php echo htmlspecialchars($row['Title']); ?></td>
                         <td><?php echo htmlspecialchars($row['Date_Reserved']); ?></td>
                         <td><?php echo htmlspecialchars($row['Status']); ?></td>
