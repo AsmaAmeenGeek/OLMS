@@ -215,8 +215,7 @@ if (isset($_GET['BookId'])) {
                 </div>
             </footer>
 
-            <p style="margin-left: 690px; margin-top: 20px;">&copy; 2024 Million Library. All rights reserved.</p>
-
+            <p class="site-name">&copy; 2024 Million Library. All rights reserved.</p>
             <script src="script.js"></script>
         </body>
 

@@ -154,43 +154,70 @@ if ($result->num_rows === 0) {
 
 
     <main class="main-reserved">
-    <h2>Currently Reserved Books</h2>
-    <table>
-        <thead>
-            <tr>
-                <th>Book ID</th>
-                <th>Book Name</th>
-                <th>Reserve Date</th>
-                <th>Status</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody id="bookTable">
-            <?php if ($result->num_rows > 0): ?>
-                <?php while ($row = $result->fetch_assoc()): ?>
-                    <tr>
-                        <td><?php echo htmlspecialchars($row['BookId']); ?></td>
-                        <td><?php echo htmlspecialchars($row['Title']); ?></td>
-                        <td><?php echo htmlspecialchars($row['Date_Reserved']); ?></td>
-                        <td><?php echo htmlspecialchars($row['Status']); ?></td>
-                        <td>
-                            <?php if ($row['Status'] === 'Pending'): ?>
-                                <a href="cancel_reservation.php?id=<?php echo $row['id']; ?>" class="table_btn"
-                                    onclick="return confirm('Are you sure you want to cancel this reservation?');">Cancel</a>
-                            <?php else: ?>
-                                <span>N/A</span>
-                            <?php endif; ?>
-                        </td>
-                    </tr>
-                <?php endwhile; ?>
-            <?php else: ?>
+        <h2>Currently Reserved Books</h2>
+        <table>
+            <thead>
                 <tr>
-                    <td colspan="5">No reserved books found for user ID: <?php echo htmlspecialchars($user_id); ?></td>
+                    <th>Book ID</th>
+                    <th>Book Name</th>
+                    <th>Reserve Date</th>
+                    <th>Status</th>
+                    <th>Action</th>
                 </tr>
-            <?php endif; ?>
-        </tbody>
-    </table>
-</main>
+            </thead>
+            <tbody id="bookTable">
+                <?php if ($result->num_rows > 0): ?>
+                    <?php while ($row = $result->fetch_assoc()): ?>
+                        <tr>
+                            <td><?php echo htmlspecialchars($row['BookId']); ?></td>
+                            <td><?php echo htmlspecialchars($row['Title']); ?></td>
+                            <td><?php echo htmlspecialchars($row['Date_Reserved']); ?></td>
+                            <td><?php echo htmlspecialchars($row['Status']); ?></td>
+                            <td>
+                                <?php if ($row['Status'] === 'Pending'): ?>
+                                    <a href="cancel_reservation.php?id=<?php echo $row['id']; ?>" class="table_btn"
+                                        onclick="return confirm('Are you sure you want to cancel this reservation?');">Cancel</a>
+                                <?php else: ?>
+                                    <span>N/A</span>
+                                <?php endif; ?>
+                            </td>
+                        </tr>
+                    <?php endwhile; ?>
+                <?php else: ?>
+                    <tr>
+                        <td colspan="5">No reserved books found for user ID: <?php echo htmlspecialchars($user_id); ?></td>
+                    </tr>
+                <?php endif; ?>
+            </tbody>
+        </table>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div>
+                <h3>Million Library</h3>
+                <p>OLMS</p>
+            </div>
+            <div>
+                <ul>
+                    <li><a href="Help.php">About Us</a></li>
+                    <li><a href="Help.php">Contact Us</a></li>
+                    <li><a href="Help.php">Terms and conditions</a></li>
+                </ul>
+            </div>
+            <div>
+                <ul>
+                    <li><a href="Help.php">Plans</a></li>
+                    <li><a href="Help.php">FAQs</a></li>
+                    <li><a href="Help.php">Help</a></li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+
+    <p class="site-name">&copy; 2024 Million Library. All rights reserved.</p>
+
+    <script src="script.js"></script>
 
 </body>
 

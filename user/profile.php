@@ -180,24 +180,23 @@ ob_end_clean();
         <p>OLMS</p>
       </div>
       <div>
-                <ul>
-                    <li><a href="Help.php">About Us</a></li>
-                    <li><a href="Help.php">Contact Us</a></li>
-                    <li><a href="Help.php">Terms and conditions</a></li>
-                </ul>
-            </div>
-            <div>
-                <ul>
-                    <li><a href="Help.php">Plans</a></li>
-                    <li><a href="Help.php">FAQs</a></li>
-                    <li><a href="Help.php">Help</a></li>
-                </ul>
-            </div>
-   
+        <ul>
+          <li><a href="Help.php">About Us</a></li>
+          <li><a href="Help.php">Contact Us</a></li>
+          <li><a href="Help.php">Terms and conditions</a></li>
+        </ul>
+      </div>
+      <div>
+        <ul>
+          <li><a href="Help.php">Plans</a></li>
+          <li><a href="Help.php">FAQs</a></li>
+          <li><a href="Help.php">Help</a></li>
+        </ul>
+      </div>
+
   </footer>
 
-  <p style="margin-left: 690px; margin-top: 20px;">&copy; 2024 Million Library. All rights reserved.</p>
-
+  <p class="site-name">&copy; 2024 Million Library. All rights reserved.</p>
 
   <script src="script.js"></script>
 </body>
