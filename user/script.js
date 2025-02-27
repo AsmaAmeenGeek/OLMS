@@ -5,39 +5,61 @@ const submenuItems = document.querySelectorAll(".submenu_item");
 const sidebarOpen = document.querySelector("#sidebarOpen");
 const sidebarClose = document.querySelector(".collapse_sidebar");
 const sidebarExpand = document.querySelector(".expand_sidebar");
-sidebarOpen.addEventListener("click", () => sidebar.classList.toggle("close"));
+
+// Sidebar Toggle
+sidebarOpen.addEventListener("click", () => {
+  sidebar.classList.toggle("close");
+});
 
 sidebarClose.addEventListener("click", () => {
   sidebar.classList.add("close", "hoverable");
 });
+
 sidebarExpand.addEventListener("click", () => {
   sidebar.classList.remove("close", "hoverable");
 });
 
+// Sidebar Hover Behavior
 sidebar.addEventListener("mouseenter", () => {
   if (sidebar.classList.contains("hoverable")) {
     sidebar.classList.remove("close");
   }
 });
+
 sidebar.addEventListener("mouseleave", () => {
   if (sidebar.classList.contains("hoverable")) {
     sidebar.classList.add("close");
   }
 });
 
+// Dark/Light Mode Toggle
 darkLight.addEventListener("click", () => {
   body.classList.toggle("dark");
+  
   if (body.classList.contains("dark")) {
-    document.setI;
     darkLight.classList.replace("bx-sun", "bx-moon");
+    localStorage.setItem("theme", "dark"); // Save preference
   } else {
     darkLight.classList.replace("bx-moon", "bx-sun");
+    localStorage.setItem("theme", "light"); // Save preference
   }
 });
 
+// Load saved theme on page reload
+const savedTheme = localStorage.getItem("theme");
+if (savedTheme === "dark") {
+  body.classList.add("dark");
+  darkLight.classList.replace("bx-sun", "bx-moon");
+} else {
+  body.classList.remove("dark");
+  darkLight.classList.replace("bx-moon", "bx-sun");
+}
+
+// Submenu Toggle (Only One Open at a Time)
 submenuItems.forEach((item, index) => {
   item.addEventListener("click", () => {
     item.classList.toggle("show_submenu");
+
     submenuItems.forEach((item2, index2) => {
       if (index !== index2) {
         item2.classList.remove("show_submenu");
@@ -46,8 +68,15 @@ submenuItems.forEach((item, index) => {
   });
 });
 
-if (window.innerWidth < 768) {
-  sidebar.classList.add("close");
-} else {
-  sidebar.classList.remove("close");
-}
+// Adjust Sidebar Based on Screen Width
+const adjustSidebar = () => {
+  if (window.innerWidth < 768) {
+    sidebar.classList.add("close");
+  } else {
+    sidebar.classList.remove("close");
+  }
+};
+
+// Run on Load and Resize
+adjustSidebar();
+window.addEventListener("resize", adjustSidebar);
