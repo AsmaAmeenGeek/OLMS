@@ -133,7 +133,7 @@ ob_end_clean();
       <?php
       // Ensure the session RollNo is set
       if (!isset($_SESSION['RollNo'])) {
-        echo "<p>Error: User is not logged in. Please <a href='login.html'>log in</a>.</p>";
+        echo "<p>Error: User is not logged in. Please <a href='index.php'>log in</a>.</p>";
         exit;
       }
 
