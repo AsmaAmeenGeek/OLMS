@@ -36,7 +36,7 @@
             <div class="menu_title menu_dahsboard"></div>
             <!-- start -->
             <li class="item">
-              <a href="home.html" class="nav_link submenu_item">
+              <a href="home.php" class="nav_link submenu_item">
                 <span class="navlink_icon">
                   <i class="bx bx-home-alt"></i>
                 </span>
@@ -72,7 +72,7 @@
             </li>
             
              <li class="item">
-              <a href="#" class="nav_link submenu_item">
+              <a href="admin_allBooks.php" class="nav_link submenu_item">
                 <span class="navlink_icon">
                   <i class='bx bx-book'></i>
                 </span>
@@ -108,7 +108,7 @@
             </li>
            
              <li class="item">
-              <a href="#" class="nav_link submenu_item">
+              <a href="logout.php" class="nav_link submenu_item">
                 <span class="navlink_icon">
                   <i class='bx bx-log-out-circle' ></i>
                 </span>

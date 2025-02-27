@@ -50,7 +50,7 @@ if (isset($_GET['BookId'])) {
                 <div class="menu_content">
                     <ul class="menu_items">
                         <li class="item">
-                            <a href="home.html" class="nav_link submenu_item">
+                            <a href="home.php" class="nav_link submenu_item">
                                 <span class="navlink_icon">
                                     <i class="bx bx-home-alt"></i>
                                 </span>
