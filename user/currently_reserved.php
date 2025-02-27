@@ -6,33 +6,18 @@ if (!isset($_SESSION['RollNo'])) {
     exit();
 }
 
-$user_id = $_SESSION['RollNo']; // Ensure this is properly set
+$user_id = $_SESSION['RollNo'];
 
 // Fetch currently reserved books
-$query = "SELECT r.id, b.BookId, b.Title AS Title, r.Date_Reserved, r.Status 
-          FROM reservation r 
-          JOIN book b ON r.BookId = b.BookId 
-          WHERE r.RollNo = ?";
+$query_reserved = "SELECT r.id, b.BookId, b.Title, r.Date_Reserved, r.Status 
+                   FROM reservation r 
+                   JOIN book b ON r.BookId = b.BookId 
+                   WHERE r.RollNo = ?";
 
-
-$stmt = $conn->prepare($query);
-if (!$stmt) {
-    die("Query Error: " . $conn->error);
-}
-
-$stmt->bind_param("s", $user_id);
-$stmt->execute();
-if ($stmt->error) {
-    die("Execute Error: " . $stmt->error);
-}
-
-$result = $stmt->get_result();
-
-//Output the number of rows returned
-if ($result->num_rows === 0) {
-    echo "No records found for user ID: " . htmlspecialchars($user_id);
-}
-
+$stmt_reserved = $conn->prepare($query_reserved);
+$stmt_reserved->bind_param("s", $user_id);
+$stmt_reserved->execute();
+$result_reserved = $stmt_reserved->get_result();
 ?>
 
 <!DOCTYPE html>
@@ -66,7 +51,6 @@ if ($result->num_rows === 0) {
         </div>
     </nav>
     <div class="navbar-placeholder"></div>
-
     <!-- sidebar -->
     <nav class="sidebar">
         <div class="menu_content">
@@ -151,8 +135,6 @@ if ($result->num_rows === 0) {
             </div>
         </div>
     </nav>
-
-
     <main class="main-reserved">
         <h2>Currently Reserved Books</h2>
         <table>
@@ -165,9 +147,9 @@ if ($result->num_rows === 0) {
                     <th>Action</th>
                 </tr>
             </thead>
-            <tbody id="bookTable">
-                <?php if ($result->num_rows > 0): ?>
-                    <?php while ($row = $result->fetch_assoc()): ?>
+            <tbody>
+                <?php if ($result_reserved->num_rows > 0): ?>
+                    <?php while ($row = $result_reserved->fetch_assoc()): ?>
                         <tr>
                             <td><?php echo htmlspecialchars($row['BookId']); ?></td>
                             <td><?php echo htmlspecialchars($row['Title']); ?></td>
@@ -175,8 +157,7 @@ if ($result->num_rows === 0) {
                             <td><?php echo htmlspecialchars($row['Status']); ?></td>
                             <td>
                                 <?php if ($row['Status'] === 'Pending'): ?>
-                                    <a href="cancel_reservation.php?id=<?php echo $row['id']; ?>" class="table_btn"
-                                        onclick="return confirm('Are you sure you want to cancel this reservation?');">Cancel</a>
+                                    <a href="cancel_reservation.php?id=<?php echo $row['id']; ?>" class="table_btn" onclick="return confirm('Cancel this reservation?');">Cancel</a>
                                 <?php else: ?>
                                     <span>N/A</span>
                                 <?php endif; ?>
@@ -184,14 +165,11 @@ if ($result->num_rows === 0) {
                         </tr>
                     <?php endwhile; ?>
                 <?php else: ?>
-                    <tr>
-                        <td colspan="5">No reserved books found for user ID: <?php echo htmlspecialchars($user_id); ?></td>
-                    </tr>
+                    <tr><td colspan="5">No reserved books found.</td></tr>
                 <?php endif; ?>
             </tbody>
         </table>
     </main>
-
     <footer>
         <div class="footer-content">
             <div>
@@ -216,9 +194,7 @@ if ($result->num_rows === 0) {
     </footer>
 
     <p class="site-name">&copy; 2024 Million Library. All rights reserved.</p>
-
     <script src="script.js"></script>
-
 </body>
 
 </html>
