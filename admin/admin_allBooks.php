@@ -20,6 +20,25 @@ if (!isset($_SESSION['RollNo'])) {
   <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
   <title>OLMS</title>
   <link rel="stylesheet" href="style.css" />
+
+  <script>
+    // JavaScript function to confirm deletion
+    function confirmDelete(bookId) {
+      // Show confirmation popup
+      if (confirm("Do you really want to delete the book?")) {
+        // Redirect to the delete PHP script if admin clicks 'Yes'
+        window.location.href = 'deleteBook.php?BookId=' + bookId;
+      } else {
+        // Do nothing if user admin 'Cancel'
+        return false;
+      }
+    }
+  </script>
+
+
+
+
+
 </head>
 
 <body>
@@ -200,7 +219,7 @@ if (!isset($_SESSION['RollNo'])) {
                 <center>
                   <a href="books_details.php?BookId=<?php echo $bookid; ?>" class="table_btn">Details</a>
                   <a href="editBook.php?BookId=<?php echo $bookid; ?>" class="table_btn">Edit</a>
-                  <a href="reserve.php?BookId=<?= $bookid ?>" class="table_btn">Delete</a>
+                  <a href="javascript:void(0);" class="table_btn" onclick="confirmDelete(<?php echo $bookid; ?>)">Delete</a>
                   
                 </center>
               </td>
