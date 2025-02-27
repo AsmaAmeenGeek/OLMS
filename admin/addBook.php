@@ -110,7 +110,7 @@ if ($_SESSION['RollNo']) {
                     </a>
                 </li>
                 <li class="item">
-                    <a href="#" class="nav_link submenu_item">
+                    <a href="admin_allBooks.php" class="nav_link submenu_item">
                         <span class="navlink_icon">
                             <i class='bx bx-book'></i>
                         </span>
@@ -118,11 +118,7 @@ if ($_SESSION['RollNo']) {
                     </a>
                 </li>
                 <li class="item">
-<<<<<<< Updated upstream
-                    <a href="addBook.html" class="nav_link submenu_item">
-=======
                     <a href="addBook.php" class="nav_link submenu_item">
->>>>>>> Stashed changes
                         <span class="navlink_icon">
                             <i class='bx bxs-edit'></i>
                         </span>
@@ -146,11 +142,7 @@ if ($_SESSION['RollNo']) {
                     </a>
                 </li>
                 <li class="item">
-<<<<<<< Updated upstream
-                    <a href="#" class="nav_link submenu_item">
-=======
                     <a href="logout.php" class="nav_link submenu_item">
->>>>>>> Stashed changes
                         <span class="navlink_icon">
                             <i class='bx bx-log-out-circle'></i>
                         </span>
