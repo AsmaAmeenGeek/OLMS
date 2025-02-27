@@ -175,10 +175,8 @@ if (!isset($_SESSION['RollNo'])) {
                             <td>
                                 <center>
                                     <a href="books_details.php?BookId=<?php echo $bookid; ?>" class="table_btn">Details</a>
-                                    <?php
-                                    if ($avail > 0)
-                                        echo "<a href=\"issue_request.php?id=" . $bookid . "\" class=\"table_btn\">Issue</a>";
-                                    ?>
+                                    <a href="reserve.php?BookId=<?= $bookid ?>" class="table_btn">Reserve book
+                            </a>
                                 </center>
                             </td>
                         </tr>
