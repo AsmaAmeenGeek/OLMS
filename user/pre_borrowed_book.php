@@ -62,7 +62,7 @@ $result = $stmt->get_result();
             <ul class="menu_items">
                 <div class="menu_title menu_dahsboard"></div>
                 <li class="item">
-                    <a href="home.php" class="nav_link submenu_item">
+                    <a href="home.php" class="nav_link submenu_item <?php echo $current_page == 'home.php' ? 'active' : ''; ?>">
                         <span class="navlink_icon">
                             <i class="bx bx-home-alt"></i>
                         </span>
@@ -70,7 +70,7 @@ $result = $stmt->get_result();
                     </a>
                 </li>
                 <li class="item">
-                    <a href="profile.php" class="nav_link submenu_item">
+                    <a href="profile.php" class="nav_link submenu_item <?php echo $current_page == 'profile.php' ? 'active' : ''; ?>">
                         <span class="navlink_icon">
                             <i class='bx bx-user-circle'></i>
                         </span>
@@ -78,7 +78,7 @@ $result = $stmt->get_result();
                     </a>
                 </li>
                 <li class="item">
-                    <a href="message.php" class="nav_link submenu_item">
+                    <a href="message.php" class="nav_link submenu_item <?php echo $current_page == 'message.php' ? 'active' : ''; ?>">
                         <span class="navlink_icon">
                             <i class='bx bx-chat'></i>
                         </span>
@@ -86,7 +86,7 @@ $result = $stmt->get_result();
                     </a>
                 </li>
                 <li class="item">
-                    <a href="all_books.php" class="nav_link submenu_item">
+                    <a href="all_books.php" class="nav_link submenu_item <?php echo $current_page == 'all_books.php' ? 'active' : ''; ?>">
                         <span class="navlink_icon">
                             <i class='bx bx-book'></i>
                         </span>
@@ -94,16 +94,15 @@ $result = $stmt->get_result();
                     </a>
                 </li>
                 <li class="item">
-                    <a href="pre_borrowed_book.php" class="nav_link submenu_item">
+                    <a href="pre_borrowed_book.php" class="nav_link submenu_item <?php echo $current_page == 'pre_borrowed_book.php' ? 'active' : ''; ?>">
                         <span class="navlink_icon">
                             <i class='bx bx-book'></i>
                         </span>
                         <span class="navlink">Previously Borrowed <br> Books</span>
                     </a>
                 </li>
-
                 <li class="item">
-                    <a href="currently_reserved.php" class="nav_link submenu_item">
+                    <a href="currently_reserved.php" class="nav_link submenu_item <?php echo $current_page == 'currently_reserved.php' ? 'active' : ''; ?>">
                         <span class="navlink_icon">
                             <i class='bx bxs-edit'></i>
                         </span>
@@ -133,7 +132,7 @@ $result = $stmt->get_result();
             </div>
         </div>
     </nav>
-    
+
     <main class="main-content">
         <h2>Previously Borrowed Books</h2>
         <table id="booksTable">
@@ -144,6 +143,7 @@ $result = $stmt->get_result();
                     <th>Issued Date</th>
                     <th>Return Date</th>
                     <th>Status</th>
+                    <th>Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -155,10 +155,13 @@ $result = $stmt->get_result();
                             <td><?php echo htmlspecialchars($row['Date_Issue']); ?></td>
                             <td><?php echo $row['Date_Return'] ? htmlspecialchars($row['Date_Return']) : '-'; ?></td>
                             <td><?php echo htmlspecialchars($row['Status']); ?></td>
+                            <td>
+                                <a href="renew.php?bookid=<?php echo urlencode($row['BookId']); ?>" class="table_btn">Renew</a>
+                                <a href="return.php?bookid=<?php echo urlencode($row['BookId']); ?>" class="table_btn">Return</a>
                         </tr>
                     <?php }
                 } else {
-                    echo "<tr><td colspan='5' style='text-align:center;'>No Borrowed Books Found</td></tr>";
+                    echo "<tr><td colspan='6' style='text-align:center;'>No Borrowed Books Found</td></tr>";
                 } ?>
             </tbody>
         </table>
