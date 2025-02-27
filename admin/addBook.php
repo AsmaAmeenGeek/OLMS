@@ -1,5 +1,5 @@
 <?php
- // Start the session
+// Start the session
 require('dbconn.php'); // Ensure database connection
 
 if ($_SESSION['RollNo']) {
@@ -47,6 +47,7 @@ if ($_SESSION['RollNo']) {
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -54,6 +55,7 @@ if ($_SESSION['RollNo']) {
     <title>OLMS</title>
     <link rel="stylesheet" href="style.css" />
 </head>
+
 <body>
     <!-- navbar -->
     <nav class="navbar">
@@ -77,6 +79,8 @@ if ($_SESSION['RollNo']) {
     <nav class="sidebar">
         <div class="menu_content">
             <ul class="menu_items">
+                <div class="menu_title menu_dahsboard"></div>
+                <!-- start -->
                 <li class="item">
                     <a href="home.php" class="nav_link submenu_item">
                         <span class="navlink_icon">
@@ -85,6 +89,7 @@ if ($_SESSION['RollNo']) {
                         <span class="navlink">Home</span>
                     </a>
                 </li>
+
                 <li class="item">
                     <a href="profile.php" class="nav_link submenu_item">
                         <span class="navlink_icon">
@@ -93,6 +98,7 @@ if ($_SESSION['RollNo']) {
                         <span class="navlink">My Profile</span>
                     </a>
                 </li>
+
                 <li class="item">
                     <a href="message.php" class="nav_link submenu_item">
                         <span class="navlink_icon">
@@ -101,14 +107,16 @@ if ($_SESSION['RollNo']) {
                         <span class="navlink">Messages</span>
                     </a>
                 </li>
+
                 <li class="item">
-                    <a href="#" class="nav_link submenu_item">
+                    <a href="admin_manageStud.php" class="nav_link submenu_item">
                         <span class="navlink_icon">
                             <i class='bx bxs-user-detail'></i>
                         </span>
                         <span class="navlink">Manage Students</span>
                     </a>
                 </li>
+
                 <li class="item">
                     <a href="admin_allBooks.php" class="nav_link submenu_item">
                         <span class="navlink_icon">
@@ -117,6 +125,7 @@ if ($_SESSION['RollNo']) {
                         <span class="navlink">All Books</span>
                     </a>
                 </li>
+
                 <li class="item">
                     <a href="addBook.php" class="nav_link submenu_item">
                         <span class="navlink_icon">
@@ -125,6 +134,7 @@ if ($_SESSION['RollNo']) {
                         <span class="navlink">Add Books</span>
                     </a>
                 </li>
+
                 <li class="item">
                     <a href="#" class="nav_link submenu_item">
                         <span class="navlink_icon">
@@ -133,6 +143,7 @@ if ($_SESSION['RollNo']) {
                         <span class="navlink">Reserve/Return<br>Requests</span>
                     </a>
                 </li>
+
                 <li class="item">
                     <a href="#" class="nav_link submenu_item">
                         <span class="navlink_icon">
@@ -141,6 +152,7 @@ if ($_SESSION['RollNo']) {
                         <span class="navlink">Currently Issued<br>Books</span>
                     </a>
                 </li>
+
                 <li class="item">
                     <a href="logout.php" class="nav_link submenu_item">
                         <span class="navlink_icon">
@@ -218,4 +230,5 @@ if ($_SESSION['RollNo']) {
 
     <script src="script.js"></script>
 </body>
+
 </html>

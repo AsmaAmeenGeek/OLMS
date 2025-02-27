@@ -74,7 +74,7 @@ if (isset($_GET['BookId'])) {
                             </a>
                         </li>
                         <li class="item">
-                            <a href="#" class="nav_link submenu_item">
+                            <a href="admin_manageStud.php" class="nav_link submenu_item">
                                 <span class="navlink_icon">
                                     <i class='bx bxs-user-detail'></i>
                                 </span>
