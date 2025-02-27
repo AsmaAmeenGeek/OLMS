@@ -180,15 +180,8 @@ if (isset($_GET['BookId'])) {
                             <a href="all_books.php" class="btn-link">
                                 <button class="go-back-btn">Go back</button>
                             </a>
-
-                            <a href="reserve.php?BookId=<?= $bookid ?>" class="btn-link">
-                                <button class="reserve-btn">Reserve book</button>
-                            </a>
                         </div>
-
                     </div>
-
-
                 </div>
             </main>
 
