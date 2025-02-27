@@ -21,10 +21,6 @@ if ($_SESSION['RollNo']) {
 
   <body>
 
-
-
-
-
     <!-- navbar -->
     <nav class="navbar">
       <div class="logo_item">
