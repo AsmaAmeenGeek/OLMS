@@ -207,16 +207,6 @@ body.dark {
   background: var(--light-brown-color);
 }
 
-.nav_link.active {
-  background-color: #f0f0f0; /* Change background color */
-  color: #007bff; /* Change text color */
-  font-weight: bold; /* Make it bold */
-}
-
-.nav_link.active .navlink_icon {
-  color: #007bff; /* Change icon color */
-}
-
 .submenu_item {
   cursor: pointer;
 }
