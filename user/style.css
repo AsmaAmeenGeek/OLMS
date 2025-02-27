@@ -203,8 +203,18 @@ body.dark {
   background: var(--dark-brown-color);
 }
 
-.sidebar.close .nav_link:hover {
+.sidebar.close {
   background: var(--light-brown-color);
+}
+
+.nav_link.active {
+  background-color: #f0f0f0; /* Change background color */
+  color: #007bff; /* Change text color */
+  font-weight: bold; /* Make it bold */
+}
+
+.nav_link.active .navlink_icon {
+  color: #007bff; /* Change icon color */
 }
 
 .submenu_item {
@@ -502,7 +512,7 @@ table td button:hover {
 
 .table_btn {
   display: inline-block;
-  padding: 1px 20px;
+  padding: 3px 20px;
   font-size: 16px;
   color: #784939;
   background-color: #d8d2d0;
@@ -538,10 +548,10 @@ table td button:hover {
 }
 
 .main-reserved{
-  margin: 20px 0 0 280px;
+  margin: 100px 0 0 280px;
   padding: 20px;
-
 }
+
 /* Edit Profile */
 .edit-section {
   width: 75%;
@@ -635,11 +645,6 @@ input {
 }
 
 /* Main Content Styles */
-.navbar-placeholder {
-  height: 100px;
-  width: 100%;
-}
-
 .content {
   flex: 1;
   padding: 30px;
