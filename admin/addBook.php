@@ -34,7 +34,7 @@ if ($_SESSION['RollNo']) {
                 $result = $conn->query($sql5);
             }
 
-            echo "<script type='text/javascript'>alert('Success')</script>";
+            echo "<script type='text/javascript'>alert('Success'); window.location='admin_allBooks.php';</script>";
         } else {
             echo $conn->error; // Show SQL error
             echo "<script type='text/javascript'>alert('Error')</script>";
