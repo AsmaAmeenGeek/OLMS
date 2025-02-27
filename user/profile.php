@@ -1,11 +1,28 @@
 <?php
-session_start();
 require('dbconn.php');
 
-// Ensure no accidental output disrupts styles
-ob_end_clean();
-?>
+if (!isset($_SESSION['RollNo'])) {
+  header("Location: index.php");
+  exit();
+}
 
+$rollno = $_SESSION['RollNo'];
+$sql = "SELECT * FROM olms.user WHERE RollNo='$rollno'";
+$result = $conn->query($sql);
+
+if ($result && $result->num_rows > 0) {
+  $row = $result->fetch_assoc();
+  $name = $row['Name'];
+  $category = $row['Category'];
+  $email = $row['EmailId'];
+  $mobno = $row['MobNo'];
+  $ProfilePicture = !empty($row['ProfilePicture']) ? $row['ProfilePicture'] : 'images/default.jpg'; // Correct column name
+} else {
+  echo "<p>Error: No user found with Roll No: $rollno</p>";
+  $name = $category = $email = $mobno = "N/A";
+  $ProfilePicture = 'images/default.jpg';
+}
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -15,7 +32,7 @@ ob_end_clean();
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <!-- Boxicons CSS -->
   <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
-  <title>OLMS</title>
+  <title>OLMS - Help</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 
@@ -34,16 +51,16 @@ ob_end_clean();
     <div class="navbar_content">
       <i class="bi bi-grid"></i>
       <i class='bx bx-sun' id="darkLight"></i>
-      <img src="images/profile.jpg" alt="" class="profile" />
+      <img src="<?php echo htmlspecialchars($ProfilePicture); ?>" alt="Profile Picture" class="profile" />
     </div>
   </nav>
 
   <!-- sidebar -->
   <nav class="sidebar">
     <div class="menu_content">
-      <ul class="menu_items">
+      <div class="menu_items">
         <div class="menu_title menu_dahsboard"></div>
-        <!-- start -->
+
         <li class="item">
           <a href="home.php" class="nav_link submenu_item">
             <span class="navlink_icon">
@@ -107,70 +124,41 @@ ob_end_clean();
           </a>
         </li>
 
-      </ul>
+        </ul>
 
-
-
-      <!-- Sidebar Open / Close -->
-      <div class="bottom_content">
-        <div class="bottom expand_sidebar">
-          <span> Expand</span>
-          <i class='bx bx-log-in'></i>
-        </div>
-        <div class="bottom collapse_sidebar">
-          <span> Collapse</span>
-          <i class='bx bx-log-out'></i>
+        <!-- Sidebar Open / Close -->
+        <div class="bottom_content">
+          <div class="bottom expand_sidebar">
+            <span> Expand</span>
+            <i class='bx bx-log-in'></i>
+          </div>
+          <div class="bottom collapse_sidebar">
+            <span> Collapse</span>
+            <i class='bx bx-log-out'></i>
+          </div>
         </div>
       </div>
-    </div>
   </nav>
-
 
   <!-- Profile Page -->
   <div class="profile_page">
     <div class="profile_box">
-      <img src="images/profile.jpg" alt="User Image" class="profile_image" />
-      <?php
-      // Ensure the session RollNo is set
-      if (!isset($_SESSION['RollNo'])) {
-        echo "<p>Error: User is not logged in. Please <a href='index.php'>log in</a>.</p>";
-        exit;
-      }
-
-      $rollno = $_SESSION['RollNo'];
-      $sql = "SELECT * FROM olms.user WHERE RollNo='$rollno'";
-      $result = $conn->query($sql);
-
-      if ($result && $result->num_rows > 0) {
-        $row = $result->fetch_assoc();
-        $name = $row['Name'];
-        $category = $row['Category'];
-        $email = $row['EmailId'];
-        $mobno = $row['MobNo'];
-      } else {
-        echo "<p>Error: No user found with Roll No: $rollno</p>";
-        $name = $category = $email = $mobno = "N/A";
-      }
-      ?>
-
+      <img src="<?php echo $ProfilePicture; ?>" alt="User Image" class="profile_image" />
       <h1 class="card-title">
-        <center><?php echo ($name); ?></center>
+        <center><?php echo htmlspecialchars($name); ?></center>
       </h1>
       <br>
-      <p><b>Email ID: </b><?php echo ($email); ?></p>
+      <p><b>Email ID: </b><?php echo htmlspecialchars($email); ?></p>
       <br>
-      <p><b>Roll No: </B><?php echo ($rollno); ?></p>
+      <p><b>Roll No: </b><?php echo htmlspecialchars($rollno); ?></p>
       <br>
-      <p><b>Category: </b><?php echo ($category); ?></p>
+      <p><b>Category: </b><?php echo htmlspecialchars($category); ?></p>
       <br>
-      <p><b>Mobile number: </b><?php echo ($mobno); ?></p>
-      </b>
+      <p><b>Mobile number: </b><?php echo htmlspecialchars($mobno); ?></p>
+      <br>
 
       <a href="edit_profile.php" class="edit_button">Edit Details</a>
     </div>
-  </div>
-
-  </div>
   </div>
 
   <footer>
@@ -193,11 +181,10 @@ ob_end_clean();
           <li><a href="Help.php">Help</a></li>
         </ul>
       </div>
-
+    </div>
   </footer>
 
   <p class="site-name">&copy; 2024 Million Library. All rights reserved.</p>
-
   <script src="script.js"></script>
 </body>
 

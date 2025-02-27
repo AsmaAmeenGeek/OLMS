@@ -1,6 +1,23 @@
 <?php
 require('dbconn.php');
 
+$rollno = $_SESSION['RollNo'];
+
+// Fetch user details for profile picture and other info
+$userQuery = "SELECT * FROM olms.user WHERE RollNo=?";
+$userStmt = $conn->prepare($userQuery);
+$userStmt->bind_param("s", $rollno);
+$userStmt->execute();
+$userResult = $userStmt->get_result();
+
+if ($userResult && $userResult->num_rows > 0) {
+    $userRow = $userResult->fetch_assoc();
+    $ProfilePicture = !empty($userRow['ProfilePicture']) ? $userRow['ProfilePicture'] : 'images/default.jpg';
+} else {
+    $ProfilePicture = 'images/default.jpg'; // Default picture if none found
+}
+
+// Book details
 if (isset($_GET['BookId'])) {
     $bookId = $_GET['BookId'];
     $sql = "SELECT * FROM olms.book WHERE BookId = ?";
@@ -40,16 +57,17 @@ if (isset($_GET['BookId'])) {
                 <div class="navbar_content">
                     <i class="bi bi-grid"></i>
                     <i class='bx bx-sun' id="darkLight"></i>
-                    <img src="images/profile.jpg" alt="" class="profile" />
+                    <img src="<?php echo $ProfilePicture; ?>" alt="Profile Picture" class="profile" />
                 </div>
             </nav>
-            <div class="navbar-placeholder"></div>
+
+
             <!-- sidebar -->
             <nav class="sidebar">
                 <div class="menu_content">
-                    <ul class="menu_items">
+                    <div class="menu_items">
                         <div class="menu_title menu_dahsboard"></div>
-                        <!-- start -->
+
                         <li class="item">
                             <a href="home.php" class="nav_link submenu_item">
                                 <span class="navlink_icon">
@@ -113,20 +131,20 @@ if (isset($_GET['BookId'])) {
                             </a>
                         </li>
 
-                    </ul>
+                        </ul>
 
-                    <!-- Sidebar Open / Close -->
-                    <div class="bottom_content">
-                        <div class="bottom expand_sidebar">
-                            <span> Expand</span>
-                            <i class='bx bx-log-in'></i>
-                        </div>
-                        <div class="bottom collapse_sidebar">
-                            <span> Collapse</span>
-                            <i class='bx bx-log-out'></i>
+                        <!-- Sidebar Open / Close -->
+                        <div class="bottom_content">
+                            <div class="bottom expand_sidebar">
+                                <span> Expand</span>
+                                <i class='bx bx-log-in'></i>
+                            </div>
+                            <div class="bottom collapse_sidebar">
+                                <span> Collapse</span>
+                                <i class='bx bx-log-out'></i>
+                            </div>
                         </div>
                     </div>
-                </div>
             </nav>
 
             <!-- Book details Page -->

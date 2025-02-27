@@ -1,14 +1,28 @@
 <?php
 require('dbconn.php');
-?>
 
-<?php
 if (!isset($_SESSION['RollNo'])) {
     header("Location: index.php");
     exit();
 }
 
+$rollno = $_SESSION['RollNo'];
+
+// Fetch user details for profile picture and other info
+$userQuery = "SELECT * FROM olms.user WHERE RollNo=?";
+$userStmt = $conn->prepare($userQuery);
+$userStmt->bind_param("s", $rollno);
+$userStmt->execute();
+$userResult = $userStmt->get_result();
+
+if ($userResult && $userResult->num_rows > 0) {
+    $userRow = $userResult->fetch_assoc();
+    $ProfilePicture = !empty($userRow['ProfilePicture']) ? $userRow['ProfilePicture'] : 'images/default.jpg';
+} else {
+    $ProfilePicture = 'images/default.jpg'; // Default picture if none found
+}
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -37,15 +51,16 @@ if (!isset($_SESSION['RollNo'])) {
         <div class="navbar_content">
             <i class="bi bi-grid"></i>
             <i class='bx bx-sun' id="darkLight"></i>
-            <img src="images/profile.jpg" alt="" class="profile" />
+            <img src="<?php echo htmlspecialchars($ProfilePicture); ?>" alt="Profile Picture" class="profile" />
         </div>
     </nav>
 
     <!-- sidebar -->
     <nav class="sidebar">
         <div class="menu_content">
-            <ul class="menu_items">
+            <div class="menu_items">
                 <div class="menu_title menu_dahsboard"></div>
+
                 <li class="item">
                     <a href="home.php" class="nav_link submenu_item">
                         <span class="navlink_icon">
@@ -54,6 +69,7 @@ if (!isset($_SESSION['RollNo'])) {
                         <span class="navlink">Home</span>
                     </a>
                 </li>
+
                 <li class="item">
                     <a href="profile.php" class="nav_link submenu_item">
                         <span class="navlink_icon">
@@ -62,6 +78,7 @@ if (!isset($_SESSION['RollNo'])) {
                         <span class="navlink">My Profile</span>
                     </a>
                 </li>
+
                 <li class="item">
                     <a href="message.php" class="nav_link submenu_item">
                         <span class="navlink_icon">
@@ -70,6 +87,7 @@ if (!isset($_SESSION['RollNo'])) {
                         <span class="navlink">Messages</span>
                     </a>
                 </li>
+
                 <li class="item">
                     <a href="all_books.php" class="nav_link submenu_item">
                         <span class="navlink_icon">
@@ -78,6 +96,7 @@ if (!isset($_SESSION['RollNo'])) {
                         <span class="navlink">All Books</span>
                     </a>
                 </li>
+
                 <li class="item">
                     <a href="pre_borrowed_book.php" class="nav_link submenu_item">
                         <span class="navlink_icon">
@@ -95,6 +114,7 @@ if (!isset($_SESSION['RollNo'])) {
                         <span class="navlink">Currently Reserved <br> Books</span>
                     </a>
                 </li>
+
                 <li class="item">
                     <a href="logout.php" class="nav_link submenu_item">
                         <span class="navlink_icon">
@@ -103,20 +123,21 @@ if (!isset($_SESSION['RollNo'])) {
                         <span class="navlink">Logout</span>
                     </a>
                 </li>
-            </ul>
 
-            <!-- Sidebar Open / Close -->
-            <div class="bottom_content">
-                <div class="bottom expand_sidebar">
-                    <span> Expand</span>
-                    <i class='bx bx-log-in'></i>
-                </div>
-                <div class="bottom collapse_sidebar">
-                    <span> Collapse</span>
-                    <i class='bx bx-log-out'></i>
+                </ul>
+
+                <!-- Sidebar Open / Close -->
+                <div class="bottom_content">
+                    <div class="bottom expand_sidebar">
+                        <span> Expand</span>
+                        <i class='bx bx-log-in'></i>
+                    </div>
+                    <div class="bottom collapse_sidebar">
+                        <span> Collapse</span>
+                        <i class='bx bx-log-out'></i>
+                    </div>
                 </div>
             </div>
-        </div>
     </nav>
 
     <main class="main-content">
@@ -128,7 +149,6 @@ if (!isset($_SESSION['RollNo'])) {
                 <button type="submit" name="submit">Search</button>
             </div>
         </form>
-
 
         <?php
         if (isset($_POST['submit'])) {
@@ -176,7 +196,7 @@ if (!isset($_SESSION['RollNo'])) {
                                 <center>
                                     <a href="books_details.php?BookId=<?php echo $bookid; ?>" class="table_btn">Details</a>
                                     <a href="reserve.php?BookId=<?= $bookid ?>" class="table_btn">Reserve book
-                            </a>
+                                    </a>
                                 </center>
                             </td>
                         </tr>

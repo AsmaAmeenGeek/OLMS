@@ -8,6 +8,20 @@ if (!isset($_SESSION['RollNo'])) {
 
 $rollno = $_SESSION['RollNo'];
 
+// Fetch user details for profile picture and other info
+$userQuery = "SELECT * FROM olms.user WHERE RollNo=?";
+$userStmt = $conn->prepare($userQuery);
+$userStmt->bind_param("s", $rollno);
+$userStmt->execute();
+$userResult = $userStmt->get_result();
+
+if ($userResult && $userResult->num_rows > 0) {
+    $userRow = $userResult->fetch_assoc();
+    $ProfilePicture = !empty($userRow['ProfilePicture']) ? $userRow['ProfilePicture'] : 'images/default.jpg';
+} else {
+    $ProfilePicture = 'images/default.jpg'; // Default picture if none found
+}
+
 // Fetch previously borrowed and reserved books
 $query = "(SELECT record.BookId, book.Title, record.Date_Issue, record.Date_Return, 'Borrowed' AS Status
           FROM olms.record 
@@ -52,63 +66,70 @@ $result = $stmt->get_result();
         <div class="navbar_content">
             <i class="bi bi-grid"></i>
             <i class='bx bx-sun' id="darkLight"></i>
-            <img src="images/profile.jpg" alt="" class="profile" />
+            <img src="<?php echo $ProfilePicture; ?>" alt="Profile Picture" class="profile" />
         </div>
     </nav>
 
     <!-- sidebar -->
     <nav class="sidebar">
         <div class="menu_content">
-            <ul class="menu_items">
+            <div class="menu_items">
                 <div class="menu_title menu_dahsboard"></div>
+
                 <li class="item">
-                    <a href="home.php" class="nav_link submenu_item <?php echo $current_page == 'home.php' ? 'active' : ''; ?>">
+                    <a href="home.php" class="nav_link submenu_item">
                         <span class="navlink_icon">
                             <i class="bx bx-home-alt"></i>
                         </span>
                         <span class="navlink">Home</span>
                     </a>
                 </li>
+
                 <li class="item">
-                    <a href="profile.php" class="nav_link submenu_item <?php echo $current_page == 'profile.php' ? 'active' : ''; ?>">
+                    <a href="profile.php" class="nav_link submenu_item">
                         <span class="navlink_icon">
                             <i class='bx bx-user-circle'></i>
                         </span>
                         <span class="navlink">My Profile</span>
                     </a>
                 </li>
+
                 <li class="item">
-                    <a href="message.php" class="nav_link submenu_item <?php echo $current_page == 'message.php' ? 'active' : ''; ?>">
+                    <a href="message.php" class="nav_link submenu_item">
                         <span class="navlink_icon">
                             <i class='bx bx-chat'></i>
                         </span>
                         <span class="navlink">Messages</span>
                     </a>
                 </li>
+
                 <li class="item">
-                    <a href="all_books.php" class="nav_link submenu_item <?php echo $current_page == 'all_books.php' ? 'active' : ''; ?>">
+                    <a href="all_books.php" class="nav_link submenu_item">
                         <span class="navlink_icon">
                             <i class='bx bx-book'></i>
                         </span>
                         <span class="navlink">All Books</span>
                     </a>
                 </li>
+
                 <li class="item">
-                    <a href="pre_borrowed_book.php" class="nav_link submenu_item <?php echo $current_page == 'pre_borrowed_book.php' ? 'active' : ''; ?>">
+                    <a href="pre_borrowed_book.php" class="nav_link submenu_item">
                         <span class="navlink_icon">
                             <i class='bx bx-book'></i>
                         </span>
                         <span class="navlink">Previously Borrowed <br> Books</span>
                     </a>
                 </li>
+
                 <li class="item">
-                    <a href="currently_reserved.php" class="nav_link submenu_item <?php echo $current_page == 'currently_reserved.php' ? 'active' : ''; ?>">
+                    <a href="currently_reserved.php" class="nav_link submenu_item">
                         <span class="navlink_icon">
                             <i class='bx bxs-edit'></i>
                         </span>
                         <span class="navlink">Currently Reserved <br> Books</span>
                     </a>
                 </li>
+
                 <li class="item">
                     <a href="logout.php" class="nav_link submenu_item">
                         <span class="navlink_icon">
@@ -117,20 +138,21 @@ $result = $stmt->get_result();
                         <span class="navlink">Logout</span>
                     </a>
                 </li>
-            </ul>
 
-            <!-- Sidebar Open / Close -->
-            <div class="bottom_content">
-                <div class="bottom expand_sidebar">
-                    <span> Expand</span>
-                    <i class='bx bx-log-in'></i>
-                </div>
-                <div class="bottom collapse_sidebar">
-                    <span> Collapse</span>
-                    <i class='bx bx-log-out'></i>
+                </ul>
+
+                <!-- Sidebar Open / Close -->
+                <div class="bottom_content">
+                    <div class="bottom expand_sidebar">
+                        <span> Expand</span>
+                        <i class='bx bx-log-in'></i>
+                    </div>
+                    <div class="bottom collapse_sidebar">
+                        <span> Collapse</span>
+                        <i class='bx bx-log-out'></i>
+                    </div>
                 </div>
             </div>
-        </div>
     </nav>
 
     <main class="main-content">
@@ -157,7 +179,8 @@ $result = $stmt->get_result();
                             <td><?php echo htmlspecialchars($row['Status']); ?></td>
                             <td>
                                 <a href="renew.php?bookid=<?php echo urlencode($row['BookId']); ?>" class="table_btn">Renew</a>
-                                <a href="return.php?bookid=<?php echo urlencode($row['BookId']); ?>" class="table_btn">Return</a>
+                                <a href="return.php?bookid=<?php echo urlencode($row['BookId']); ?>"
+                                    class="table_btn">Return</a>
                         </tr>
                     <?php }
                 } else {
