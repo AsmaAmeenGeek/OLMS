@@ -88,7 +88,7 @@ require('dbconn.php');
         if (strcasecmp($x, $p) == 0 && !empty($u) && !empty($p)) {
             $_SESSION['RollNo'] = $u;
             if ($y == 'Admin')
-                header('location:admin/home.html');
+                header('location:admin/home.php');
             else
                 header('location:user/home.php');
         } else {
