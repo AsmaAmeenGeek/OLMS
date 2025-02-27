@@ -34,7 +34,7 @@ if ($_SESSION['RollNo']) {
                 $result = $conn->query($sql5);
             }
 
-            echo "<script type='text/javascript'>alert('Success')</script>";
+            echo "<script type='text/javascript'>alert('Success'); window.location='admin_allBooks.php';</script>";
         } else {
             echo $conn->error; // Show SQL error
             echo "<script type='text/javascript'>alert('Error')</script>";
@@ -78,7 +78,7 @@ if ($_SESSION['RollNo']) {
         <div class="menu_content">
             <ul class="menu_items">
                 <li class="item">
-                    <a href="home.html" class="nav_link submenu_item">
+                    <a href="home.php" class="nav_link submenu_item">
                         <span class="navlink_icon">
                             <i class="bx bx-home-alt"></i>
                         </span>

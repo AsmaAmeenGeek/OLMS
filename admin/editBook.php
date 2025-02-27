@@ -1,24 +1,10 @@
 <?php
-require('dbconn.php'); // Ensure session_start() is called here
+require('dbconn.php');
+?>
 
+<?php
 if ($_SESSION['RollNo']) {
-  if (isset($_POST['submit'])) {
-    $rollno = $_POST['rollNumber'];
-    $message = $_POST['message'];
-
-    // Insert the message into the database
-    $sql = "INSERT INTO message (RollNo, Message, Date, Time) 
-             VALUES ('$rollno', '$message', CURDATE(), CURTIME())";
-
-    if ($conn->query($sql) === TRUE) {
-      // Redirect to the same page after successful insertion
-      header("Location: message.php");
-      exit(); // Ensure no further code is executed after the redirect
-    } else {
-      echo "<script type='text/javascript'>alert('Error: " . $conn->error . "')</script>";
-    }
-  }
-  ?>
+?>
 
   <!DOCTYPE html>
   <html lang="en">
@@ -37,7 +23,7 @@ if ($_SESSION['RollNo']) {
     <nav class="navbar">
       <div class="logo_item">
         <i class="bx bx-menu" id="sidebarOpen"></i>
-        <img src="images/logo.jpg" alt="">MillionOLMS
+        <img src="images/logo.jpg" alt=""></i>MillionOLMS
       </div>
 
       <div class="search_bar">
@@ -103,7 +89,7 @@ if ($_SESSION['RollNo']) {
           </li>
 
           <li class="item">
-            <a href="addBook.php" class="nav_link submenu_item">
+            <a href="#" class="nav_link submenu_item">
               <span class="navlink_icon">
                 <i class='bx bxs-edit'></i>
               </span>
@@ -137,7 +123,9 @@ if ($_SESSION['RollNo']) {
               <span class="navlink">Logout</span>
             </a>
           </li>
+
         </ul>
+
 
         <!-- Sidebar Open / Close -->
         <div class="bottom_content">
@@ -153,20 +141,96 @@ if ($_SESSION['RollNo']) {
       </div>
     </nav>
 
-    <div class="message-box">
-      <h2>Send a Message</h2>
-      <form id="messageForm" method="POST" action="">
-        <label for="rollNumber">Receiver Roll Number:</label>
-        <input type="text" id="rollNumber" name="rollNumber" required>
+    <div class="span9">
+      <div class="container1">
+        <div class="container1_box">
 
-        <label for="message">Message:</label>
-        <textarea id="message" name="message" rows="5" required></textarea>
+          <h2>Update Book Details</h2>
 
-        <button type="submit" name="submit" class="btn">Send</button>
-      </form>
-    </div>
+          <?php
+          $bookId = $_GET['BookId'];
+          $sql = "SELECT * FROM olms.book WHERE BookId = '$bookId'";
+          $result = $conn->query($sql);
+          $row = $result->fetch_assoc();
+          $name = $row['Title'];
+          $publisher = $row['Publisher'];
+          $year = $row['Year'];
+          $avail = $row['Availability'];
+          ?>
 
-    <script src="script.js"></script>
+          <form class="form-horizontal row-fluid" action="editBook.php?BookId=<?php echo $bookId; ?>" method="post">
+
+            <div class="control-group">
+              <b>
+                <label class="control-label" for="Title">Book Title:</label>
+              </b>
+              <div class="controls">
+                <input type="text" id="Title" name="Title" value="<?php echo htmlspecialchars($name) ?>" class="span8">
+              </div>
+            </div>
+
+            <div class="control-group">
+              <b>
+                <label class="control-label" for="Publisher">Publisher:</label>
+              </b>
+              <div class="controls">
+                <input type="text" id="Publisher" name="Publisher" value="<?php echo htmlspecialchars($publisher) ?>" class="span8">
+              </div>
+            </div>
+
+            <div class="control-group">
+              <b>
+                <label class="control-label" for="Year">Year:</label>
+              </b>
+              <div class="controls">
+                <input type="text" id="Year" name="Year" value="<?php echo htmlspecialchars($year) ?>" class="span8">
+              </div>
+            </div>
+
+            <div class="control-group">
+              <b>
+                <label class="control-label" for="Availability">Availability:</label>
+              </b>
+              <div class="controls">
+                <input type="text" id="Availability" name="Availability" value="<?php echo htmlspecialchars($avail) ?>" class="span8">
+              </div>
+            </div>
+
+            <div class="control-group">
+              <div class="controls">
+                <button type="submit" name="submit" class="btn">Update Details</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <script src="script.js"></script>
+
+      <?php
+      if (isset($_POST['submit'])) {
+        $bookId = $_GET['BookId'];
+        $name = $_POST['Title'];
+        $publisher = $_POST['Publisher'];
+        $year = $_POST['Year'];
+        $avail = $_POST['Availability'];
+
+        $sql1 = "UPDATE book SET Title=?, Publisher=?, Year=?, Availability=? WHERE BookId=?";
+        $stmt = $conn->prepare($sql1);
+        $stmt->bind_param("sssii", $name, $publisher, $year, $avail, $bookId);
+
+        // Execute the prepared statement
+        if ($stmt->execute()) {
+          echo "<script>
+                alert('Book Details updated successfully!');
+                window.location.href = 'admin_allBooks.php';
+            </script>";
+          exit(); 
+        } else {
+          echo "<script type='text/javascript'>alert('Error')</script>";
+        }
+      }
+      ?>
   </body>
 
   </html>
