@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 24, 2025 at 02:28 PM
+-- Generation Time: Mar 01, 2025 at 02:17 PM
 -- Server version: 8.0.23
 -- PHP Version: 8.2.12
 
@@ -29,26 +29,21 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `message` (
   `Message_id` int NOT NULL,
+  `Sender` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `Receiver` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `RollNo` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `Message` varchar(250) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `Date` date DEFAULT NULL,
-  `Time` time DEFAULT NULL
+  `Time` time DEFAULT NULL,
+  `Category` enum('general','due') COLLATE utf8mb4_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `message`
 --
 
-INSERT INTO `message` (`Message_id`, `RollNo`, `Message`, `Date`, `Time`) VALUES
-(1, 's001', 'Your request for BookId: 001 has been accepted.', '2024-12-10', '12:30:30'),
-(2, 's002', 'Your request for BookId: 004  has been accepted.', '2024-10-10', '15:30:20'),
-(3, 's005', 'Your request for return of BookId: 006 has been accepted.', '2024-12-09', '12:40:55'),
-(4, 's006', 'Your request for return of BookId: 002 has been accepted.', '2024-05-09', '09:40:30'),
-(5, 's008', 'Your request for return of BookId: 003 has been accepted.', '2024-09-14', '07:12:40'),
-(6, 's009', 'Your request for issue of BookId: 007 has been rejected.', '2024-04-13', '09:23:55'),
-(7, 's003', 'ji', '2025-02-23', '19:40:18'),
-(8, 's003', 'ji', '2025-02-23', '19:41:15'),
-(9, 's003', 'ji', '2025-02-23', '19:44:17');
+INSERT INTO `message` (`Message_id`, `Sender`, `Receiver`, `RollNo`, `Message`, `Date`, `Time`, `Category`) VALUES
+(18, 'admin', 's002', NULL, 'hi', '2025-03-01', '17:26:10', 'general');
 
 --
 -- Indexes for dumped tables
@@ -68,7 +63,7 @@ ALTER TABLE `message`
 -- AUTO_INCREMENT for table `message`
 --
 ALTER TABLE `message`
-  MODIFY `Message_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `Message_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
