@@ -1,229 +1,213 @@
 <?php
 require('dbconn.php');
+
+// Check if user is logged in
+if (!isset($_SESSION['RollNo'])) {
+    echo "<script>alert('Access Denied!'); window.location='index.php';</script>";
+    exit();
+}
+
+$rollno = $_SESSION['RollNo'];
+
+// Fetch user details for profile picture
+$userQuery = "SELECT * FROM olms.user WHERE RollNo = ?";
+$userStmt = $conn->prepare($userQuery);
+$userStmt->bind_param("s", $rollno);
+$userStmt->execute();
+$userResult = $userStmt->get_result();
+
+if ($userResult->num_rows > 0) {
+    $userRow = $userResult->fetch_assoc();
+    $ProfilePicture = !empty($userRow['ProfilePicture']) ? $userRow['ProfilePicture'] : 'images/default.jpg';
+} else {
+    $ProfilePicture = 'images/default.jpg';
+}
+
+// Fetch due messages sent to the logged-in user
+$sql = "SELECT * FROM olms.message WHERE Receiver = ? AND Category = 'due' ORDER BY Date DESC, Time DESC";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("s", $rollno);
+$stmt->execute();
+$result = $stmt->get_result();
 ?>
 
-<?php
-if ($_SESSION['RollNo']) {
+<!DOCTYPE html>
+<html lang="en">
 
-    $rollno = $_SESSION['RollNo'];
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Boxicons CSS -->
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
+    <title>OLMS</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
 
-    // Fetch user details for profile picture and other info
-    $userQuery = "SELECT * FROM olms.user WHERE RollNo=?";
-    $userStmt = $conn->prepare($userQuery);
-    $userStmt->bind_param("s", $rollno);
-    $userStmt->execute();
-    $userResult = $userStmt->get_result();
+<body>
+    <!-- navbar -->
+    <nav class="navbar">
+        <div class="logo_item">
+            <i class="bx bx-menu" id="sidebarOpen"></i>
+            <img src="images/logo.jpg" alt=""> MillionOLMS
+        </div>
 
-    if ($userResult && $userResult->num_rows > 0) {
-        $userRow = $userResult->fetch_assoc();
-        $ProfilePicture = !empty($userRow['ProfilePicture']) ? $userRow['ProfilePicture'] : 'images/default.jpg';
-    } else {
-        $ProfilePicture = 'images/default.jpg'; // Default picture if none found
-    }
-    ?>
+        <div class="search_bar">
+            <input type="text" placeholder="Search" />
+        </div>
 
-    <!DOCTYPE html>
-    <html lang="en">
+        <div class="navbar_content">
+            <i class="bi bi-grid"></i>
+            <i class='bx bx-sun' id="darkLight"></i>
+            <img src="<?php echo htmlspecialchars($ProfilePicture); ?>" alt="Profile Picture" class="profile" />
+        </div>
+    </nav>
 
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <!-- Boxicons CSS -->
-        <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
-        <title>OLMS</title>
-        <link rel="stylesheet" href="style.css" />
-    </head>
+    <!-- sidebar -->
+    <nav class="sidebar">
+        <div class="menu_content">
+            <div class="menu_items">
+                <div class="menu_title menu_dahsboard"></div>
 
-    <body>
-        <!-- navbar -->
-        <nav class="navbar">
-            <div class="logo_item">
-                <i class="bx bx-menu" id="sidebarOpen"></i>
-                <img src="images/logo.jpg" alt=""></i>MillionOLMS
-            </div>
+                <li class="item">
+                    <a href="home.php" class="nav_link submenu_item">
+                        <span class="navlink_icon">
+                            <i class="bx bx-home-alt"></i>
+                        </span>
+                        <span class="navlink">Home</span>
+                    </a>
+                </li>
 
-            <div class="search_bar">
-                <input type="text" placeholder="Search" />
-            </div>
+                <li class="item">
+                    <a href="profile.php" class="nav_link submenu_item">
+                        <span class="navlink_icon">
+                            <i class='bx bx-user-circle'></i>
+                        </span>
+                        <span class="navlink">My Profile</span>
+                    </a>
+                </li>
 
-            <div class="navbar_content">
-                <i class="bi bi-grid"></i>
-                <i class='bx bx-sun' id="darkLight"></i>
-                <img src="<?php echo $ProfilePicture; ?>" alt="Profile Picture" class="profile" />
-            </div>
-        </nav>
+                <li class="item">
+                    <a href="message.php" class="nav_link submenu_item">
+                        <span class="navlink_icon">
+                            <i class='bx bx-chat'></i>
+                        </span>
+                        <span class="navlink">Messages</span>
+                    </a>
+                </li>
 
+                <li class="item">
+                    <a href="all_books.php" class="nav_link submenu_item">
+                        <span class="navlink_icon">
+                            <i class='bx bx-book'></i>
+                        </span>
+                        <span class="navlink">All Books</span>
+                    </a>
+                </li>
 
-        <!-- sidebar -->
-        <nav class="sidebar">
-            <div class="menu_content">
-                <div class="menu_items">
-                    <div class="menu_title menu_dahsboard"></div>
+                <li class="item">
+                    <a href="pre_borrowed_book.php" class="nav_link submenu_item">
+                        <span class="navlink_icon">
+                            <i class='bx bx-book'></i>
+                        </span>
+                        <span class="navlink">Previously Borrowed <br> Books</span>
+                    </a>
+                </li>
 
-                    <li class="item">
-                        <a href="home.php" class="nav_link submenu_item">
-                            <span class="navlink_icon">
-                                <i class="bx bx-home-alt"></i>
-                            </span>
-                            <span class="navlink">Home</span>
-                        </a>
-                    </li>
+                <li class="item">
+                    <a href="currently_reserved.php" class="nav_link submenu_item">
+                        <span class="navlink_icon">
+                            <i class='bx bxs-edit'></i>
+                        </span>
+                        <span class="navlink">Currently Reserved <br> Books</span>
+                    </a>
+                </li>
 
-                    <li class="item">
-                        <a href="profile.php" class="nav_link submenu_item">
-                            <span class="navlink_icon">
-                                <i class='bx bx-user-circle'></i>
-                            </span>
-                            <span class="navlink">My Profile</span>
-                        </a>
-                    </li>
+                <li class="item">
+                    <a href="logout.php" class="nav_link submenu_item">
+                        <span class="navlink_icon">
+                            <i class='bx bx-log-out-circle'></i>
+                        </span>
+                        <span class="navlink">Logout</span>
+                    </a>
+                </li>
 
-                    <li class="item">
-                        <a href="message.php" class="nav_link submenu_item">
-                            <span class="navlink_icon">
-                                <i class='bx bx-chat'></i>
-                            </span>
-                            <span class="navlink">Messages</span>
-                        </a>
-                    </li>
+                </ul>
 
-                    <li class="item">
-                        <a href="all_books.php" class="nav_link submenu_item">
-                            <span class="navlink_icon">
-                                <i class='bx bx-book'></i>
-                            </span>
-                            <span class="navlink">All Books</span>
-                        </a>
-                    </li>
-
-                    <li class="item">
-                        <a href="pre_borrowed_book.php" class="nav_link submenu_item">
-                            <span class="navlink_icon">
-                                <i class='bx bx-book'></i>
-                            </span>
-                            <span class="navlink">Previously Borrowed <br> Books</span>
-                        </a>
-                    </li>
-
-                    <li class="item">
-                        <a href="currently_reserved.php" class="nav_link submenu_item">
-                            <span class="navlink_icon">
-                                <i class='bx bxs-edit'></i>
-                            </span>
-                            <span class="navlink">Currently Reserved <br> Books</span>
-                        </a>
-                    </li>
-
-                    <li class="item">
-                        <a href="logout.php" class="nav_link submenu_item">
-                            <span class="navlink_icon">
-                                <i class='bx bx-log-out-circle'></i>
-                            </span>
-                            <span class="navlink">Logout</span>
-                        </a>
-                    </li>
-
-                    </ul>
-
-                    <!-- Sidebar Open / Close -->
-                    <div class="bottom_content">
-                        <div class="bottom expand_sidebar">
-                            <span> Expand</span>
-                            <i class='bx bx-log-in'></i>
-                        </div>
-                        <div class="bottom collapse_sidebar">
-                            <span> Collapse</span>
-                            <i class='bx bx-log-out'></i>
-                        </div>
+                <!-- Sidebar Open / Close -->
+                <div class="bottom_content">
+                    <div class="bottom expand_sidebar">
+                        <span> Expand</span>
+                        <i class='bx bx-log-in'></i>
+                    </div>
+                    <div class="bottom collapse_sidebar">
+                        <span> Collapse</span>
+                        <i class='bx bx-log-out'></i>
                     </div>
                 </div>
-        </nav>
-
-        <main class="main-content">
-            <div class="search-bar">
-                <label for="search">Search:</label>
-                <input type="text" id="search" placeholder="Enter Name / ID of Book">
-                <button type="button">Search</button>
             </div>
-            <table>
+    </nav>
 
+    <!-- Due Messages Content -->
+    <main class="message_content">
+        <section class="message-section">
+            <h2>Due Messages</h2>
+
+            <table class="message-table">
                 <thead>
                     <tr>
-                        <th>Book ID</th>
-                        <th>Book Name</th>
-                        <th>Due Date</th>
-                        <th>Amount</th>
-                        <th> </th>
+                        <th>Message</th>
+                        <th>Date</th>
+                        <th>Time</th>
+                        <th>Category</th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php
-                    $rollno = $_SESSION['RollNo'];
-                    $sql = "SELECT r.BookId, b.Title, r.DueDate, r.Due 
-            FROM olms.record r
-            JOIN olms.book b ON r.BookId = b.BookId
-            WHERE r.RollNo = '$rollno' AND r.Due IS NOT NULL
-            ORDER BY r.DueDate DESC";
-                    $result = $conn->query($sql);
-
-                    // Check if the query was successful and if any records are returned
-                    if ($result && $result->num_rows > 0) {
-                        while ($row = $result->fetch_assoc()) {
-                            $bookId = $row['BookId'];
-                            $bookName = $row['Title'];
-                            $dueDate = $row['DueDate'];
-                            $due = $row['Due'];
-                            ?>
+                    if ($result->num_rows > 0) {
+                        while ($row = $result->fetch_assoc()) { ?>
                             <tr>
-                                <td><?php echo htmlspecialchars($bookId); ?></td>
-                                <td><?php echo htmlspecialchars($bookName); ?></td>
-                                <td><?php echo htmlspecialchars($dueDate); ?></td>
-                                <td>Rs. <?php echo htmlspecialchars($due); ?></td>
-                                <td>
-                                    <a href="#"><button>Pay</button></a>
-                                </td>
+                                <td><?php echo htmlspecialchars($row['Message']); ?></td>
+                                <td><?php echo htmlspecialchars($row['Date']); ?></td>
+                                <td><?php echo htmlspecialchars($row['Time']); ?></td>
+                                <td><?php echo htmlspecialchars($row['Category']); ?></td>
                             </tr>
-                            <?php
-                        }
+                        <?php }
                     } else {
-                        echo "<tr><td colspan='5'>No due records found</td></tr>";
+                        echo "<tr><td colspan='4'>No due messages found.</td></tr>";
                     }
                     ?>
                 </tbody>
             </table>
-        </main>
+            <a href="message.php" class="table_btn">Back</a>
+        </section>
+    </main>
 
-        <footer>
-            <div class="footer-content">
-                <div>
-                    <h3>Million Library</h3>
-                    <p>OLMS</p>
-                </div>
-                <div>
-                    <ul>
-                        <li><a href="Help.php">About Us</a></li>
-                        <li><a href="Help.php">Contact Us</a></li>
-                        <li><a href="Help.php">Terms and conditions</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <ul>
-                        <li><a href="Help.php">Plans</a></li>
-                        <li><a href="Help.php">FAQs</a></li>
-                        <li><a href="Help.php">Help</a></li>
-                    </ul>
-                </div>
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div>
+                <h3>Million Library</h3>
+                <p>OLMS</p>
             </div>
-        </footer>
+            <div>
+                <ul>
+                    <li><a href="Help.php">About Us</a></li>
+                    <li><a href="Help.php">Contact Us</a></li>
+                    <li><a href="Help.php">Terms and Conditions</a></li>
+                </ul>
+            </div>
+            <div>
+                <ul>
+                    <li><a href="Help.php">Plans</a></li>
+                    <li><a href="Help.php">FAQs</a></li>
+                    <li><a href="Help.php">Help</a></li>
+                </ul>
+            </div>
+        </div>
+    </footer>
 
-        <p class="site-name">&copy; 2024 Million Library. All rights reserved.</p>
-        <script src="script.js"></script>
+    <p class="site-name">&copy; 2024 Million Library. All rights reserved.</p>
 
-    </body>
+</body>
 
-    </html>
-
-
-<?php } else {
-    echo "<script type='text/javascript'>alert('Access Denied!!!')</script>";
-} ?>
+</html>
