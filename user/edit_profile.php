@@ -74,7 +74,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <!-- Boxicons CSS -->
     <link href="https://unpkg.com/boxicons@latest/css/boxicons.min.css" rel="stylesheet" />
-    <title>OLMS - Help</title>
+    <title>OLMS</title>
     <link rel="stylesheet" href="style.css" />
 </head>
 
@@ -93,7 +93,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <div class="navbar_content">
             <i class="bi bi-grid"></i>
             <i class='bx bx-sun' id="darkLight"></i>
-            <img src="images/profile.jpg" alt="" class="profile" />
+            <img src="<?php echo ($ProfilePicture); ?>" alt="Profile Picture" class="profile" />
         </div>
     </nav>
 
@@ -142,7 +142,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <li class="item">
                     <a href="pre_borrowed_book.php" class="nav_link submenu_item">
                         <span class="navlink_icon">
-                            <i class='bx bx-book-add'></i> 
+                            <i class='bx bx-book-add'></i>
                         </span>
                         <span class="navlink">Previously Borrowed <br> Books</span>
                     </a>
@@ -188,8 +188,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         <form action="edit_profile.php" method="post" enctype="multipart/form-data">
             <label for="name">Name:</label>
-            <input type="text" id="name" placeholder="Enter your name" name="Name"
-                value="<?php echo ($name); ?>">
+            <input type="text" id="name" placeholder="Enter your name" name="Name" value="<?php echo ($name); ?>">
 
             <label for="Category"><b>Category:</b></label>
             <select name="Category">
