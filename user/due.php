@@ -158,7 +158,6 @@ $result = $stmt->get_result();
                         <th>Message</th>
                         <th>Date</th>
                         <th>Time</th>
-                        <th>Category</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -169,7 +168,6 @@ $result = $stmt->get_result();
                                 <td><?php echo ($row['Message']); ?></td>
                                 <td><?php echo ($row['Date']); ?></td>
                                 <td><?php echo ($row['Time']); ?></td>
-                                <td><?php echo ($row['Category']); ?></td>
                             </tr>
                         <?php }
                     } else {
