@@ -32,7 +32,7 @@ if (isset($_GET['BookId'])) {
     if ($stmt->execute()) {
         echo "<script>alert('Book reserved successfully!'); window.location.href='currently_reserved.php';</script>";
     } else {
-        echo "<script>alert('Reservation failed. Try again!'); window.location.href='bookdetails.php?BookId=$bookId';</script>";
+        echo "<script>alert('Reservation failed. Try again!'); window.location.href='books_details.php?BookId=$bookId';</script>";
     }
     
     $stmt->close();

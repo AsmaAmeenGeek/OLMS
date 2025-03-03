@@ -16,7 +16,7 @@ if ($result && $result->num_rows > 0) {
   $category = $row['Category'];
   $email = $row['EmailId'];
   $mobno = $row['MobNo'];
-  $ProfilePicture = !empty($row['ProfilePicture']) ? $row['ProfilePicture'] : 'images/default.jpg'; // Correct column name
+  $ProfilePicture = !empty($row['ProfilePicture']) ? $row['ProfilePicture'] : 'images/default.jpg';
 } else {
   echo "<p>Error: No user found with Roll No: $rollno</p>";
   $name = $category = $email = $mobno = "N/A";
@@ -51,7 +51,7 @@ if ($result && $result->num_rows > 0) {
     <div class="navbar_content">
       <i class="bi bi-grid"></i>
       <i class='bx bx-sun' id="darkLight"></i>
-      <img src="<?php echo htmlspecialchars($ProfilePicture); ?>" alt="Profile Picture" class="profile" />
+      <img src="<?php echo ($ProfilePicture); ?>" alt="Profile Picture" class="profile" />
     </div>
   </nav>
 
@@ -100,7 +100,7 @@ if ($result && $result->num_rows > 0) {
         <li class="item">
           <a href="pre_borrowed_book.php" class="nav_link submenu_item">
             <span class="navlink_icon">
-              <i class='bx bx-book'></i>
+              <i class='bx bx-book-add'></i> 
             </span>
             <span class="navlink">Previously Borrowed <br> Books</span>
           </a>
@@ -145,16 +145,16 @@ if ($result && $result->num_rows > 0) {
     <div class="profile_box">
       <img src="<?php echo $ProfilePicture; ?>" alt="User Image" class="profile_image" />
       <h1 class="card-title">
-        <center><?php echo htmlspecialchars($name); ?></center>
+        <center><?php echo ($name); ?></center>
       </h1>
       <br>
-      <p><b>Email ID: </b><?php echo htmlspecialchars($email); ?></p>
+      <p><b>Email ID: </b><?php echo ($email); ?></p>
       <br>
-      <p><b>Roll No: </b><?php echo htmlspecialchars($rollno); ?></p>
+      <p><b>Roll No: </b><?php echo ($rollno); ?></p>
       <br>
-      <p><b>Category: </b><?php echo htmlspecialchars($category); ?></p>
+      <p><b>Category: </b><?php echo ($category); ?></p>
       <br>
-      <p><b>Mobile number: </b><?php echo htmlspecialchars($mobno); ?></p>
+      <p><b>Mobile number: </b><?php echo ($mobno); ?></p>
       <br>
 
       <a href="edit_profile.php" class="edit_button">Edit Details</a>

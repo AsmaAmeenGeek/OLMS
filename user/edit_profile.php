@@ -142,7 +142,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <li class="item">
                     <a href="pre_borrowed_book.php" class="nav_link submenu_item">
                         <span class="navlink_icon">
-                            <i class='bx bx-book'></i>
+                            <i class='bx bx-book-add'></i> 
                         </span>
                         <span class="navlink">Previously Borrowed <br> Books</span>
                     </a>
@@ -189,11 +189,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <form action="edit_profile.php" method="post" enctype="multipart/form-data">
             <label for="name">Name:</label>
             <input type="text" id="name" placeholder="Enter your name" name="Name"
-                value="<?php echo htmlspecialchars($name); ?>">
+                value="<?php echo ($name); ?>">
 
             <label for="Category"><b>Category:</b></label>
             <select name="Category">
-                <option value="<?php echo htmlspecialchars($category); ?>"><?php echo htmlspecialchars($category); ?>
+                <option value="<?php echo ($category); ?>"><?php echo ($category); ?>
                 </option>
                 <option value="GEN">GEN</option>
                 <option value="OBC">OBC</option>
@@ -203,11 +203,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             <label for="email">E-mail ID:</label>
             <input type="email" id="email" placeholder="Enter your email" name="EmailId"
-                value="<?php echo htmlspecialchars($email); ?>">
+                value="<?php echo ($email); ?>">
 
             <label for="mobile">Mobile number:</label>
             <input type="tel" id="mobile" placeholder="Enter your mobile number" name="MobNo"
-                value="<?php echo htmlspecialchars($mobno); ?>">
+                value="<?php echo ($mobno); ?>">
 
             <label for="profile_image">Upload New Profile Image:</label>
             <input type="file" name="profile_image" accept="image/*">

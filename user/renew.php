@@ -1,9 +1,8 @@
 <?php
 require('dbconn.php');
-session_start();
 
 if (!isset($_SESSION['RollNo'])) {
-    echo "<script type='text/javascript'>alert('Access Denied!!!');window.location.href='index.php';</script>";
+    header("Location: index.php");
     exit();
 }
 

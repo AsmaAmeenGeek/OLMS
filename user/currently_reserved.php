@@ -23,6 +23,7 @@ if ($userResult && $userResult->num_rows > 0) {
 } else {
     $ProfilePicture = 'images/default.jpg'; // Default picture if none found
 }
+
 // Fetch currently reserved books
 $query_reserved = "SELECT r.id, b.BookId, b.Title, r.Date_Reserved, r.Status 
                    FROM reservation r 
@@ -111,7 +112,7 @@ $result_reserved = $stmt_reserved->get_result();
                 <li class="item">
                     <a href="pre_borrowed_book.php" class="nav_link submenu_item">
                         <span class="navlink_icon">
-                            <i class='bx bx-book'></i>
+                            <i class='bx bx-book-add'></i> 
                         </span>
                         <span class="navlink">Previously Borrowed <br> Books</span>
                     </a>
@@ -167,10 +168,10 @@ $result_reserved = $stmt_reserved->get_result();
                 <?php if ($result_reserved->num_rows > 0): ?>
                     <?php while ($row = $result_reserved->fetch_assoc()): ?>
                         <tr>
-                            <td><?php echo htmlspecialchars($row['BookId']); ?></td>
-                            <td><?php echo htmlspecialchars($row['Title']); ?></td>
-                            <td><?php echo htmlspecialchars($row['Date_Reserved']); ?></td>
-                            <td><?php echo htmlspecialchars($row['Status']); ?></td>
+                            <td><?php echo ($row['BookId']); ?></td>
+                            <td><?php echo ($row['Title']); ?></td>
+                            <td><?php echo ($row['Date_Reserved']); ?></td>
+                            <td><?php echo ($row['Status']); ?></td>
                             <td>
                                 <?php if ($row['Status'] === 'Pending'): ?>
                                     <a href="cancel_reservation.php?id=<?php echo $row['id']; ?>" class="table_btn"

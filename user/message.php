@@ -3,7 +3,7 @@ require('dbconn.php');
 
 // Check if user is logged in
 if (!isset($_SESSION['RollNo'])) {
-    echo "<script>alert('Access Denied!'); window.location='index.php';</script>";
+    header("Location: index.php");
     exit();
 }
 
@@ -58,7 +58,7 @@ $result = $stmt->get_result();
         <div class="navbar_content">
             <i class="bi bi-grid"></i>
             <i class='bx bx-sun' id="darkLight"></i>
-            <img src="<?php echo htmlspecialchars($ProfilePicture); ?>" alt="Profile Picture" class="profile" />
+            <img src="<?php echo ($ProfilePicture); ?>" alt="Profile Picture" class="profile" />
         </div>
     </nav>
 
@@ -107,7 +107,7 @@ $result = $stmt->get_result();
                 <li class="item">
                     <a href="pre_borrowed_book.php" class="nav_link submenu_item">
                         <span class="navlink_icon">
-                            <i class='bx bx-book'></i>
+                            <i class='bx bx-book-add'></i> 
                         </span>
                         <span class="navlink">Previously Borrowed <br> Books</span>
                     </a>
@@ -168,10 +168,10 @@ $result = $stmt->get_result();
                     if ($result->num_rows > 0) {
                         while ($row = $result->fetch_assoc()) { ?>
                             <tr>
-                                <td><?php echo htmlspecialchars($row['Message']); ?></td>
-                                <td><?php echo htmlspecialchars($row['Date']); ?></td>
-                                <td><?php echo htmlspecialchars($row['Time']); ?></td>
-                                <td><?php echo htmlspecialchars($row['Category']); ?></td>
+                                <td><?php echo ($row['Message']); ?></td>
+                                <td><?php echo ($row['Date']); ?></td>
+                                <td><?php echo ($row['Time']); ?></td>
+                                <td><?php echo ($row['Category']); ?></td>
                             </tr>
                         <?php }
                     } else {

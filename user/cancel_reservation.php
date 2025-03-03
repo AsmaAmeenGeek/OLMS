@@ -12,7 +12,7 @@ if (isset($_GET['id'])) {
     $reservation_id = $_GET['id'];
 
     // Prepare the SQL statement to delete the reservation
-    $query = "DELETE FROM reservation WHERE id = ? AND RollNo = ?"; // Ensure the user owns the reservation
+    $query = "DELETE FROM reservation WHERE id = ? AND RollNo = ?";
     $stmt = $conn->prepare($query);
 
     if (!$stmt) {
@@ -29,10 +29,8 @@ if (isset($_GET['id'])) {
 
     // Check if the reservation was deleted
     if ($stmt->affected_rows > 0) {
-        // Successfully canceled the reservation
         echo "<script>alert('Reservation canceled successfully.');</script>";
     } else {
-        // Reservation not found or not owned by the user
         echo "<script>alert('No reservation found or you do not have permission to cancel this reservation.');</script>";
     }
 
@@ -41,6 +39,5 @@ if (isset($_GET['id'])) {
     echo "<script>alert('Invalid request.');</script>";
 }
 
-// Redirect back to currently reserved books page
 header("Location: currently_reserved.php");
 exit();

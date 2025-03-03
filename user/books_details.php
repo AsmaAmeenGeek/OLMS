@@ -107,7 +107,7 @@ if (isset($_GET['BookId'])) {
                         <li class="item">
                             <a href="pre_borrowed_book.php" class="nav_link submenu_item">
                                 <span class="navlink_icon">
-                                    <i class='bx bx-book'></i>
+                                    <i class='bx bx-book-add'></i>                                
                                 </span>
                                 <span class="navlink">Previously Borrowed <br> Books</span>
                             </a>

@@ -115,7 +115,7 @@ $result = $stmt->get_result();
                 <li class="item">
                     <a href="pre_borrowed_book.php" class="nav_link submenu_item">
                         <span class="navlink_icon">
-                            <i class='bx bx-book'></i>
+                            <i class='bx bx-book-add'></i> 
                         </span>
                         <span class="navlink">Previously Borrowed <br> Books</span>
                     </a>
@@ -172,15 +172,14 @@ $result = $stmt->get_result();
                 <?php if ($result->num_rows > 0) {
                     while ($row = $result->fetch_assoc()) { ?>
                         <tr>
-                            <td><?php echo htmlspecialchars($row['BookId']); ?></td>
-                            <td><?php echo htmlspecialchars($row['Title']); ?></td>
-                            <td><?php echo htmlspecialchars($row['Date_Issue']); ?></td>
-                            <td><?php echo $row['Date_Return'] ? htmlspecialchars($row['Date_Return']) : '-'; ?></td>
-                            <td><?php echo htmlspecialchars($row['Status']); ?></td>
+                            <td><?php echo ($row['BookId']); ?></td>
+                            <td><?php echo ($row['Title']); ?></td>
+                            <td><?php echo ($row['Date_Issue']); ?></td>
+                            <td><?php echo $row['Date_Return'] ? ($row['Date_Return']) : '-'; ?></td>
+                            <td><?php echo ($row['Status']); ?></td>
                             <td>
-                                <a href="renew.php?bookid=<?php echo urlencode($row['BookId']); ?>" class="table_btn">Renew</a>
-                                <a href="return.php?bookid=<?php echo urlencode($row['BookId']); ?>"
-                                    class="table_btn">Return</a>
+                                <a href="renew.php?bookid=<?php echo($row['BookId']); ?>" class="table_btn">Renew</a>
+                                <a href="return.php?bookid=<?php echo($row['BookId']); ?>" class="table_btn">Return</a></td>
                         </tr>
                     <?php }
                 } else {

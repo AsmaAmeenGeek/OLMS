@@ -50,7 +50,7 @@ if ($userResult && $userResult->num_rows > 0) {
         <div class="navbar_content">
             <i class="bi bi-grid"></i>
             <i class='bx bx-sun' id="darkLight"></i>
-            <img src="<?php echo htmlspecialchars($ProfilePicture); ?>" alt="Profile Picture" class="profile" />
+            <img src="<?php echo ($ProfilePicture); ?>" alt="Profile Picture" class="profile" />
         </div>
     </nav>
 
@@ -99,7 +99,7 @@ if ($userResult && $userResult->num_rows > 0) {
                 <li class="item">
                     <a href="pre_borrowed_book.php" class="nav_link submenu_item">
                         <span class="navlink_icon">
-                            <i class='bx bx-book'></i>
+                            <i class='bx bx-book-add'></i> 
                         </span>
                         <span class="navlink">Previously Borrowed <br> Books</span>
                     </a>

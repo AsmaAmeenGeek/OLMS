@@ -1,10 +1,9 @@
 <?php
 require('dbconn.php');
 
-$id=$_GET['id'];
+$id = $_GET['id'];
 
-$roll=$_SESSION['RollNo'];
-
+$roll = $_SESSION['RollNo'];
 
 // Check if the record already exists
 $check_sql = "SELECT * FROM olms.record WHERE RollNo = ? AND BookId = ?";
@@ -39,6 +38,4 @@ if ($result->num_rows > 0) {
 }
 
 $check_stmt->close();
-
-
 ?>
