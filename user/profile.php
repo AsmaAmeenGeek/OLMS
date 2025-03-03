@@ -16,11 +16,11 @@ if ($result && $result->num_rows > 0) {
   $category = $row['Category'];
   $email = $row['EmailId'];
   $mobno = $row['MobNo'];
-  $ProfilePicture = !empty($row['ProfilePicture']) ? $row['ProfilePicture'] : 'images/default.jpg';
+  $ProfilePicture = !empty($row['ProfilePicture']) ? $row['ProfilePicture'] : 'images/profile.jpg';
 } else {
   echo "<p>Error: No user found with Roll No: $rollno</p>";
   $name = $category = $email = $mobno = "N/A";
-  $ProfilePicture = 'images/default.jpg';
+  $ProfilePicture = 'images/profile.jpg';
 }
 ?>
 

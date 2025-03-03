@@ -17,7 +17,7 @@ $userResult = $userStmt->get_result();
 
 if ($userResult && $userResult->num_rows > 0) {
     $userRow = $userResult->fetch_assoc();
-    $ProfilePicture = !empty($userRow['ProfilePicture']) ? $userRow['ProfilePicture'] : 'images/default.jpg';
+    $ProfilePicture = !empty($userRow['ProfilePicture']) ? $userRow['ProfilePicture'] : 'images/profile.jpg';
 } else {
     $ProfilePicture = 'images/default.jpg'; // Default picture if none found
 }

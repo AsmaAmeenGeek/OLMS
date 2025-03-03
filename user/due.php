@@ -18,9 +18,9 @@ $userResult = $userStmt->get_result();
 
 if ($userResult->num_rows > 0) {
     $userRow = $userResult->fetch_assoc();
-    $ProfilePicture = !empty($userRow['ProfilePicture']) ? $userRow['ProfilePicture'] : 'images/default.jpg';
+    $ProfilePicture = !empty($userRow['ProfilePicture']) ? $userRow['ProfilePicture'] : 'images/profile.jpg';
 } else {
-    $ProfilePicture = 'images/default.jpg';
+    $ProfilePicture = 'images/profile.jpg';
 }
 
 // Fetch due messages sent to the logged-in user
