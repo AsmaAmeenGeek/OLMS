@@ -1,24 +1,37 @@
 <?php
-require('dbconn.php'); // Ensure session_start() is called here
+require('dbconn.php');
 
-if ($_SESSION['RollNo']) {
+if (isset($_SESSION['RollNo'])) {
+
   if (isset($_POST['submit'])) {
-    $rollno = $_POST['rollNumber'];
+    $receiver = $_POST['rollNumber'];
     $message = $_POST['message'];
+    $category = isset($_POST['category']) && in_array($_POST['category'], ['general', 'due']) ? $_POST['category'] : 'general';
 
-    // Insert the message into the database
-    $sql = "INSERT INTO message (RollNo, Message, Date, Time) 
-             VALUES ('$rollno', '$message', CURDATE(), CURTIME())";
+    // Use prepared statement to prevent SQL injection
+    $sql = $conn->prepare("INSERT INTO message (Sender, Receiver, Message, Date, Time, Category) VALUES ('admin', ?, ?, CURDATE(), CURTIME(), ?)");
+    $sql->bind_param("sss", $receiver, $message, $category);
+    $sql->execute();  // Execute once
 
-    if ($conn->query($sql) === TRUE) {
-      // Redirect to the same page after successful insertion
+    if ($sql->affected_rows > 0) {  // Check if the message was inserted
       header("Location: message.php");
-      exit(); // Ensure no further code is executed after the redirect
+      exit();
     } else {
-      echo "<script type='text/javascript'>alert('Error: " . $conn->error . "')</script>";
+      echo "<script>alert('Error: Message not sent!');</script>";
     }
   }
-  ?>
+
+  if (isset($_GET['delete'])) {
+    $message_id = $_GET['delete'];
+    $delete_sql = $conn->prepare("DELETE FROM message WHERE Message_id = ?");
+    $delete_sql->bind_param("i", $message_id);
+    if ($delete_sql->execute()) {
+      echo "<script>alert('Message deleted successfully!');</script>";
+    } else {
+      echo "<script>alert('Error deleting message!');</script>";
+    }
+  }
+?>
 
   <!DOCTYPE html>
   <html lang="en">
@@ -137,6 +150,7 @@ if ($_SESSION['RollNo']) {
               <span class="navlink">Logout</span>
             </a>
           </li>
+
         </ul>
 
         <!-- Sidebar Open / Close -->
@@ -154,16 +168,29 @@ if ($_SESSION['RollNo']) {
     </nav>
 
     <div class="message-box">
-      <h2>Send a Message</h2>
-      <form id="messageForm" method="POST" action="">
+      <h2>Send a Message
+        <a href="message_list.php" class="list_icon">
+          <i class='bx bx-list-ul'></i>
+        </a>
+      </h2>
+      <form method="POST">
         <label for="rollNumber">Receiver Roll Number:</label>
         <input type="text" id="rollNumber" name="rollNumber" required>
 
         <label for="message">Message:</label>
         <textarea id="message" name="message" rows="5" required></textarea>
 
-        <button type="submit" name="submit" class="btn">Send</button>
+        <label for="category">Category:</label>
+        <div class="category-container">
+          <select id="category" name="category">
+            <option value="general">General</option>
+            <option value="due">Due</option>
+          </select>
+        </div>
+
+        <button type="submit" name="submit" class="send-btn">Send</button>
       </form>
+
     </div>
 
     <script src="script.js"></script>
@@ -171,6 +198,8 @@ if ($_SESSION['RollNo']) {
 
   </html>
 
-<?php } else {
-  echo "<script type='text/javascript'>alert('Access Denied!!!')</script>";
-} ?>
+<?php
+} else {
+  echo "<script>alert('Access Denied!'); window.location.href='home.php';</script>";
+}
+?>
