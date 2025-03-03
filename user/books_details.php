@@ -196,7 +196,7 @@ if (isset($_GET['BookId'])) {
                         ?>
                         <div class="button-container">
                             <a href="all_books.php" class="btn-link">
-                                <button class="go-back-btn">Go back</button>
+                                <button class="table_btn">Go back</button>
                             </a>
                         </div>
                     </div>

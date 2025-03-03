@@ -483,22 +483,6 @@ table th {
   background-color: #ccc;
 }
 
-table td button {
-  display: inline-block;
-  padding: 1px 20px;
-  font-size: 16px;
-  color: #784939;
-  background-color: #d8d2d0;
-  border-radius: 5px;
-  text-decoration: none;
-  transition: background-color 0.3s;
-  margin-top: 20px;
-}
-
-table td button:hover {
-  background-color: #ddd;
-}
-
 .table_btn {
   display: inline-block;
   padding: 3px 20px;
@@ -507,6 +491,7 @@ table td button:hover {
   background-color: #d8d2d0;
   border-radius: 5px;
   text-decoration: none;
+  border: none;
   transition: background-color 0.3s;
   margin-top: 5px;
 }
@@ -516,24 +501,6 @@ table td button:hover {
   justify-content: center;
   gap: 20px;
   margin-top: 30px;
-}
-
-.go-back-btn, .reserve-btn {
-  padding: 5px 20px;
-  font-size: 16px;
-  color: #784939;
-  background-color: #d8d2d0;
-  border-radius: 8px;
-  text-align: center;
-  cursor: pointer;
-  text-decoration: none;
-  transition: background-color 0.3s;
-  border: none;
-  box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
-}
-
-.go-back-btn:hover {
-  background-color: #ddd;
 }
 
 .main-reserved{
@@ -599,6 +566,7 @@ input {
   background-color: #d8d2d0;
   border-radius: 5px;
   text-decoration: none;
+  border: none;
   transition: background-color 0.3s;
   width: 40%;
   margin: 20px 0 0 180px;
