@@ -1,3 +1,32 @@
+<?php
+require('dbconn.php');
+
+if (isset($_SESSION['RollNo'])) {
+    // Handle delete request
+    if (isset($_GET['delete'])) {
+        $id = intval($_GET['delete']);
+        $sql = "DELETE FROM message WHERE Message_id = $id";
+        if ($conn->query($sql) === TRUE) {
+            echo "<script>alert('Message deleted successfully!'); window.location.href='message_list.php';</script>";
+        } else {
+            echo "<script>alert('Error deleting message: " . $conn->error . "');</script>";
+        }
+    }
+
+    // Handle update request
+    if (isset($_POST['update'])) {
+        $id = intval($_POST['id']);
+        $updatedMessage = $conn->real_escape_string($_POST['updatedMessage']);
+
+        $sql = "UPDATE message SET Message = '$updatedMessage' WHERE Message_id = $id";
+        if ($conn->query($sql) === TRUE) {
+            echo "<script>alert('Message updated successfully!'); window.location.href='message_list.php';</script>";
+        } else {
+            echo "<script>alert('Error updating message: " . $conn->error . "');</script>";
+        }
+    }
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -133,55 +162,79 @@
         </div>
     </nav>
 
-    <!-- Main Section -->
-    <section class="home_content">
-        <!-- Banner -->
-        <img src="images/bg.jpg" class="banner"></div>
+    <div class="main-content">
+        <h2>Message List</h2>
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>Roll Number</th>
+                    <th>Message</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                $sql = "SELECT * FROM message ORDER BY Date DESC, Time DESC";
+                $result = $conn->query($sql);
 
-        <!-- About Section -->
-        <div class="about-library">
-            <h2>Welcome to the Million Library Admin Portal!</h2>
-            <p>As the backbone of our library management system, you play a crucial 
-                role in maintaining smooth operations and ensuring a seamless 
-                experience for our users. From managing book inventories and handling 
-                user requests to overseeing reservations and renewals, this platform 
-                puts everything you need at your fingertips. Our system is designed 
-                to simplify administrative tasks, allowing you to focus on what 
-                matters most—enhancing the library experience. We’re thrilled to 
-                have you as part of our team, working together to foster a vibrant, 
-                accessible library for everyone. Let's keep the world of books running 
-                efficiently and effectively!</p>
-        </div>
-    </section>
+                if ($result->num_rows > 0) {
+                    while ($row = $result->fetch_assoc()) {
+                        echo "<tr>
+                                <td>{$row['Receiver']}</td>
+                                <td id='message_{$row['Message_id']}'>{$row['Message']}</td>
+                                <td>{$row['Date']}</td>
+                                <td>{$row['Time']}</td>
+                                <td>
+                                    <button class='edit-btn' onclick='editMessage({$row['Message_id']})'>Update</button>
+                                    <a href='message_list.php?delete={$row['Message_id']}' onclick='return confirm(\"Are you sure you want to delete this message?\")'>
+                                        <button class='delete-btn'>Delete</button>
+                                    </a>
+                                </td>
+                              </tr>";
+                    }
+                } else {
+                    echo "<tr><td colspan='5'>No messages found.</td></tr>";
+                }
+                ?>
+            </tbody>
+        </table>
+
+        <a href="message.php" class="table_btn">Back</a>
     </div>
 
-    <!-- Footer -->
-    <footer>
-        <div class="footer-content">
-            <div>
-                <h3>Million Library</h3>
-                <p>OLMS</p>
-            </div>
-            <div>
-                <ul>
-                    <li><a href="#">About Us</a></li>
-                    <li><a href="#">Contact Us</a></li>
-                    <li><a href="#">Terms and conditions</a></li>
-                </ul>
-            </div>
-            <div>
-                <ul>
-                    <li><a href="#">Plans</a></li>
-                    <li><a href="#">FAQs</a></li>
-                    <li><a href="#">Help</a></li>
-                </ul>
-            </div>
+    <div id="editMessageModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2>Edit Message</h2>
+            <form method="POST">
+                <input type="hidden" id="editMessageId" name="id">
+                <textarea id="editMessageContent" name="updatedMessage" rows="5" required></textarea><br>
+                <button type="submit" name="update">Update</button>
+            </form>
         </div>
-    </footer>
-    
-    <p style="margin-left: 650px; margin-top: 20px;">&copy; 2024 Million Library. All rights reserved.</p>
+    </div>
+
+    <script>
+        function editMessage(id) {
+            var message = document.getElementById('message_' + id).innerText;
+            document.getElementById('editMessageId').value = id;
+            document.getElementById('editMessageContent').value = message;
+            document.getElementById('editMessageModal').style.display = 'block';
+        }
+
+        function closeModal() {
+            document.getElementById('editMessageModal').style.display = 'none';
+        }
+    </script>
 
     <script src="script.js"></script>
 </body>
-
 </html>
+
+<?php
+} else {
+    echo "<script>alert('Access Denied!!!'); window.location.href='index.php';</script>";
+}
+?>

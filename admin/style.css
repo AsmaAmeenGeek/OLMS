@@ -297,6 +297,7 @@ body.dark {
   box-shadow: 0 2px 10px rgba(49, 29, 29, 0.1);
   text-align: left;
   margin-top: 140px;
+  position: relative;
 }
 
 .message-box h2 {
@@ -326,23 +327,42 @@ body.dark {
   resize: vertical;
 }
 
+.category-container {
+  margin-bottom: 15px;  
+}
 
 .send-btn {
-  background-color: #D8D2D0;
+  display: block;
+  background-color: #d8d2d0;
   color: #784939;
   padding: 10px 20px;
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  width: 98px;
+  width: 100px;
   height: 37px;
   font-weight: bold;
+  text-align: center;
 }
 
 .send-btn:hover {
   background-color: #c9ac9f;
 }
 
+.message-box .list_icon {
+  position: absolute;
+  right: 15px; 
+  font-size: 29px;
+  cursor: pointer;
+  color: #784939;
+  padding: 5px 8px;
+  border-radius: 6px;
+  transition: 0.3s;
+}
+
+.message-box .list_icon:hover {
+  background-color: #c9ac9f;
+}
 
 /* Profile Page Styles */
 .profile_page {
@@ -441,8 +461,8 @@ body.dark {
   display: inline-block;
   padding: 10px 20px;
   font-size: 16px;
-  color: #fff;
-  background-color: #784939;
+  color: #784939;
+  background-color: #d8d2d0;
   border-radius: 5px;
   text-decoration: none;
   transition: background-color 0.3s;
@@ -452,7 +472,7 @@ body.dark {
 }
 
 .btn:hover {
-  background-color: #5c3428;
+  background-color: #c9ac9f;
 }
 
 .span9 {
@@ -564,16 +584,16 @@ footer h3 {
   }
 
   .profile_name {
-    font-size: 20px;  /* Further reduce font size */
+    font-size: 20px;  
   }
 
   .profile_email, .profile_mobileNumber {
-    font-size: 12px;  /* Further reduce font size */
+    font-size: 12px;  
   }
 
   .profile_image {
     width: 80px;
-    height: 80px; /* Further reduce profile image size */
+    height: 80px; 
   }
 }
 
@@ -645,6 +665,7 @@ table td button {
   font-size: 16px;
   color: #784939;
   background-color: #d8d2d0;
+  border: none;
   border-radius: 5px;
   text-decoration: none;
   transition: background-color 0.3s;
@@ -661,6 +682,7 @@ table td button:hover {
   font-size: 16px;
   color: #784939;
   background-color: #d8d2d0;
+  border: none;
   border-radius: 5px;
   text-decoration: none;
   transition: background-color 0.3s;
