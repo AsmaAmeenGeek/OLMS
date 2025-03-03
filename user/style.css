@@ -528,18 +528,6 @@ table th {
   margin: 0 0 15px 200px;
 }
 
-.profile-placeholder {
-  width: 120px;
-  height: 120px;
-  border: 1px solid #ccc;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: #555;
-  font-size: 14px;
-  background-color: #f9f9f9;
-}
-
 form {
   display: flex;
   flex-direction: column;
