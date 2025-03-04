@@ -1,9 +1,25 @@
 <?php
 require('dbconn.php');
-?>
 
-<?php
-if ($_SESSION['RollNo']) {
+if (!isset($_SESSION['RollNo'])) {
+    header("Location: index.php");
+    exit();
+}
+
+$rollno = $_SESSION['RollNo'];
+
+$userQuery = "SELECT * FROM olms.user WHERE RollNo=?";
+$userStmt = $conn->prepare($userQuery);
+$userStmt->bind_param("s", $rollno);
+$userStmt->execute();
+$userResult = $userStmt->get_result();
+
+if ($userResult && $userResult->num_rows > 0) {
+    $userRow = $userResult->fetch_assoc();
+    $ProfilePicture = !empty($userRow['ProfilePicture']) ? $userRow['ProfilePicture'] : 'images/profile.jpg';
+} else {
+    $ProfilePicture = 'images/profile.jpg'; 
+}
 ?>
 
   <!DOCTYPE html>
@@ -33,7 +49,7 @@ if ($_SESSION['RollNo']) {
       <div class="navbar_content">
         <i class="bi bi-grid"></i>
         <i class='bx bx-sun' id="darkLight"></i>
-        <img src="images/profile.jpg" alt="" class="profile" />
+        <img src="<?php echo ($ProfilePicture); ?>" alt="Profile Picture" class="profile" />
       </div>
     </nav>
 
@@ -235,6 +251,7 @@ if ($_SESSION['RollNo']) {
 
   </html>
 
-<?php } else {
-  echo "<script type='text/javascript'>alert('Access Denied!!!')</script>";
-} ?>
+  <?php
+$userStmt->close();
+$conn->close();
+?>
