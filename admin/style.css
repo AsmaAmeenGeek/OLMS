@@ -366,7 +366,7 @@ body.dark {
 
 /* Profile Page Styles */
 .profile_page {
-  margin: 150px 60px;
+  margin: 150px 60px 0 200px;
   display: flex;
   justify-content: center;
   align-items: center;
