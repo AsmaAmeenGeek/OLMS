@@ -2,9 +2,9 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1:3307
--- Generation Time: Dec 27, 2024 at 07:23 AM
--- Server version: 10.4.32-MariaDB
+-- Host: 127.0.0.1
+-- Generation Time: Mar 04, 2025 at 01:22 PM
+-- Server version: 8.0.23
 -- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -28,11 +28,11 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `book` (
-  `BookId` int(10) NOT NULL,
-  `Title` varchar(50) DEFAULT NULL,
-  `Publisher` varchar(50) DEFAULT NULL,
-  `Year` varchar(50) DEFAULT NULL,
-  `Availability` int(50) DEFAULT NULL
+  `BookId` int NOT NULL,
+  `Title` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `Publisher` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `Year` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `Availability` int DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -40,7 +40,7 @@ CREATE TABLE `book` (
 --
 
 INSERT INTO `book` (`BookId`, `Title`, `Publisher`, `Year`, `Availability`) VALUES
-(1, 'Pride and Prejudice', 'Penguin Classics', '2001', 7),
+(1, 'Pride and Prejudice', 'Penguin Classics', '2002', 7),
 (2, 'To Kill a Mockingbird', 'J.B. Lippincott & Co.', '2000', 3),
 (3, 'The Great Gatsby', 'Charles Scribner\'s Sons', '1980', 1),
 (4, 'Moby Dick', 'Harper & Brothers', '1990', 9),
@@ -49,7 +49,7 @@ INSERT INTO `book` (`BookId`, `Title`, `Publisher`, `Year`, `Availability`) VALU
 (7, 'The Hobbit', 'George Allen & Unwin', '2009', 1),
 (8, 'A Brief History of Humankind', 'Harper', '1980', 1),
 (9, 'The Power of Habit', 'Random House', '1999', 4),
-(10, 'Atomic Habits', 'Penguin Random House', '1990', 1);
+(10, 'harry', 'ab', '2001', 1);
 
 --
 -- Indexes for dumped tables
@@ -60,6 +60,16 @@ INSERT INTO `book` (`BookId`, `Title`, `Publisher`, `Year`, `Availability`) VALU
 --
 ALTER TABLE `book`
   ADD PRIMARY KEY (`BookId`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `book`
+--
+ALTER TABLE `book`
+  MODIFY `BookId` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
