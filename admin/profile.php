@@ -1,29 +1,46 @@
 <?php
 require('dbconn.php');
+
+if (!isset($_SESSION['RollNo'])) {
+  header("Location: index.php");
+  exit();
+}
+
+$rollno = $_SESSION['RollNo'];
+$sql = "SELECT * FROM olms.user WHERE RollNo='$rollno'";
+$result = $conn->query($sql);
+
+if ($result && $result->num_rows > 0) {
+  $row = $result->fetch_assoc();
+  $name = $row['Name'];
+  $email = $row['EmailId'];
+  $mobno = $row['MobNo'];
+  $ProfilePicture = !empty($row['ProfilePicture']) ? $row['ProfilePicture'] : 'images/default.jpg';
+} else {
+  echo "<p>Error: No user found with Roll No: $rollno</p>";
+  $name = $category = $email = $mobno = "N/A";
+  $ProfilePicture = 'images/default.jpg';
+}
 ?>
-
-<?php
-if ($_SESSION['RollNo']) {
-  ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <!-- Boxicons CSS -->
-    <link href="https://unpkg.com/boxicons@latest/css/boxicons.min.css" rel="stylesheet" />
-    <title>OLMS</title>
-    <link rel="stylesheet" href="style.css" />
-  </head>
-  <body>
-    <!-- navbar -->
-    <nav class="navbar">
-      <div class="logo_item">
-        <i class="bx bx-menu" id="sidebarOpen"></i>
-        <img src="images/logo.jpg" alt=""></i>MillionOLMS
-      </div>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Boxicons CSS -->
+  <link href="https://unpkg.com/boxicons@latest/css/boxicons.min.css" rel="stylesheet" />
+  <title>Profile</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <nav class="navbar">
+    <div class="logo_item">
+      <i class="bx bx-menu" id="sidebarOpen"></i>
+      <img src="images/logo.jpg" alt="">MillionOLMS
+    </div>
 
       <div class="search_bar">
         <input type="text" placeholder="Search" />
@@ -32,7 +49,7 @@ if ($_SESSION['RollNo']) {
       <div class="navbar_content">
         <i class="bi bi-grid"></i>
         <i class='bx bx-sun' id="darkLight"></i>
-        <img src="images/profile.jpg" alt="" class="profile" />
+        <img src="<?php echo ($ProfilePicture); ?>" alt="Profile Picture" class="profile" />
       </div>
     </nav>
 
@@ -147,29 +164,14 @@ if ($_SESSION['RollNo']) {
     <!-- Profile Page -->
     <div class="profile_page">
     <div class="profile_box">
-      
-      <?php
-        $rollno = $_SESSION['RollNo'];
-        $sql = "select * from olms.user where RollNo='$rollno'";
-        $result = $conn->query($sql);
-        $row = $result->fetch_assoc();
-
-        $name = $row['Name'];
-        $category = $row['Category'];
-        $email = $row['EmailId'];
-        $mobno = $row['MobNo'];
-        ?>
-
-        <img src="images/profile.jpg" alt="User Image" class="profile_image" />
-        <h2 class="profile_name"><center><?php echo $name ?></center></h2>
-        <p class="profile_email">
-        <p><b>Email ID: </b><?php echo $email ?></p>
-        <p class="profile_mobileNumber">
-        <p><b>Mobile Number: </b><?php echo $mobno ?></p>
-
-        <a href="editProfile.php" class="btn">Edit Details</a>
-
-
+      <img src="<?php echo htmlspecialchars($ProfilePicture) . '?' . time(); ?>" alt="User Image"
+        class="profile_image1" />
+      <h2 class="profile_name">
+        <center><?php echo htmlspecialchars($name); ?></center>
+      </h2>
+      <p class="profile_email"><b>Email ID: </b><?php echo htmlspecialchars($email); ?></p>
+      <p class="profile_mobileNumber"><b>Mobile Number: </b><?php echo htmlspecialchars($mobno); ?></p>
+      <a href="editProfile.php" class="btn">Edit Details</a>
     </div>
   </div>
   
@@ -179,7 +181,3 @@ if ($_SESSION['RollNo']) {
     <script src="script.js"></script>
   </body>
 </html>
-
-<?php } else {
-  echo "<script type='text/javascript'>alert('Access Denied!!!')</script>";
-} ?>
