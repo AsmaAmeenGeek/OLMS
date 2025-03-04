@@ -1,9 +1,67 @@
 <?php
 require('dbconn.php');
-?>
 
-<?php
-if ($_SESSION['RollNo']) {
+if (!isset($_SESSION['RollNo'])) {
+  header("Location: index.php");
+  exit();
+}
+
+$rollno = $_SESSION['RollNo'];
+$sql = "SELECT * FROM olms.user WHERE RollNo = ?";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("s", $rollno);
+$stmt->execute();
+$result = $stmt->get_result();
+
+if ($result && $result->num_rows > 0) {
+  $row = $result->fetch_assoc();
+  $name = $row['Name'];
+  $email = $row['EmailId'];
+  $mobno = $row['MobNo'];
+  $ProfilePicture = !empty($row['ProfilePicture']) ? $row['ProfilePicture'] : 'images/profile.jpg';
+} else {
+  echo "<p>Error: No user found.</p>";
+  exit;
+}
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+  $newName = $_POST['Name'];
+  $newEmail = $_POST['EmailId'];
+  $newMobno = $_POST['MobNo'];
+  $newPassword = $_POST['Password'];
+
+  // Handle Profile Image Upload
+  if (!empty($_FILES['profile_image']['name'])) {
+    $file_name = basename($_FILES["profile_image"]["name"]);
+    $targetDir = "../Assets/profile/";
+    $targetFile = $targetDir . $file_name;
+    $imageFileType = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
+    $allowedTypes = array("jpg", "jpeg", "png", "gif");
+
+    if (in_array($imageFileType, $allowedTypes)) {
+      if (move_uploaded_file($_FILES["profile_image"]["tmp_name"], $targetFile)) {
+        $ProfilePicture = $targetFile;
+      } else {
+        echo "<p>Error uploading file.</p>";
+      }
+    } else {
+      echo "<p>Only JPG, JPEG, PNG, and GIF files are allowed.</p>";
+    }
+  }
+
+  // Update user details
+  $updateQuery = "UPDATE olms.user SET Name=?, EmailId=?, MobNo=?, ProfilePicture=? WHERE RollNo=?";
+  $stmt = $conn->prepare($updateQuery);
+  $stmt->bind_param("sssss", $newName, $newEmail, $newMobno, $ProfilePicture, $rollno);
+
+  if ($stmt->execute() === TRUE) {
+    $_SESSION['success'] = "Profile updated successfully!";
+    header("Location: profile.php");
+    exit;
+  } else {
+    echo "<p>Error updating profile: " . $stmt->error . "</p>";
+  }
+}
 ?>
 
 
@@ -35,7 +93,7 @@ if ($_SESSION['RollNo']) {
       <div class="navbar_content">
         <i class="bi bi-grid"></i>
         <i class='bx bx-sun' id="darkLight"></i>
-        <img src="images/profile.jpg" alt="" class="profile" />
+        <img src="<?php echo ($ProfilePicture); ?>" alt="Profile Picture" class="profile" />
       </div>
     </nav>
 
@@ -145,132 +203,31 @@ if ($_SESSION['RollNo']) {
       </div>
     </nav>
 
+  <section class="edit-section">
+    <h2>Update Profile</h2>
 
-    <div class="span9">
-      <div class="container1">
-        <div class="container1_box">
+    <img src="<?php echo $ProfilePicture . '?' . time(); ?>" alt="User Image" class="profile_image1" />
+    
+    <form action="editProfile.php" method="post" enctype="multipart/form-data">
+    <label for="name">Name:</label>
+      <input type="text" id="name" placeholder="Enter your name" name="Name" value="<?php echo ($name); ?>">
 
-          <h2>Update Details</h2>
+      <label for="email">E-mail ID:</label>
+      <input type="email" id="email" placeholder="Enter your email" name="EmailId" value="<?php echo ($email); ?>">
 
-          <?php
-          $rollno = $_SESSION['RollNo'];
-          $sql = "SELECT * FROM olms.user WHERE RollNo = ?";
-          $stmt = $conn->prepare($sql);
-          $stmt->bind_param("s", $rollno);
-          $stmt->execute();
-          $result = $stmt->get_result();
-          $row = $result->fetch_assoc();
+      <label for="mobile">Mobile number:</label>
+      <input type="tel" id="mobile" placeholder="Enter your mobile number" name="MobNo" value="<?php echo ($mobno); ?>">
 
-          $name = $row['Name'];
-          $email = $row['EmailId'];
-          $mobno = $row['MobNo'];
-          $pswd = $row['Password'];
-          ?>
+      <label for="profile_image">Upload New Profile Image:</label>
+      <input type="file" name="profile_image" accept="image/*">
 
-          <form class="form-horizontal row-fluid" action="editProfile.php?id=<?php echo $rollno ?>" method="post">
-            <img src="images/profile.jpg" alt="User Image" class="profile_image" />
+      <label for="password">New Password:</label>
+      <input type="password" id="password" placeholder="Enter new password" name="Password">
 
-            <div class="control-group">
-              <label class="control-label" for="name"><b>Name:</b></label>
-              <div class="controls">
-                <input type="text" id="Name" name="Name" value="<?php echo htmlspecialchars($name); ?>" class="span8" required>
-              </div>
-            </div>
-
-            <div class="control-group">
-              <label class="control-label" for="EmailId"><b>Email Id:</b></label>
-              <div class="controls">
-                <input type="email" id="EmailId" name="EmailId" value="<?php echo htmlspecialchars($email); ?>" class="span8" required>
-              </div>
-            </div>
-
-            <div class="control-group">
-              <label class="control-label" for="MobNo"><b>Mobile Number:</b></label>
-              <div class="controls">
-                <input type="text" id="MobNo" name="MobNo" value="<?php echo htmlspecialchars($mobno); ?>" class="span8" required>
-              </div>
-            </div>
-
-            <div class="control-group">
-              <label class="control-label" for="Password"><b>New Password (Enter the new password):</b></label>
-              <div class="controls">
-                <input type="password" id="Password" name="Password" class="span8">
-              </div>
-            </div>
-
-            <div class="control-group">
-              <div class="controls">
-                <button type="submit" name="submit" class="btn">Save</button>
-              </div>
-            </div>
-          </form>
-
-        </div>
-      </div>
-    </div>
-
-
-
-
-    <script src="script.js"></script>
-
-
-    <?php
-    if (isset($_POST['submit'])) {
-      $name = $_POST['Name'];
-      $email = $_POST['EmailId'];
-      $mobno = $_POST['MobNo'];
-      $new_password = $_POST['Password'];
-
-      // Fetch existing user details
-      $rollno = $_SESSION['RollNo'];
-      $sql = "SELECT Password FROM olms.user WHERE RollNo = ?";
-      $stmt = $conn->prepare($sql);
-      $stmt->bind_param("s", $rollno);
-      $stmt->execute();
-      $result = $stmt->get_result();
-      $row = $result->fetch_assoc();
-
-      if (!$row) {
-        echo "<script>alert('User not found!');</script>";
-        exit();
-      }
-
-      // If password is provided, hash it. Otherwise, keep the old password.
-      if (!empty($new_password)) {
-        $pswd = password_hash($new_password, PASSWORD_BCRYPT);
-      } else {
-        $pswd = $row['Password'];
-      }
-
-      // Update user profile (without Category field)
-      $sql1 = "UPDATE olms.user SET Name = ?, EmailId = ?, MobNo = ?, Password = ? WHERE RollNo = ?";
-      $stmt = $conn->prepare($sql1);
-
-      if ($stmt) {
-        $stmt->bind_param("sssss", $name, $email, $mobno, $pswd, $rollno);
-        if ($stmt->execute()) {
-          echo "<script>
-                alert('Profile updated successfully!');
-                window.location.href = 'profile.php';
-            </script>";
-          exit();
-        } else {
-          echo "<p class='error'>Error updating profile: " . $stmt->error . "</p>";
-        }
-        $stmt->close();
-      } else {
-        echo "<p class='error'>Error preparing statement: " . $conn->error . "</p>";
-      }
-    }
-    ?>
-
+      <button type="submit" name="submit" class="table_btn">Save</button>
+      </form>
+  </section>
 
   </body>
 
-  </html>
-
-
-<?php } else {
-  echo "<script type='text/javascript'>alert('Access Denied!!!')</script>";
-} ?>
+</html>
