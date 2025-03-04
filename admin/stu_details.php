@@ -13,7 +13,22 @@ if (isset($_GET['RollNo'])) {
 
     if ($result->num_rows > 0) {
         $user = $result->fetch_assoc();
-?>
+
+        $rollno = $_SESSION['RollNo'];
+
+        $userQuery = "SELECT * FROM olms.user WHERE RollNo=?";
+        $userStmt = $conn->prepare($userQuery);
+        $userStmt->bind_param("s", $rollno);
+        $userStmt->execute();
+        $userResult = $userStmt->get_result();
+
+        if ($userResult && $userResult->num_rows > 0) {
+            $userRow = $userResult->fetch_assoc();
+            $ProfilePicture = !empty($userRow['ProfilePicture']) ? $userRow['ProfilePicture'] : 'images/default.jpg';
+        } else {
+            $ProfilePicture = 'images/default.jpg';
+        }
+        ?>
         <!DOCTYPE html>
         <html lang="en">
 
@@ -55,7 +70,7 @@ if (isset($_GET['RollNo'])) {
                 <div class="navbar_content">
                     <i class="bi bi-grid"></i>
                     <i class='bx bx-sun' id="darkLight"></i>
-                    <img src="images/profile.jpg" alt="" class="profile" />
+                    <img src="<?php echo ($ProfilePicture); ?>" alt="Profile Picture" class="profile" />
                 </div>
             </nav>
 
