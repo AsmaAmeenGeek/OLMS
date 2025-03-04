@@ -1,7 +1,7 @@
 <?php
 require('dbconn.php');
 
-if (isset($_SESSION['RollNo'])) {
+if ($_SESSION['RollNo']) {
     // Handle delete request
     if (isset($_GET['delete'])) {
         $id = intval($_GET['delete']);
@@ -25,17 +25,31 @@ if (isset($_SESSION['RollNo'])) {
             echo "<script>alert('Error updating message: " . $conn->error . "');</script>";
         }
     }
+
+    $rollno = $_SESSION['RollNo'];
+
+    $userQuery = "SELECT * FROM olms.user WHERE RollNo=?";
+    $userStmt = $conn->prepare($userQuery);
+    $userStmt->bind_param("s", $rollno);
+    $userStmt->execute();
+    $userResult = $userStmt->get_result();
+  
+    if ($userResult && $userResult->num_rows > 0) {
+      $userRow = $userResult->fetch_assoc();
+      $ProfilePicture = !empty($userRow['ProfilePicture']) ? $userRow['ProfilePicture'] : 'images/profile.jpg';
+    } else {
+      $ProfilePicture = 'images/profile.jpg';
+    }
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <!-- Boxicons CSS -->
-    <link href="https://unpkg.com/boxicons@latest/css/boxicons.min.css" rel="stylesheet" />
-    <title>OLMS</title>
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
+    <title>Message History</title>
     <link rel="stylesheet" href="style.css" />
 </head>
 
@@ -182,7 +196,7 @@ if (isset($_SESSION['RollNo'])) {
                 if ($result->num_rows > 0) {
                     while ($row = $result->fetch_assoc()) {
                         echo "<tr>
-                                <td>{$row['Receiver']}</td>
+                                <td>{$row['RollNo']}</td>
                                 <td id='message_{$row['Message_id']}'>{$row['Message']}</td>
                                 <td>{$row['Date']}</td>
                                 <td>{$row['Time']}</td>
@@ -203,32 +217,6 @@ if (isset($_SESSION['RollNo'])) {
 
         <a href="message.php" class="table_btn">Back</a>
     </div>
-
-    <div id="editMessageModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeModal()">&times;</span>
-            <h2>Edit Message</h2>
-            <form method="POST">
-                <input type="hidden" id="editMessageId" name="id">
-                <textarea id="editMessageContent" name="updatedMessage" rows="5" required></textarea><br>
-                <button type="submit" name="update">Update</button>
-            </form>
-        </div>
-    </div>
-
-    <script>
-        function editMessage(id) {
-            var message = document.getElementById('message_' + id).innerText;
-            document.getElementById('editMessageId').value = id;
-            document.getElementById('editMessageContent').value = message;
-            document.getElementById('editMessageModal').style.display = 'block';
-        }
-
-        function closeModal() {
-            document.getElementById('editMessageModal').style.display = 'none';
-        }
-    </script>
-
     <script src="script.js"></script>
 </body>
 </html>

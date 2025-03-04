@@ -80,3 +80,21 @@ const adjustSidebar = () => {
 // Run on Load and Resize
 adjustSidebar();
 window.addEventListener("resize", adjustSidebar);
+
+function editMessage(messageId) {
+  let messageCell = document.getElementById('message_' + messageId);
+  let currentText = messageCell.innerText;
+
+  let formHtml = `<form method='POST' action='message_list.php'>
+                      <input type='hidden' name='id' value='${messageId}'>
+                      <input type='text' name='updatedMessage' value='${currentText}' required>
+                      <button type='submit' name='update'>Save</button>
+                      <button type='button' onclick='cancelEdit(${messageId}, "${currentText}")'>Cancel</button>
+                  </form>`;
+
+  messageCell.innerHTML = formHtml;
+}
+
+function cancelEdit(messageId, originalText) {
+  document.getElementById('message_' + messageId).innerText = originalText;
+}
