@@ -31,7 +31,22 @@ if (isset($_SESSION['RollNo'])) {
       echo "<script>alert('Error deleting message!');</script>";
     }
   }
-?>
+
+  $rollno = $_SESSION['RollNo'];
+
+  $userQuery = "SELECT * FROM olms.user WHERE RollNo=?";
+  $userStmt = $conn->prepare($userQuery);
+  $userStmt->bind_param("s", $rollno);
+  $userStmt->execute();
+  $userResult = $userStmt->get_result();
+
+  if ($userResult && $userResult->num_rows > 0) {
+    $userRow = $userResult->fetch_assoc();
+    $ProfilePicture = !empty($userRow['ProfilePicture']) ? $userRow['ProfilePicture'] : 'images/profile.jpg';
+  } else {
+    $ProfilePicture = 'images/profile.jpg';
+  }
+  ?>
 
   <!DOCTYPE html>
   <html lang="en">
@@ -60,7 +75,7 @@ if (isset($_SESSION['RollNo'])) {
       <div class="navbar_content">
         <i class="bi bi-grid"></i>
         <i class='bx bx-sun' id="darkLight"></i>
-        <img src="images/profile.jpg" alt="" class="profile" />
+        <img src="<?php echo ($ProfilePicture); ?>" alt="Profile Picture" class="profile" />
       </div>
     </nav>
 
