@@ -1,6 +1,5 @@
 <?php
-// Start the session
-require('dbconn.php'); // Ensure database connection
+require('dbconn.php');
 
 if ($_SESSION['RollNo']) {
     if (isset($_POST['submit'])) {
@@ -43,6 +42,21 @@ if ($_SESSION['RollNo']) {
 } else {
     echo "<script type='text/javascript'>alert('Access Denied!!!')</script>";
 }
+
+$rollno = $_SESSION['RollNo'];
+
+$userQuery = "SELECT * FROM olms.user WHERE RollNo=?";
+$userStmt = $conn->prepare($userQuery);
+$userStmt->bind_param("s", $rollno);
+$userStmt->execute();
+$userResult = $userStmt->get_result();
+
+if ($userResult && $userResult->num_rows > 0) {
+    $userRow = $userResult->fetch_assoc();
+    $ProfilePicture = !empty($userRow['ProfilePicture']) ? $userRow['ProfilePicture'] : 'images/profile.jpg';
+} else {
+    $ProfilePicture = 'images/profile.jpg'; 
+}
 ?>
 
 <!DOCTYPE html>
@@ -71,7 +85,7 @@ if ($_SESSION['RollNo']) {
         <div class="navbar_content">
             <i class="bi bi-grid"></i>
             <i class='bx bx-sun' id="darkLight"></i>
-            <img src="images/profile.jpg" alt="" class="profile" />
+            <img src="<?php echo ($ProfilePicture); ?>" alt="Profile Picture" class="profile" />
         </div>
     </nav>
 
@@ -136,7 +150,7 @@ if ($_SESSION['RollNo']) {
                 </li>
 
                 <li class="item">
-                    <a href="#" class="nav_link submenu_item">
+                    <a href="admin_requests.php" class="nav_link submenu_item">
                         <span class="navlink_icon">
                             <i class='bx bx-right-indent'></i>
                         </span>
@@ -145,7 +159,7 @@ if ($_SESSION['RollNo']) {
                 </li>
 
                 <li class="item">
-                    <a href="#" class="nav_link submenu_item">
+                    <a href="currently_issued.php" class="nav_link submenu_item">
                         <span class="navlink_icon">
                             <i class='bx bx-list-ul'></i>
                         </span>
