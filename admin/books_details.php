@@ -1,6 +1,11 @@
 <?php
 require('dbconn.php');
 
+if (!isset($_SESSION['RollNo'])) {
+    header("Location: index.php");
+    exit();
+}
+
 if (isset($_GET['BookId'])) {
     $bookId = $_GET['BookId'];
     $sql = "SELECT * FROM olms.book WHERE BookId = ?";
@@ -11,9 +16,22 @@ if (isset($_GET['BookId'])) {
 
     if ($result->num_rows > 0) {
         $book = $result->fetch_assoc();
-?>
 
+        $rollno = $_SESSION['RollNo'];
 
+        $userQuery = "SELECT * FROM olms.user WHERE RollNo=?";
+        $userStmt = $conn->prepare($userQuery);
+        $userStmt->bind_param("s", $rollno);
+        $userStmt->execute();
+        $userResult = $userStmt->get_result();
+
+        if ($userResult && $userResult->num_rows > 0) {
+            $userRow = $userResult->fetch_assoc();
+            $ProfilePicture = !empty($userRow['ProfilePicture']) ? $userRow['ProfilePicture'] : 'images/profile.jpg';
+        } else {
+            $ProfilePicture = 'images/profile.jpg'; 
+        }
+        ?>
 
         <!DOCTYPE html>
         <html lang="en">
@@ -41,7 +59,7 @@ if (isset($_GET['BookId'])) {
                 <div class="navbar_content">
                     <i class="bi bi-grid"></i>
                     <i class='bx bx-sun' id="darkLight"></i>
-                    <img src="images/profile.jpg" alt="" class="profile" />
+                    <img src="<?php echo ($ProfilePicture); ?>" alt="Profile Picture" class="profile" />
                 </div>
             </nav>
 
