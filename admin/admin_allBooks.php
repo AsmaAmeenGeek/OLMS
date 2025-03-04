@@ -1,13 +1,25 @@
 <?php
 require('dbconn.php');
-?>
 
-<?php
 if (!isset($_SESSION['RollNo'])) {
   header("Location: index.php");
   exit();
 }
 
+$rollno = $_SESSION['RollNo'];
+
+$userQuery = "SELECT * FROM olms.user WHERE RollNo=?";
+$userStmt = $conn->prepare($userQuery);
+$userStmt->bind_param("s", $rollno);
+$userStmt->execute();
+$userResult = $userStmt->get_result();
+
+if ($userResult && $userResult->num_rows > 0) {
+  $userRow = $userResult->fetch_assoc();
+  $ProfilePicture = !empty($userRow['ProfilePicture']) ? $userRow['ProfilePicture'] : 'images/profile.jpg';
+} else {
+  $ProfilePicture = 'images/profile.jpg'; 
+}
 ?>
 
 <!DOCTYPE html>
@@ -52,7 +64,7 @@ if (!isset($_SESSION['RollNo'])) {
     <div class="navbar_content">
       <i class="bi bi-grid"></i>
       <i class='bx bx-sun' id="darkLight"></i>
-      <img src="images/profile.jpg" alt="" class="profile" />
+      <img src="<?php echo ($ProfilePicture); ?>" alt="Profile Picture" class="profile" />
     </div>
   </nav>
 
@@ -216,7 +228,7 @@ if (!isset($_SESSION['RollNo'])) {
                   <a href="books_details.php?BookId=<?php echo $bookid; ?>" class="table_btn">Details</a>
                   <a href="editBook.php?BookId=<?php echo $bookid; ?>" class="table_btn">Edit</a>
                   <a href="javascript:void(0);" class="table_btn" onclick="confirmDelete(<?php echo $bookid; ?>)">Delete</a>
-                  
+
                 </center>
               </td>
             </tr>
