@@ -185,6 +185,7 @@ if ($_SESSION['RollNo']) {
                     <th>Message</th>
                     <th>Date</th>
                     <th>Time</th>
+                    <th>Category</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -194,20 +195,23 @@ if ($_SESSION['RollNo']) {
                 $result = $conn->query($sql);
 
                 if ($result->num_rows > 0) {
-                    while ($row = $result->fetch_assoc()) {
-                        echo "<tr>
-                                <td>{$row['RollNo']}</td>
-                                <td id='message_{$row['Message_id']}'>{$row['Message']}</td>
-                                <td>{$row['Date']}</td>
-                                <td>{$row['Time']}</td>
-                                <td>
-                                    <button class='edit-btn' onclick='editMessage({$row['Message_id']})'>Update</button>
-                                    <a href='message_list.php?delete={$row['Message_id']}' onclick='return confirm(\"Are you sure you want to delete this message?\")'>
-                                        <button class='delete-btn'>Delete</button>
-                                    </a>
-                                </td>
-                              </tr>";
-                    }
+                  while ($row = $result->fetch_assoc()) {
+                    $categoryClass = ($row['Category'] === 'due') ? 'due-message' : 'general-message';
+                    echo "<tr>
+                            <td>{$row['Receiver']}</td>
+                            <td id='message_{$row['Message_id']}'>{$row['Message']}</td>
+                            <td>{$row['Date']}</td>
+                            <td>{$row['Time']}</td>
+                            <td class='{$categoryClass}'>" . ucfirst($row['Category']) . "</td>
+                            <td>
+                                <button class='edit-btn' onclick='editMessage({$row['Message_id']})'>Update</button>
+                                <a href='message_list.php?delete={$row['Message_id']}' onclick='return confirm(\"Are you sure you want to delete this message?\")'>
+                                    <button class='delete-btn'>Delete</button>
+                                </a>
+                            </td>
+                          </tr>";
+                }
+                
                 } else {
                     echo "<tr><td colspan='5'>No messages found.</td></tr>";
                 }
