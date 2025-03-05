@@ -114,7 +114,7 @@ if ($userResult && $userResult->num_rows > 0) {
             </li>
             
              <li class="item">
-              <a href="#" class="nav_link submenu_item">
+              <a href="renew_request.php" class="nav_link submenu_item">
                 <span class="navlink_icon">
                   <i class='bx bx-right-indent'></i>
                 </span>
@@ -179,29 +179,6 @@ if ($userResult && $userResult->num_rows > 0) {
     </section>
     </div>
 
-    <!-- Footer -->
-    <footer>
-        <div class="footer-content">
-            <div>
-                <h3>Million Library</h3>
-                <p>OLMS</p>
-            </div>
-            <div>
-                <ul>
-                    <li><a href="#">About Us</a></li>
-                    <li><a href="#">Contact Us</a></li>
-                    <li><a href="#">Terms and conditions</a></li>
-                </ul>
-            </div>
-            <div>
-                <ul>
-                    <li><a href="#">Plans</a></li>
-                    <li><a href="#">FAQs</a></li>
-                    <li><a href="#">Help</a></li>
-                </ul>
-            </div>
-        </div>
-    </footer>
     
     <p style="margin-left: 650px; margin-top: 20px;">&copy; 2024 Million Library. All rights reserved.</p>
 
