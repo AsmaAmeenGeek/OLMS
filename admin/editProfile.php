@@ -65,151 +65,151 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 ?>
 
 
-  <!DOCTYPE html>
-  <html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <!-- Boxicons CSS -->
-    <link href="https://unpkg.com/boxicons@latest/css/boxicons.min.css" rel="stylesheet" />
-    <title>Update Profile Details</title>
-    <link rel="stylesheet" href="style.css" />
-  </head>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- Boxicons CSS -->
+  <link href="https://unpkg.com/boxicons@latest/css/boxicons.min.css" rel="stylesheet" />
+  <title>Update Profile Details</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
 
-  <body>
+<body>
 
-    <!-- navbar -->
-    <nav class="navbar">
-      <div class="logo_item">
-        <i class="bx bx-menu" id="sidebarOpen"></i>
-        <img src="images/logo.jpg" alt=""></i>MillionOLMS
-      </div>
+  <!-- navbar -->
+  <nav class="navbar">
+    <div class="logo_item">
+      <i class="bx bx-menu" id="sidebarOpen"></i>
+      <img src="images/logo.jpg" alt=""></i>MillionOLMS
+    </div>
 
-      <div class="search_bar">
-        <input type="text" placeholder="Search" />
-      </div>
+    <div class="search_bar">
+      <input type="text" placeholder="Search" />
+    </div>
 
-      <div class="navbar_content">
-        <i class="bi bi-grid"></i>
-        <i class='bx bx-sun' id="darkLight"></i>
-        <img src="<?php echo ($ProfilePicture); ?>" alt="Profile Picture" class="profile" />
-      </div>
-    </nav>
+    <div class="navbar_content">
+      <i class="bi bi-grid"></i>
+      <i class='bx bx-sun' id="darkLight"></i>
+      <img src="<?php echo ($ProfilePicture); ?>" alt="Profile Picture" class="profile" />
+    </div>
+  </nav>
 
-    <!-- sidebar -->
-    <nav class="sidebar">
-      <div class="menu_content">
-        <ul class="menu_items">
-          <div class="menu_title menu_dahsboard"></div>
-          <!-- start -->
-          <li class="item">
-            <a href="home.php" class="nav_link submenu_item">
-              <span class="navlink_icon">
-                <i class="bx bx-home-alt"></i>
-              </span>
-              <span class="navlink">Home</span>
-            </a>
-          </li>
+  <!-- sidebar -->
+  <nav class="sidebar">
+    <div class="menu_content">
+      <ul class="menu_items">
+        <div class="menu_title menu_dahsboard"></div>
+        <!-- start -->
+        <li class="item">
+          <a href="home.php" class="nav_link submenu_item">
+            <span class="navlink_icon">
+              <i class="bx bx-home-alt"></i>
+            </span>
+            <span class="navlink">Home</span>
+          </a>
+        </li>
 
-          <li class="item">
-            <a href="profile.php" class="nav_link submenu_item">
-              <span class="navlink_icon">
-                <i class='bx bx-user-circle'></i>
-              </span>
-              <span class="navlink">My Profile</span>
-            </a>
-          </li>
+        <li class="item">
+          <a href="profile.php" class="nav_link submenu_item">
+            <span class="navlink_icon">
+              <i class='bx bx-user-circle'></i>
+            </span>
+            <span class="navlink">My Profile</span>
+          </a>
+        </li>
 
-          <li class="item">
-            <a href="message.php" class="nav_link submenu_item">
-              <span class="navlink_icon">
-                <i class='bx bx-chat'></i>
-              </span>
-              <span class="navlink">Messages</span>
-            </a>
-          </li>
+        <li class="item">
+          <a href="message.php" class="nav_link submenu_item">
+            <span class="navlink_icon">
+              <i class='bx bx-chat'></i>
+            </span>
+            <span class="navlink">Messages</span>
+          </a>
+        </li>
 
-          <li class="item">
-            <a href="admin_manageStud.php" class="nav_link submenu_item">
-              <span class="navlink_icon">
-                <i class='bx bxs-user-detail'></i>
-              </span>
-              <span class="navlink">Manage Students</span>
-            </a>
-          </li>
+        <li class="item">
+          <a href="admin_manageStud.php" class="nav_link submenu_item">
+            <span class="navlink_icon">
+              <i class='bx bxs-user-detail'></i>
+            </span>
+            <span class="navlink">Manage Students</span>
+          </a>
+        </li>
 
-          <li class="item">
-            <a href="admin_allBooks.php" class="nav_link submenu_item">
-              <span class="navlink_icon">
-                <i class='bx bx-book'></i>
-              </span>
-              <span class="navlink">All Books</span>
-            </a>
-          </li>
+        <li class="item">
+          <a href="admin_allBooks.php" class="nav_link submenu_item">
+            <span class="navlink_icon">
+              <i class='bx bx-book'></i>
+            </span>
+            <span class="navlink">All Books</span>
+          </a>
+        </li>
 
-          <li class="item">
+        <li class="item">
 
           <a href="addBook.php" class="nav_link submenu_item">
-              <span class="navlink_icon">
-                <i class='bx bxs-edit'></i>
-              </span>
-              <span class="navlink">Add Books</span>
-            </a>
-          </li>
+            <span class="navlink_icon">
+              <i class='bx bxs-edit'></i>
+            </span>
+            <span class="navlink">Add Books</span>
+          </a>
+        </li>
 
-          <li class="item">
-            <a href="#" class="nav_link submenu_item">
-              <span class="navlink_icon">
-                <i class='bx bx-right-indent'></i>
-              </span>
-              <span class="navlink">Reserve/Return<br>Requests</span>
-            </a>
-          </li>
+        <li class="item">
+          <a href="requests.php" class="nav_link submenu_item">
+            <span class="navlink_icon">
+              <i class='bx bx-right-indent'></i>
+            </span>
+            <span class="navlink">Reserve/Return<br>Requests</span>
+          </a>
+        </li>
 
-          <li class="item">
-            <a href="#" class="nav_link submenu_item">
-              <span class="navlink_icon">
-                <i class='bx bx-list-ul'></i>
-              </span>
-              <span class="navlink">Currently Issued<br>Books</span>
-            </a>
-          </li>
+        <li class="item">
+          <a href="currently_issued.php" class="nav_link submenu_item">
+            <span class="navlink_icon">
+              <i class='bx bx-list-ul'></i>
+            </span>
+            <span class="navlink">Currently Issued<br>Books</span>
+          </a>
+        </li>
 
-          <li class="item">
+        <li class="item">
           <a href="logout.php" class="nav_link submenu_item">
-              <span class="navlink_icon">
-                <i class='bx bx-log-out-circle'></i>
-              </span>
-              <span class="navlink">Logout</span>
-            </a>
-          </li>
+            <span class="navlink_icon">
+              <i class='bx bx-log-out-circle'></i>
+            </span>
+            <span class="navlink">Logout</span>
+          </a>
+        </li>
 
-        </ul>
+      </ul>
 
 
 
-        <!-- Sidebar Open / Close -->
-        <div class="bottom_content">
-          <div class="bottom expand_sidebar">
-            <span> Expand</span>
-            <i class='bx bx-log-in'></i>
-          </div>
-          <div class="bottom collapse_sidebar">
-            <span> Collapse</span>
-            <i class='bx bx-log-out'></i>
-          </div>
+      <!-- Sidebar Open / Close -->
+      <div class="bottom_content">
+        <div class="bottom expand_sidebar">
+          <span> Expand</span>
+          <i class='bx bx-log-in'></i>
+        </div>
+        <div class="bottom collapse_sidebar">
+          <span> Collapse</span>
+          <i class='bx bx-log-out'></i>
         </div>
       </div>
-    </nav>
+    </div>
+  </nav>
 
   <section class="edit-section">
     <h2>Update Profile</h2>
 
     <img src="<?php echo $ProfilePicture . '?' . time(); ?>" alt="User Image" class="profile_image1" />
-    
+
     <form action="editProfile.php" method="post" enctype="multipart/form-data">
-    <label for="name">Name:</label>
+      <label for="name">Name:</label>
       <input type="text" id="name" placeholder="Enter your name" name="Name" value="<?php echo ($name); ?>">
 
       <label for="email">E-mail ID:</label>
@@ -225,9 +225,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       <input type="password" id="password" placeholder="Enter new password" name="Password">
 
       <button type="submit" name="submit" class="table_btn">Save</button>
-      </form>
+    </form>
   </section>
 
-  </body>
+</body>
 
 </html>

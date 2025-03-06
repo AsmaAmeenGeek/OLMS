@@ -18,7 +18,7 @@ if ($userResult && $userResult->num_rows > 0) {
   $userRow = $userResult->fetch_assoc();
   $ProfilePicture = !empty($userRow['ProfilePicture']) ? $userRow['ProfilePicture'] : 'images/profile.jpg';
 } else {
-  $ProfilePicture = 'images/profile.jpg'; 
+  $ProfilePicture = 'images/profile.jpg';
 }
 ?>
 
@@ -129,7 +129,7 @@ if ($userResult && $userResult->num_rows > 0) {
         </li>
 
         <li class="item">
-          <a href="#" class="nav_link submenu_item">
+          <a href="requests.php" class="nav_link submenu_item">
             <span class="navlink_icon">
               <i class='bx bx-right-indent'></i>
             </span>
@@ -138,7 +138,7 @@ if ($userResult && $userResult->num_rows > 0) {
         </li>
 
         <li class="item">
-          <a href="#" class="nav_link submenu_item">
+          <a href="currently_issued.php" class="nav_link submenu_item">
             <span class="navlink_icon">
               <i class='bx bx-list-ul'></i>
             </span>

@@ -1,150 +1,241 @@
 <?php
-if (session_status() == PHP_SESSION_NONE) {
-    session_start();
+require('dbconn.php');
+
+if (!isset($_SESSION['RollNo'])) {
+  header("Location: index.php");
+  exit();
 }
 
-$servername = "localhost";
-$username = "root";
-$password = "";
-$database = "olms";
+// Handle approve or reject actions
+if (isset($_GET['action']) && isset($_GET['id'])) {
+  $requestId = intval($_GET['id']);
+  $action = $_GET['action'];
 
-// Create connection
-$conn = new mysqli($servername, $username, $password, $database);
+  if ($action == 'approve') {
+    // Fetch book details and update issue period
+    $query = "SELECT * FROM olms.renew WHERE id = ?";
+    $stmt = $conn->prepare($query);
+    $stmt->bind_param("i", $requestId);
+    $stmt->execute();
+    $result = $stmt->get_result();
 
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+    if ($row = $result->fetch_assoc()) {
+      $bookId = $row['BookId'];
+      $rollNo = $row['RollNo'];
 
-// Fetch renewal requests
-$query = "SELECT rr.RollNo, rr.BookId, b.Title, b.Availability 
-          FROM renew_requests rr 
-          JOIN book b ON rr.BookId = b.BookId 
-          WHERE rr.status = 'pending'";
-$result = mysqli_query($conn, $query);
+      // Update issue date and due date (assuming a 14-day renewal period)
+      $updateQuery = "UPDATE olms.issue SET IssueDate = CURDATE(), DueDate = DATE_ADD(CURDATE(), INTERVAL 14 DAY) WHERE BookId = ? AND RollNo = ?";
+      $stmt = $conn->prepare($updateQuery);
+      $stmt->bind_param("is", $bookId, $rollNo);
+      $stmt->execute();
 
-// Handle accept/decline actions
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $user_id = $_POST['user_id'];
-    $book_id = $_POST['book_id'];
-    $action = $_POST['action'];
-    
-    if ($action == 'accept') {
-        $update_query = "UPDATE renew_requests SET status = 'accepted' WHERE user_id = ? AND book_id = ?";
-    } else {
-        $update_query = "UPDATE renew_requests SET status = 'declined' WHERE user_id = ? AND book_id = ?";
+      // Delete request after approval
+      $deleteQuery = "DELETE FROM olms.renew WHERE id = ?";
+      $stmt = $conn->prepare($deleteQuery);
+      $stmt->bind_param("i", $requestId);
+      $stmt->execute();
+
+      echo "<script>alert('Renewal Approved'); window.location.href='admin_renew_requests.php';</script>";
     }
-    
-    $stmt = mysqli_prepare($conn, $update_query);
-    mysqli_stmt_bind_param($stmt, 'ii', $user_id, $book_id);
-    
-    if (mysqli_stmt_execute($stmt)) {
-        header("Location: renew_request.php?success=" . ($action == 'accept' ? 'accepted' : 'declined'));
-        exit();
-    } else {
-        echo "<script>alert('Error processing request.'); window.location.href='renew_request.php';</script>";
-    }
+  } elseif ($action == 'reject') {
+    // Delete request if rejected
+    $deleteQuery = "DELETE FROM olms.renew WHERE id = ?";
+    $stmt = $conn->prepare($deleteQuery);
+    $stmt->bind_param("i", $requestId);
+    $stmt->execute();
+
+    echo "<script>alert('Renewal Rejected'); window.location.href='admin_renew_requests.php';</script>";
+  }
 }
+
+// Fetch all pending renewal requests
+$query = "SELECT r.id, r.BookId, r.RollNo, b.Title 
+          FROM olms.renew r
+          JOIN olms.book b ON r.BookId = b.BookId";
+$stmt = $conn->prepare($query);
+$stmt->execute();
+$result = $stmt->get_result();
+
+// Fetch profile change
+$rollno = $_SESSION['RollNo'];
+$sql = "SELECT * FROM olms.user WHERE RollNo='$rollno'";
+$result_profile = $conn->query($sql); // Use a different variable
+
+if ($result_profile && $result_profile->num_rows > 0) {
+  $row_profile = $result_profile->fetch_assoc();
+  $name = $row_profile['Name'];
+  $email = $row_profile['EmailId'];
+  $mobno = $row_profile['MobNo'];
+  $ProfilePicture = !empty($row_profile['ProfilePicture']) ? $row_profile['ProfilePicture'] : 'images/default.jpg';
+} else {
+  echo "<p>Error: No user found with Roll No: $rollno</p>";
+  $name = $email = $mobno = "N/A";
+  $ProfilePicture = 'images/default.jpg';
+}
+
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
-    <title>Renew Requests - OLMS</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Boxicons CSS -->
+  <link href="https://unpkg.com/boxicons@latest/css/boxicons.min.css" rel="stylesheet" />
+  <title>renew</title>
+  <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-    <nav class="navbar">
-        <div class="logo_item">
-            <i class="bx bx-menu" id="sidebarOpen"></i>
-            <img src="images/logo.jpg" alt=""> MillionOLMS
-        </div>
-        <div class="search_bar">
-            <input type="text" placeholder="Search">
-        </div>
-        <div class="navbar_content">
-            <i class="bi bi-grid"></i>
-            <i class='bx bx-sun' id="darkLight"></i>
-            <img src="images/profile.jpg" alt="" class="profile">
-        </div>
-    </nav>
+  <nav class="navbar">
+    <div class="logo_item">
+      <i class="bx bx-menu" id="sidebarOpen"></i>
+      <img src="images/logo.jpg" alt="">MillionOLMS
+    </div>
 
-    <nav class="sidebar">
-        <div class="menu_content">
-            <ul class="menu_items">
-                <li class="item"><a href="home.html" class="nav_link"><i class="bx bx-home-alt"></i>Home</a></li>
-                <li class="item"><a href="profile.php" class="nav_link"><i class='bx bx-user-circle'></i>My Profile</a></li>
-                <li class="item"><a href="message.php" class="nav_link"><i class='bx bx-chat'></i>Messages</a></li>
-                <li class="item"><a href="all_books.php" class="nav_link"><i class='bx bx-book'></i>All Books</a></li>
-                <li class="item"><a href="pre_borrowed_book.php" class="nav_link"><i class='bx bx-book'></i>Previously Borrowed Books</a></li>
-                <li class="item"><a href="currently_reserved.php" class="nav_link"><i class='bx bx-bookmark'></i>Currently Reserved</a></li>
-                <li class="item"><a href="logout.php" class="nav_link"><i class='bx bx-log-out-circle'></i>Logout</a></li>
-            </ul>
+    <div class="search_bar">
+      <input type="text" placeholder="Search" />
+    </div>
+
+    <div class="navbar_content">
+      <i class="bi bi-grid"></i>
+      <i class='bx bx-sun' id="darkLight"></i>
+      <img src="<?php echo ($ProfilePicture); ?>" alt="Profile Picture" class="profile" />
+    </div>
+  </nav>
+
+  <!-- sidebar -->
+  <nav class="sidebar">
+    <div class="menu_content">
+      <ul class="menu_items">
+        <div class="menu_title menu_dahsboard"></div>
+        <!-- start -->
+        <li class="item">
+          <a href="home.php" class="nav_link submenu_item">
+            <span class="navlink_icon">
+              <i class="bx bx-home-alt"></i>
+            </span>
+            <span class="navlink">Home</span>
+          </a>
+        </li>
+
+        <li class="item">
+          <a href="profile.php" class="nav_link submenu_item">
+            <span class="navlink_icon">
+              <i class='bx bx-user-circle'></i>
+            </span>
+            <span class="navlink">My Profile</span>
+          </a>
+        </li>
+
+        <li class="item">
+          <a href="message.php" class="nav_link submenu_item">
+            <span class="navlink_icon">
+              <i class='bx bx-chat'></i>
+            </span>
+            <span class="navlink">Messages</span>
+          </a>
+        </li>
+
+        <li class="item">
+          <a href="admin_manageStud.php" class="nav_link submenu_item">
+            <span class="navlink_icon">
+              <i class='bx bxs-user-detail'></i>
+            </span>
+            <span class="navlink">Manage Students</span>
+          </a>
+        </li>
+
+        <li class="item">
+          <a href="admin_allBooks.php" class="nav_link submenu_item">
+            <span class="navlink_icon">
+              <i class='bx bx-book'></i>
+            </span>
+            <span class="navlink">All Books</span>
+          </a>
+        </li>
+
+        <li class="item">
+
+
+          <a href="addBook.php" class="nav_link submenu_item">
+            <span class="navlink_icon">
+              <i class='bx bxs-edit'></i>
+            </span>
+            <span class="navlink">Add Books</span>
+          </a>
+        </li>
+
+        <li class="item">
+          <a href="requests.php" class="nav_link submenu_item">
+            <span class="navlink_icon">
+              <i class='bx bx-right-indent'></i>
+            </span>
+            <span class="navlink">Reserve/Return<br>Requests</span>
+          </a>
+        </li>
+
+        <li class="item">
+          <a href="currently_issued.php" class="nav_link submenu_item">
+            <span class="navlink_icon">
+              <i class='bx bx-list-ul'></i>
+            </span>
+            <span class="navlink">Currently Issued<br>Books</span>
+          </a>
+        </li>
+
+        <li class="item">
+          <a href="logout.php" class="nav_link submenu_item">
+            <span class="navlink_icon">
+              <i class='bx bx-log-out-circle'></i>
+            </span>
+            <span class="navlink">Logout</span>
+          </a>
+        </li>
+
+      </ul>
+
+
+
+      <!-- Sidebar Open / Close -->
+      <div class="bottom_content">
+        <div class="bottom expand_sidebar">
+          <span> Expand</span>
+          <i class='bx bx-log-in'></i>
         </div>
-    </nav>
-
-    <main class="main-content">
-        <div class="re-btn">
-            <button onclick="window.location.href='reserve_request.php'">Reserve Request</button>
-            <button style="background-color:bisque;">Renew Request</button>
-            <button onclick="window.location.href='return_request.php'">Return Request</button>
+        <div class="bottom collapse_sidebar">
+          <span> Collapse</span>
+          <i class='bx bx-log-out'></i>
         </div>
+      </div>
+    </div>
+  </nav>
 
-        <?php if (isset($_GET['success'])): ?>
-            <p style="color: green; text-align: center;">
-                Renew request <?php echo $_GET['success']; ?> successfully.
-            </p>
-        <?php endif; ?>
-
-        <table>
-            <thead>
-                <tr>
-                    <th>User ID</th>
-                    <th>Book ID</th>
-                    <th>Book Name</th>
-                    <th>Availability</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php while ($row = mysqli_fetch_assoc($result)) { ?>
-                <tr>
-                    <td><?php echo htmlspecialchars($row['user_id']); ?></td>
-                    <td><?php echo htmlspecialchars($row['book_id']); ?></td>
-                    <td><?php echo htmlspecialchars($row['bookname']); ?></td>
-                    <td><?php echo htmlspecialchars($row['availability']); ?></td>
-                    <td>
-                        <form method="POST">
-                            <input type="hidden" name="user_id" value="<?php echo $row['user_id']; ?>">
-                            <input type="hidden" name="book_id" value="<?php echo $row['book_id']; ?>">
-                            <button type="submit" name="action" value="accept" style="background-color: green; color: white;">Accept</button>
-                            <button type="submit" name="action" value="decline" style="background-color: red; color: white;">Decline</button>
-                        </form>
-                    </td>
-                </tr>
-                <?php } ?>
-            </tbody>
-        </table>
-    </main>
-
-    <footer>
-        <div class="footer-content">
-            <h3>Million Library</h3>
-            <p>OLMS</p>
-            <ul>
-                <li><a href="#">About Us</a></li>
-                <li><a href="#">Contact Us</a></li>
-                <li><a href="#">Terms and Conditions</a></li>
-                <li><a href="#">Plans</a></li>
-                <li><a href="#">FAQs</a></li>
-                <li><a href="#">Help</a></li>
-            </ul>
-        </div>
-    </footer>
-    <p style="text-align: center;">&copy; 2024 Million Library. All rights reserved.</p>
-    <script src="script.js"></script>
+  <main class="main-content">
+    <h2>Renewal Requests</h2>
+    <table border="1">
+      <tr>
+        <th>Request ID</th>
+        <th>Book ID</th>
+        <th>Book Title</th>
+        <th>User Roll No</th>
+        <th>Action</th>
+      </tr>
+      <?php while ($row = $result->fetch_assoc()) { ?>
+        <tr>
+          <td><?php echo $row['id']; ?></td>
+          <td><?php echo $row['BookId']; ?></td>
+          <td><?php echo $row['Title']; ?></td>
+          <td><?php echo $row['RollNo']; ?></td>
+          <td>
+            <a href="admin_renew_requests.php?action=approve&id=<?php echo $row['id']; ?>" class="table_btn">Approve</a>
+            <a href="admin_renew_requests.php?action=reject&id=<?php echo $row['id']; ?>" class="table_btn">Reject</a>
+          </td>
+        </tr>
+      <?php } ?>
+    </table>
+  </main>
 </body>
+
 </html>

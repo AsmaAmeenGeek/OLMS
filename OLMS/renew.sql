@@ -2,9 +2,9 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1:3307
--- Generation Time: Dec 27, 2024 at 07:23 AM
--- Server version: 10.4.32-MariaDB
+-- Host: 127.0.0.1
+-- Generation Time: Mar 05, 2025 at 10:26 AM
+-- Server version: 8.0.23
 -- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -28,22 +28,19 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `renew` (
+  `id` int NOT NULL,
   `RollNo` varchar(50) NOT NULL,
-  `BookId` int(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `BookId` int NOT NULL,
+  `Date_Renewed` timestamp NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `renew`
 --
 
-INSERT INTO `renew` (`RollNo`, `BookId`) VALUES
-('s001', 1),
-('s002', 8),
-('s005', 3),
-('s006', 4),
-('s008', 5),
-('s009', 6),
-('s010', 7);
+INSERT INTO `renew` (`id`, `RollNo`, `BookId`, `Date_Renewed`) VALUES
+(1, 's001', 2, '2025-03-04 12:21:52'),
+(2, 's002', 2, '2025-03-05 06:27:58');
 
 --
 -- Indexes for dumped tables
@@ -53,7 +50,18 @@ INSERT INTO `renew` (`RollNo`, `BookId`) VALUES
 -- Indexes for table `renew`
 --
 ALTER TABLE `renew`
-  ADD PRIMARY KEY (`RollNo`,`BookId`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_renew_book` (`BookId`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `renew`
+--
+ALTER TABLE `renew`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

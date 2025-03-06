@@ -364,6 +364,58 @@ body.dark {
   background-color: #c9ac9f;
 }
 
+/* Requests page */
+.main-content1 {
+  grid-area: main;
+  padding: 20px;
+  margin: 180px 0 0 280px;
+}
+
+.requests {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  margin-top: 30px;
+}
+
+.request-box {
+  width: 200px;
+  height: 200px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  text-align: center;
+  padding: 20px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  text-decoration: none;
+}
+
+.request-box:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Request Box Icon */
+.request-box .icon {
+  font-size: 50px;
+  color: #784939;
+  background: #ecf0f1;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 15px;
+}
+
+/* Request Box Text */
+.request-box p {
+  font-size: 16px;
+  font-weight: bold;
+  color: #333;
+}
+
 /* Profile Page Styles */
 .profile_page {
   margin: 150px 60px 0 200px;

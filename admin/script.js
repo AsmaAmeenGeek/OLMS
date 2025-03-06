@@ -98,3 +98,32 @@ function editMessage(messageId) {
 function cancelEdit(messageId, originalText) {
   document.getElementById('message_' + messageId).innerText = originalText;
 }
+
+
+document.addEventListener("DOMContentLoaded", function () {
+  // Get all tabs and sections
+  const tabs = document.querySelectorAll(".tab-button");
+  const sections = document.querySelectorAll(".tab-content");
+
+  // Function to show selected tab content
+  function showTab(tabId) {
+      sections.forEach((section) => {
+          section.style.display = section.id === tabId ? "block" : "none";
+      });
+
+      // Update active tab styling
+      tabs.forEach((tab) => {
+          tab.classList.toggle("active", tab.dataset.target === tabId);
+      });
+  }
+
+  // Add event listeners to all tabs
+  tabs.forEach((tab) => {
+      tab.addEventListener("click", function () {
+          showTab(this.dataset.target);
+      });
+  });
+
+  // Show the default tab (Renew Requests)
+  showTab("renew-request");
+});

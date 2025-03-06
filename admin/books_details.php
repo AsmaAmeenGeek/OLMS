@@ -29,7 +29,7 @@ if (isset($_GET['BookId'])) {
             $userRow = $userResult->fetch_assoc();
             $ProfilePicture = !empty($userRow['ProfilePicture']) ? $userRow['ProfilePicture'] : 'images/profile.jpg';
         } else {
-            $ProfilePicture = 'images/profile.jpg'; 
+            $ProfilePicture = 'images/profile.jpg';
         }
         ?>
 
@@ -115,16 +115,18 @@ if (isset($_GET['BookId'])) {
                                 <span class="navlink">Add Books</span>
                             </a>
                         </li>
+
                         <li class="item">
-                            <a href="#" class="nav_link submenu_item">
+                            <a href="requests.php" class="nav_link submenu_item">
                                 <span class="navlink_icon">
                                     <i class='bx bx-right-indent'></i>
                                 </span>
                                 <span class="navlink">Reserve/Return<br>Requests</span>
                             </a>
                         </li>
+
                         <li class="item">
-                            <a href="#" class="nav_link submenu_item">
+                            <a href="currently_issued.php" class="nav_link submenu_item">
                                 <span class="navlink_icon">
                                     <i class='bx bx-list-ul'></i>
                                 </span>
@@ -220,7 +222,7 @@ if (isset($_GET['BookId'])) {
 
         </html>
 
-<?php
+        <?php
     } else {
         echo "Book not found.";
     }

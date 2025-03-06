@@ -126,16 +126,18 @@ if (isset($_GET['RollNo'])) {
                                 <span class="navlink">Add Books</span>
                             </a>
                         </li>
+
                         <li class="item">
-                            <a href="#" class="nav_link submenu_item">
+                            <a href="requests.php" class="nav_link submenu_item">
                                 <span class="navlink_icon">
                                     <i class='bx bx-right-indent'></i>
                                 </span>
                                 <span class="navlink">Reserve/Return<br>Requests</span>
                             </a>
                         </li>
+
                         <li class="item">
-                            <a href="#" class="nav_link submenu_item">
+                            <a href="currently_issued.php" class="nav_link submenu_item">
                                 <span class="navlink_icon">
                                     <i class='bx bx-list-ul'></i>
                                 </span>
@@ -195,7 +197,8 @@ if (isset($_GET['RollNo'])) {
                         <div class="button-container">
                             <a href="admin_manageStud.php" class="btn-link">
                                 <button class="go-back-btn">Go back</button>
-                                <a href="javascript:void(0);" class="table_btn" onclick="confirmDelete('<?php echo $rollNo; ?>')">Remove Student</a>
+                                <a href="javascript:void(0);" class="table_btn"
+                                    onclick="confirmDelete('<?php echo $rollNo; ?>')">Remove Student</a>
                             </a>
                         </div>
                     </div>
@@ -209,7 +212,7 @@ if (isset($_GET['RollNo'])) {
 
         </html>
 
-<?php
+        <?php
     } else {
         echo "Student not found.";
     }

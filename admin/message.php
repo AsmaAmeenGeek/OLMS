@@ -140,7 +140,7 @@ if (isset($_SESSION['RollNo'])) {
           </li>
 
           <li class="item">
-            <a href="#" class="nav_link submenu_item">
+            <a href="requests.php" class="nav_link submenu_item">
               <span class="navlink_icon">
                 <i class='bx bx-right-indent'></i>
               </span>
@@ -149,7 +149,7 @@ if (isset($_SESSION['RollNo'])) {
           </li>
 
           <li class="item">
-            <a href="#" class="nav_link submenu_item">
+            <a href="currently_issued.php" class="nav_link submenu_item">
               <span class="navlink_icon">
                 <i class='bx bx-list-ul'></i>
               </span>
@@ -213,7 +213,7 @@ if (isset($_SESSION['RollNo'])) {
 
   </html>
 
-<?php
+  <?php
 } else {
   echo "<script>alert('Access Denied!'); window.location.href='home.php';</script>";
 }

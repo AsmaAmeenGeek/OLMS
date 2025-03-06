@@ -18,7 +18,7 @@ if ($userResult && $userResult->num_rows > 0) {
   $userRow = $userResult->fetch_assoc();
   $ProfilePicture = !empty($userRow['ProfilePicture']) ? $userRow['ProfilePicture'] : 'images/profile.jpg';
 } else {
-  $ProfilePicture = 'images/profile.jpg'; 
+  $ProfilePicture = 'images/profile.jpg';
 }
 ?>
 
@@ -114,7 +114,7 @@ if ($userResult && $userResult->num_rows > 0) {
         </li>
 
         <li class="item">
-          <a href="#" class="nav_link submenu_item">
+          <a href="requests.php" class="nav_link submenu_item">
             <span class="navlink_icon">
               <i class='bx bx-right-indent'></i>
             </span>
@@ -123,7 +123,7 @@ if ($userResult && $userResult->num_rows > 0) {
         </li>
 
         <li class="item">
-          <a href="#" class="nav_link submenu_item">
+          <a href="currently_issued.php" class="nav_link submenu_item">
             <span class="navlink_icon">
               <i class='bx bx-list-ul'></i>
             </span>
@@ -168,9 +168,9 @@ if ($userResult && $userResult->num_rows > 0) {
 
     <?php
     $s = ""; // Define $s before checking if the form is submitted
-
+    
     if (isset($_POST['submit'])) {
-      $s = $_POST['title']; 
+      $s = $_POST['title'];
       $sql = "SELECT * FROM olms.user WHERE RollNo ='$s' OR Name LIKE '%$s%'";
     } else {
       // Default query for students (no user input)
@@ -185,7 +185,7 @@ if ($userResult && $userResult->num_rows > 0) {
       echo "<br><center><h2><b><i>No Results</i></b></h2></center>";
     } else {
       // Display the search results in a table
-    ?>
+      ?>
       <table>
         <thead>
           <tr>
@@ -201,7 +201,7 @@ if ($userResult && $userResult->num_rows > 0) {
             $rollNo = $row['RollNo'];
             $name = $row['Name'];
             $emailId = $row['EmailId'];
-          ?>
+            ?>
             <tr>
               <td><?php echo $rollNo ?></td>
               <td><?php echo $name ?></td>
@@ -212,10 +212,10 @@ if ($userResult && $userResult->num_rows > 0) {
                 </center>
               </td>
             </tr>
-        <?php }
-        } ?>
-        </tbody>
-      </table>
+          <?php }
+    } ?>
+      </tbody>
+    </table>
   </main>
   </div>
   </div>
