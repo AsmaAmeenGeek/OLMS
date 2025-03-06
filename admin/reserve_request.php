@@ -6,8 +6,11 @@ if (!isset($_SESSION['RollNo'])) {
     exit();
 }
 
+// Check for success or error messages in the URL
+$successMessage = isset($_GET['success']) ? $_GET['success'] : '';
+$errorMessage = isset($_GET['error']) ? $_GET['error'] : '';
+
 // Fetch reservations
-$search = isset($_GET['search']) ? $_GET['search'] : '';
 $sql = "SELECT r.id, r.RollNo, b.BookId, b.Title, r.Date_Reserved, r.Status 
         FROM olms.reservation r 
         JOIN olms.book b ON r.BookId = b.BookId 
@@ -16,7 +19,7 @@ $stmt = $conn->prepare($sql);
 $stmt->execute();
 $result = $stmt->get_result();
 
-
+//fetch profile
 $rollno = $_SESSION['RollNo'];
 
 $userQuery = "SELECT * FROM olms.user WHERE RollNo=?";
@@ -167,8 +170,8 @@ if ($userResult && $userResult->num_rows > 0) {
             </div>
         </div>
     </nav>
-    <main class="main-content">
 
+    <main class="main-content">
         <h2>Manage Reservations</h2>
         <table border="1">
             <tr>
@@ -190,19 +193,36 @@ if ($userResult && $userResult->num_rows > 0) {
                     <td><?php echo htmlspecialchars($row['Date_Reserved']); ?></td>
                     <td><?php echo htmlspecialchars($row['Status']); ?></td>
                     <td>
-                        <a href="update_reservation.php?action=approve&id=<?php echo $row['id']; ?>"
-                            class="table_btn">Approve</a>
-                        <a href="update_reservation.php?action=cancel&id=<?php echo $row['id']; ?>"
-                            class="table_btn">Cancel</a>
+                        <a href="update_reservation.php?action=approve&id=<?php echo $row['id']; ?>" class="table_btn">Approve</a>
+                        <a href="update_reservation.php?action=cancel&id=<?php echo $row['id']; ?>" class="table_btn">Cancel</a>
                     </td>
                 </tr>
             <?php } ?>
         </table>
     </main>
-    <script src="script.js"></script>
-</body>
 
+    <!-- JavaScript for alert messages -->
+    <script>
+        // Check if there is a success or error message
+        const successMessage = "<?php echo $successMessage; ?>";
+        const errorMessage = "<?php echo $errorMessage; ?>";
+
+        if (successMessage) {
+            alert("✅ " + successMessage);
+        }
+        if (errorMessage) {
+            alert("❌ " + errorMessage);
+        }
+
+        // Remove the success/error parameters from the URL after showing the alert
+        if (successMessage || errorMessage) {
+            window.history.replaceState({}, document.title, window.location.pathname);
+        }
+    </script>
+
+</body>
 </html>
+
 <?php
 $stmt->close();
 $conn->close();

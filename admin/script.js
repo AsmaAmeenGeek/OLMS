@@ -35,7 +35,7 @@ sidebar.addEventListener("mouseleave", () => {
 // Dark/Light Mode Toggle
 darkLight.addEventListener("click", () => {
   body.classList.toggle("dark");
-  
+
   if (body.classList.contains("dark")) {
     darkLight.classList.replace("bx-sun", "bx-moon");
     localStorage.setItem("theme", "dark"); // Save preference
@@ -82,7 +82,7 @@ adjustSidebar();
 window.addEventListener("resize", adjustSidebar);
 
 function editMessage(messageId) {
-  let messageCell = document.getElementById('message_' + messageId);
+  let messageCell = document.getElementById("message_" + messageId);
   let currentText = messageCell.innerText;
 
   let formHtml = `<form method='POST' action='message_list.php'>
@@ -96,5 +96,6 @@ function editMessage(messageId) {
 }
 
 function cancelEdit(messageId, originalText) {
-  document.getElementById('message_' + messageId).innerText = originalText;
+  document.getElementById("message_" + messageId).innerText = originalText;
 }
+
