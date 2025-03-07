@@ -6,31 +6,35 @@ if (!isset($_SESSION['RollNo'])) {
     exit();
 }
 
-// Check for success or error messages in the URL
-$successMessage = isset($_GET['success']) ? $_GET['success'] : '';
-$errorMessage = isset($_GET['error']) ? $_GET['error'] : '';
+// Fetch success/error messages using session (better than URL parameters)
+$successMessage = isset($_SESSION['success']) ? $_SESSION['success'] : '';
+$errorMessage = isset($_SESSION['error']) ? $_SESSION['error'] : '';
+unset($_SESSION['success'], $_SESSION['error']); // Clear messages after displaying
 
-// Fetch reservations
+// Fetch reservations with improved error handling
 $sql = "SELECT r.id, r.RollNo, b.BookId, b.Title, r.Date_Reserved, r.Status 
         FROM olms.reservation r 
         JOIN olms.book b ON r.BookId = b.BookId 
         WHERE r.Status = 'Approved'";
+
 $stmt = $conn->prepare($sql);
-$stmt->execute();
-$result = $stmt->get_result();
+if ($stmt) {
+    $stmt->execute();
+    $result = $stmt->get_result();
+} else {
+    die("Error preparing statement: " . $conn->error);
+}
 
-//fetch profile
+// Fetch user profile efficiently
 $rollno = $_SESSION['RollNo'];
-
-$userQuery = "SELECT * FROM olms.user WHERE RollNo=?";
+$userQuery = "SELECT ProfilePicture FROM olms.user WHERE RollNo = ?";
 $userStmt = $conn->prepare($userQuery);
-$userStmt->bind_param("s", $rollno);
-$userStmt->execute();
-$userResult = $userStmt->get_result();
-
-if ($userResult && $userResult->num_rows > 0) {
+if ($userStmt) {
+    $userStmt->bind_param("s", $rollno);
+    $userStmt->execute();
+    $userResult = $userStmt->get_result();
     $userRow = $userResult->fetch_assoc();
-    $ProfilePicture = !empty($userRow['ProfilePicture']) ? $userRow['ProfilePicture'] : 'images/profile.jpg';
+    $ProfilePicture = !empty($userRow['ProfilePicture']) ? htmlspecialchars($userRow['ProfilePicture']) : 'images/profile.jpg';
 } else {
     $ProfilePicture = 'images/profile.jpg';
 }
@@ -40,20 +44,19 @@ if ($userResult && $userResult->num_rows > 0) {
 <html lang="en">
 
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Boxicons CSS -->
     <link href="https://unpkg.com/boxicons@latest/css/boxicons.min.css" rel="stylesheet" />
-    <title>reserve</title>
-    <link rel="stylesheet" href="style.css" />
+    <title>requests</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-    <!-- navbar -->
     <nav class="navbar">
         <div class="logo_item">
             <i class="bx bx-menu" id="sidebarOpen"></i>
-            <img src="images/logo.jpg" alt=""></i>MillionOLMS
+            <img src="images/logo.jpg" alt="">MillionOLMS
         </div>
 
         <div class="search_bar">
@@ -119,6 +122,8 @@ if ($userResult && $userResult->num_rows > 0) {
                 </li>
 
                 <li class="item">
+
+
                     <a href="addBook.php" class="nav_link submenu_item">
                         <span class="navlink_icon">
                             <i class='bx bxs-edit'></i>
@@ -156,7 +161,6 @@ if ($userResult && $userResult->num_rows > 0) {
 
             </ul>
 
-
             <!-- Sidebar Open / Close -->
             <div class="bottom_content">
                 <div class="bottom expand_sidebar">
@@ -173,9 +177,18 @@ if ($userResult && $userResult->num_rows > 0) {
 
     <main class="main-content">
         <h2>Manage Reservations</h2>
+
+        <!-- Flash Messages -->
+        <?php if ($successMessage): ?>
+            <div class="alert success"><?php echo htmlspecialchars($successMessage); ?></div>
+        <?php endif; ?>
+        <?php if ($errorMessage): ?>
+            <div class="alert error"><?php echo htmlspecialchars($errorMessage); ?></div>
+        <?php endif; ?>
+
         <table border="1">
             <tr>
-                <th></th>
+                <th>#</th>
                 <th>Roll No</th>
                 <th>Book ID</th>
                 <th>Book Name</th>
@@ -183,8 +196,7 @@ if ($userResult && $userResult->num_rows > 0) {
                 <th>Status</th>
                 <th>Action</th>
             </tr>
-            <?php $serial = 1;
-            while ($row = $result->fetch_assoc()) { ?>
+            <?php $serial = 1; while ($row = $result->fetch_assoc()): ?>
                 <tr>
                     <td><?php echo $serial++; ?></td>
                     <td><?php echo htmlspecialchars($row['RollNo']); ?></td>
@@ -197,33 +209,25 @@ if ($userResult && $userResult->num_rows > 0) {
                         <a href="update_reservation.php?action=cancel&id=<?php echo $row['id']; ?>" class="table_btn">Cancel</a>
                     </td>
                 </tr>
-            <?php } ?>
-        </table>
+            <?php endwhile; ?>
+        </table><br>
+        <a href="requests.php" class="table_btn">Back</a>
     </main>
 
     <!-- JavaScript for alert messages -->
     <script>
-        // Check if there is a success or error message
-        const successMessage = "<?php echo $successMessage; ?>";
-        const errorMessage = "<?php echo $errorMessage; ?>";
-
-        if (successMessage) {
-            alert("✅ " + successMessage);
-        }
-        if (errorMessage) {
-            alert("❌ " + errorMessage);
-        }
-
-        // Remove the success/error parameters from the URL after showing the alert
-        if (successMessage || errorMessage) {
-            window.history.replaceState({}, document.title, window.location.pathname);
-        }
+        document.addEventListener("DOMContentLoaded", function () {
+            setTimeout(() => {
+                const alerts = document.querySelectorAll('.alert');
+                alerts.forEach(alert => alert.style.display = 'none');
+            }, 3000);
+        });
     </script>
-
 </body>
 </html>
 
 <?php
 $stmt->close();
+$userStmt->close();
 $conn->close();
 ?>

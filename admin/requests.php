@@ -158,8 +158,6 @@ if ($result && $result->num_rows > 0) {
         </div>
     </nav>
 
-
-    <!-- Main Content -->
     <!-- Main Content -->
     <main class="main-content1">
         <div class="requests">

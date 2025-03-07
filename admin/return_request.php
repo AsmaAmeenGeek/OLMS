@@ -7,27 +7,23 @@ if (!isset($_SESSION['RollNo'])) {
 }
 
 // Handle approve or reject actions
-if (isset($_GET['action']) && isset($_GET['id'])) {
+if (isset($_GET['action']) && isset($_GET['id']) && in_array($_GET['action'], ['approve', 'reject'])) {
     $requestId = intval($_GET['id']);
     $action = $_GET['action'];
 
-    if ($action == 'approve') {
-        // Approve the book return by updating the status
-        $updateQuery = "UPDATE olms.requests SET status = 'Accepted' WHERE id = ?";
-        $stmt = $conn->prepare($updateQuery);
-        $stmt->bind_param("i", $requestId);
-        $stmt->execute();
+    $status = ($action == 'approve') ? 'Accepted' : 'Declined';
 
-        echo "<script>alert('Book Return Approved'); window.location.href='return_request.php';</script>";
-    } elseif ($action == 'reject') {
-        // Reject the return request by updating the status
-        $updateQuery = "UPDATE olms.requests SET status = 'Declined' WHERE id = ?";
-        $stmt = $conn->prepare($updateQuery);
-        $stmt->bind_param("i", $requestId);
-        $stmt->execute();
+    $updateQuery = "UPDATE olms.requests SET status = ? WHERE id = ?";
+    $stmt = $conn->prepare($updateQuery);
+    $stmt->bind_param("si", $status, $requestId);
 
-        echo "<script>alert('Book Return Rejected'); window.location.href='return_request.php';</script>";
+    if ($stmt->execute()) {
+        $_SESSION['message'] = "Book Return " . ucfirst($action) . " Successfully!";
+    } else {
+        $_SESSION['message'] = "Error processing request!";
     }
+    header("Location: return_request.php");
+    exit();
 }
 
 // Fetch all pending return requests
@@ -36,41 +32,33 @@ $stmt = $conn->prepare($query);
 $stmt->execute();
 $result = $stmt->get_result();
 
-//Fetch profile 
+// Fetch profile
 $rollno = $_SESSION['RollNo'];
-
-$userQuery = "SELECT * FROM olms.user WHERE RollNo=?";
+$userQuery = "SELECT ProfilePicture FROM olms.user WHERE RollNo=?";
 $userStmt = $conn->prepare($userQuery);
 $userStmt->bind_param("s", $rollno);
 $userStmt->execute();
 $userResult = $userStmt->get_result();
+$ProfilePicture = ($userResult->num_rows > 0) ? $userResult->fetch_assoc()['ProfilePicture'] : 'images/profile.jpg';
 
-if ($userResult && $userResult->num_rows > 0) {
-    $userRow = $userResult->fetch_assoc();
-    $ProfilePicture = !empty($userRow['ProfilePicture']) ? $userRow['ProfilePicture'] : 'images/profile.jpg';
-} else {
-    $ProfilePicture = 'images/profile.jpg';
-}
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Boxicons CSS -->
     <link href="https://unpkg.com/boxicons@latest/css/boxicons.min.css" rel="stylesheet" />
-    <title>return</title>
-    <link rel="stylesheet" href="style.css" />
+    <title>requests</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-    <!-- navbar -->
     <nav class="navbar">
         <div class="logo_item">
             <i class="bx bx-menu" id="sidebarOpen"></i>
-            <img src="images/logo.jpg" alt=""></i>MillionOLMS
+            <img src="images/logo.jpg" alt="">MillionOLMS
         </div>
 
         <div class="search_bar">
@@ -136,6 +124,8 @@ if ($userResult && $userResult->num_rows > 0) {
                 </li>
 
                 <li class="item">
+
+
                     <a href="addBook.php" class="nav_link submenu_item">
                         <span class="navlink_icon">
                             <i class='bx bxs-edit'></i>
@@ -173,7 +163,6 @@ if ($userResult && $userResult->num_rows > 0) {
 
             </ul>
 
-
             <!-- Sidebar Open / Close -->
             <div class="bottom_content">
                 <div class="bottom expand_sidebar">
@@ -190,6 +179,11 @@ if ($userResult && $userResult->num_rows > 0) {
 
     <main class="main-content">
         <h2>Return Requests</h2>
+
+        <?php if (isset($_SESSION['message'])) { ?>
+            <p style="color: green;"><?php echo $_SESSION['message']; unset($_SESSION['message']); ?></p>
+        <?php } ?>
+
         <table border="1">
             <tr>
                 <th>Request ID</th>
@@ -201,18 +195,20 @@ if ($userResult && $userResult->num_rows > 0) {
             </tr>
             <?php while ($row = $result->fetch_assoc()) { ?>
                 <tr>
-                    <td><?php echo $row['id']; ?></td>
-                    <td><?php echo $row['book_id']; ?></td>
-                    <td><?php echo $row['book_name']; ?></td>
-                    <td><?php echo $row['user_id']; ?></td>
-                    <td><?php echo $row['status']; ?></td>
+                    <td><?php echo htmlspecialchars($row['id']); ?></td>
+                    <td><?php echo htmlspecialchars($row['book_id']); ?></td>
+                    <td><?php echo htmlspecialchars($row['book_name']); ?></td>
+                    <td><?php echo htmlspecialchars($row['user_id']); ?></td>
+                    <td><?php echo htmlspecialchars($row['status']); ?></td>
                     <td>
-                        <a href="return_request.php?action=approve&id=<?php echo $row['id']; ?>">Approve</a> |
-                        <a href="return_request.php?action=reject&id=<?php echo $row['id']; ?>">Reject</a>
+                        <button onclick="confirmAction('approve', <?php echo $row['id']; ?>)">Approve</button>
+                        <button onclick="confirmAction('reject', <?php echo $row['id']; ?>)">Reject</button>
                     </td>
                 </tr>
             <?php } ?>
-        </table>
+        </table><br>
+
+        <a href="requests.php" class="table_btn">Back</a>
     </main>
 </body>
 
