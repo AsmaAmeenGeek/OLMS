@@ -24,9 +24,9 @@ if (isset($_GET['RollNo'])) {
 
         if ($userResult && $userResult->num_rows > 0) {
             $userRow = $userResult->fetch_assoc();
-            $ProfilePicture = !empty($userRow['ProfilePicture']) ? $userRow['ProfilePicture'] : 'images/default.jpg';
+            $ProfilePicture = !empty($userRow['ProfilePicture']) ? $userRow['ProfilePicture'] : 'images/profile.jpg';
         } else {
-            $ProfilePicture = 'images/default.jpg';
+            $ProfilePicture = 'images/profile.jpg';
         }
         ?>
         <!DOCTYPE html>
