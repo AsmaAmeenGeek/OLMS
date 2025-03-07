@@ -672,6 +672,22 @@ footer h3 {
   .profile_mobileNumber {
     font-size: 15px;
   }
+
+  /*Edit Profile*/
+  .container1 {
+    margin: 120px 40px;
+  }
+  .container1_box {
+    padding: 25px 15px;
+    max-width: 500px;
+  }
+  .container1_box h2 {
+    font-size: 22px;
+  }
+  .btn {
+    font-size: 14px;
+    padding: 8px 18px;
+  }
 }
 
 @media screen and (max-width: 768px) {
@@ -684,7 +700,7 @@ footer h3 {
   }
 
   .sidebar.close {
-    left: -100%;
+    left: -100% !important;
   }
 
   .search_bar {
@@ -767,6 +783,31 @@ footer h3 {
     font-size: 14px;
   }
 
+/*Edit Profile*/
+  .container1 {
+    margin: 100px 30px;
+  }
+  .profile_image1 {
+    width: 130px;
+    height: 130px;
+  }
+  .container1_box {
+    padding: 20px 15px;
+    max-width: 450px;
+  }
+  .container1_box h2 {
+    font-size: 20px;
+  }
+  .container1_box input,
+  .container1_box textarea {
+    font-size: 14px;
+    padding: 8px;
+  }
+  .btn {
+    font-size: 13px;
+    padding: 8px 15px;
+  }
+
 }
 
 
@@ -825,6 +866,31 @@ footer h3 {
   .profile_email,
   .profile_mobileNumber {
     font-size: 13px;
+  }
+
+  /*Edit Profile*/
+  .container1 {
+    margin: 80px 20px;
+  }
+  .profile_image1 {
+    width: 100px;
+    height: 100px;
+  }
+  .container1_box {
+    padding: 15px 10px;
+    max-width: 100%;
+  }
+  .container1_box h2 {
+    font-size: 18px;
+  }
+  .container1_box input,
+  .container1_box textarea {
+    font-size: 13px;
+    padding: 7px;
+  }
+  .btn {
+    font-size: 12px;
+    padding: 7px 12px;
   }
 }
 
