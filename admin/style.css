@@ -672,11 +672,11 @@ table {
   background-color: #fff;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
+  overflow-x: auto;
   margin-top: 20px;
 }
 
-table th40px,
+table th,
 table td {
   border: 1px solid #ccc;
   padding: 10px;
@@ -684,7 +684,7 @@ table td {
 }
 
 table th {
-  background-color: #f0f0f0;
+
   height: 30px;
   background-color: #ccc;
 }
@@ -708,8 +708,8 @@ table td button:hover {
 
 .table_btn {
   display: inline-block;
-  padding: 3px 20px;
-  font-size: 16px;
+  padding: 5px 15px;
+  font-size: 14px;
   color: #784939;
   background-color: #d8d2d0;
   border: none;
@@ -860,6 +860,31 @@ table td button:hover {
     font-size: 26px;
     right: 10px;
   }
+
+/*all book and message list*/
+  .main-content {
+    margin: 80px 0 0 100px; 
+    padding: 15px;
+  }
+
+  .search-bar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .search-bar input {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
+  table {
+    font-size: 14px;
+  }
+
+  .table_btn {
+    padding: 4px 12px;
+    font-size: 12px;
+  }
 }
 
 @media screen and (max-width: 768px) {
@@ -1007,6 +1032,32 @@ table td button:hover {
     right: 8px;
   }
 
+/*all book and message list*/
+  .main-content {
+    margin: 60px 0 0 0; 
+    padding: 10px;
+  }
+
+  .search-bar {
+    width: 100%;
+  }
+
+  table {
+    width: 100%;
+    display: block;
+    overflow-x: auto;
+  }
+
+  table th, table td {
+    font-size: 13px;
+    padding: 8px;
+  }
+
+  .table_btn {
+    font-size: 12px;
+    padding: 4px 10px;
+  }
+
 }
 
 
@@ -1118,5 +1169,36 @@ table td button:hover {
   .message-box .list_icon {
     font-size: 22px;
     right: 5px;
+  }
+
+/*all book and message list*/
+  .main-content {
+    padding: 5px;
+  }
+
+  .search-bar {
+    flex-direction: column;
+    width: 100%;
+    align-items: stretch;
+  }
+
+  .search-bar input {
+    width: 100%;
+    margin-bottom: 8px;
+  }
+
+  table {
+    font-size: 12px;
+    display: block;
+    overflow-x: auto;
+  }
+
+  table th, table td {
+    padding: 6px;
+  }
+
+  .table_btn {
+    font-size: 10px;
+    padding: 3px 8px;
   }
 }
