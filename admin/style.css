@@ -491,7 +491,14 @@ input {
 .container1 {
   margin: 150px 60px;
 }
-
+.profile_image1 {
+  display: block;
+  margin: 0 auto 20px; 
+  width: 150px; 
+  height: 150px; 
+  border-radius: 50%; 
+  object-fit: cover; 
+}
 
 .container1_box {
   background-color: #fff;
