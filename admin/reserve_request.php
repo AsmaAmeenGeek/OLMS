@@ -223,6 +223,7 @@ if ($userStmt) {
             }, 3000);
         });
     </script>
+    <script src="script.js"></script>
 </body>
 </html>
 
