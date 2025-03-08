@@ -242,6 +242,7 @@ if ($userResult && $userResult->num_rows > 0) {
 
   </div>
   </div>
+  <script src="script.js"></script>
 </body>
 
 </html>

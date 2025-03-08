@@ -228,6 +228,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </form>
   </section>
 
+  <script src="script.js"></script>
 </body>
 
 </html>

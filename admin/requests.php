@@ -181,7 +181,7 @@ if ($result && $result->num_rows > 0) {
             </a>
         </div>
     </main>
-
+    <script src="script.js"></script>
 </body>
 
 </html>
