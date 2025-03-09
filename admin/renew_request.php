@@ -207,10 +207,11 @@ if ($userStmt) {
         </tr>
         <?php while ($row = mysqli_fetch_assoc($result)) { ?>
         <tr>
+        <td><?php echo $row['RollNo']; ?></td>
             <td><?php echo $row['id']; ?></td>
             <td><?php echo $row['BookId']; ?></td>
             <td><?php echo $row['Title']; ?></td>
-            <td><?php echo $row['RollNo']; ?></td>
+            
             <td>
                 <a href="renew_request.php?action=approve&id=<?php echo $row['id']; ?>">
                     <button type="button">Approve</button>

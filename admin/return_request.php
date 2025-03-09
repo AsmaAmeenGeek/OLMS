@@ -186,19 +186,19 @@ $ProfilePicture = ($userResult->num_rows > 0) ? $userResult->fetch_assoc()['Prof
 
         <table border="1">
             <tr>
+            <th>User ID</th>
                 <th>Request ID</th>
                 <th>Book ID</th>
                 <th>Book Name</th>
-                <th>User ID</th>
                 <th>Status</th>
                 <th>Action</th>
             </tr>
             <?php while ($row = $result->fetch_assoc()) { ?>
                 <tr>
+                <td><?php echo htmlspecialchars($row['user_id']); ?></td>
                     <td><?php echo htmlspecialchars($row['id']); ?></td>
                     <td><?php echo htmlspecialchars($row['book_id']); ?></td>
                     <td><?php echo htmlspecialchars($row['book_name']); ?></td>
-                    <td><?php echo htmlspecialchars($row['user_id']); ?></td>
                     <td><?php echo htmlspecialchars($row['status']); ?></td>
                     <td>
                         <button onclick="confirmAction('approve', <?php echo $row['id']; ?>)">Approve</button>

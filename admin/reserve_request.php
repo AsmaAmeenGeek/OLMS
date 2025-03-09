@@ -194,6 +194,7 @@ if ($userStmt) {
         <table>
             <thead>
                 <tr>
+                    <th>User ID</th>
                     <th>Book ID</th>
                     <th>Book Name</th>
                     <th>Reserve Date</th>
@@ -205,6 +206,7 @@ if ($userStmt) {
                 <?php if ($result->num_rows > 0): ?>
                     <?php while ($row = $result->fetch_assoc()): ?>
                         <tr>
+                        <td><?php echo $row['RollNo']; ?></td>
                             <td><?php echo ($row['BookId']); ?></td>
                             <td><?php echo ($row['Title']); ?></td>
                             <td><?php echo ($row['Date_Reserved']); ?></td>
