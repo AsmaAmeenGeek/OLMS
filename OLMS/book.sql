@@ -32,8 +32,9 @@ CREATE TABLE `book` (
   `Title` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `Publisher` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `Year` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `Availability` int DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `Availability` int DEFAULT NULL,
+  `Status` enum('Available','Reserved','CheckedOut') COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'Available'
+)  ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `book`
