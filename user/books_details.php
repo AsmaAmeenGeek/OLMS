@@ -38,7 +38,7 @@ if (isset($_GET['BookId'])) {
             <meta name="viewport" content="width=device-width, initial-scale=1" />
             <!-- Boxicons CSS -->
             <link href="https://unpkg.com/boxicons@latest/css/boxicons.min.css" rel="stylesheet" />
-            <title>OLMS</title>
+            <title>Book Details</title>
             <link rel="stylesheet" href="style.css" />
         </head>
 
