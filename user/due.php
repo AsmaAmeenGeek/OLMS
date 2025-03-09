@@ -205,7 +205,7 @@ $result = $stmt->get_result();
     </footer>
 
     <p class="site-name">&copy; 2024 Million Library. All rights reserved.</p>
-
+    <script src="script.js"></script>
 </body>
 
 </html>
