@@ -1,35 +1,22 @@
 <?php
-require('dbconn.php');
-
-if (!isset($_SESSION['RollNo'])) {
-    header("Location: index.php");
-    exit();
+include 'dbconn.php';
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
 }
 
-$query = "SELECT r.RollNo AS UserID, r.BookId, b.Title AS BookName, r.Date_Reserved AS IssuedDate 
-          FROM reservation r 
-          JOIN book b ON r.BookId = b.BookId 
-          WHERE r.Status = 'Approved'";
+$rollno = $_SESSION['RollNo']; // Get logged-in user's RollNo
 
-$result = mysqli_query($conn, $query);
+// Fetch approved reserved books for the logged-in user
+$query = "SELECT r.RollNo, r.BookId, b.Title AS BookName, r.Date_Reserved AS AcceptDate, 
+                 DATE_ADD(r.Date_Reserved, INTERVAL 14 DAY) AS DueDate
+          FROM olms.reservation r
+          JOIN olms.book b ON r.BookId = b.BookId
+          WHERE r.RollNo = ? AND r.Status = 'Approved'"; 
 
-if (!$result) {
-    die("Query failed: " . mysqli_error($conn));
-}
-
-
-$rollno = $_SESSION['RollNo'];
-$userQuery = "SELECT ProfilePicture FROM olms.user WHERE RollNo = ?";
-$userStmt = $conn->prepare($userQuery);
-if ($userStmt) {
-    $userStmt->bind_param("s", $rollno);
-    $userStmt->execute();
-    $userResult = $userStmt->get_result();
-    $userRow = $userResult->fetch_assoc();
-    $ProfilePicture = !empty($userRow['ProfilePicture']) ? htmlspecialchars($userRow['ProfilePicture']) : 'images/profile.jpg';
-} else {
-    $ProfilePicture = 'images/profile.jpg';
-}
+$stmt = $conn->prepare($query);
+$stmt->bind_param("s", $rollno);
+$stmt->execute();
+$result = $stmt->get_result();
 ?>
 
 <!DOCTYPE html>
@@ -40,25 +27,24 @@ if ($userStmt) {
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Boxicons CSS -->
     <link href="https://unpkg.com/boxicons@latest/css/boxicons.min.css" rel="stylesheet" />
-    <title>Issued Books</title>
+    <title>currently reserved page</title>
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
+
     <nav class="navbar">
         <div class="logo_item">
             <i class="bx bx-menu" id="sidebarOpen"></i>
             <img src="images/logo.jpg" alt="">MillionOLMS
         </div>
-
         <div class="search_bar">
-            <input type="text" placeholder="Search" />
+            <input type="text" placeholder="Search">
         </div>
-
         <div class="navbar_content">
             <i class="bi bi-grid"></i>
             <i class='bx bx-sun' id="darkLight"></i>
-            <img src="<?php echo ($ProfilePicture); ?>" alt="Profile Picture" class="profile" />
+            <img src="images/profile.jpg" alt="" class="profile">
         </div>
     </nav>
 
@@ -167,51 +153,65 @@ if ($userStmt) {
         </div>
     </nav>
 
-<body>
+    <main class="main-content">
+        <div class="search-bar">
+            <label for="search">Search:</label>
+            <input type="text" id="search" placeholder="Enter Name / ID of Book">
+            <button type="button">Search</button>
+        </div>
 
-<main class="main-content">
-<h2>Currently Issued Books</h2>
-<table border="1">
-    <thead>
-        <tr>
-            <th>User ID</th>
-            <th>Book ID</th>
-            <th>Book Name</th>
-            <th>Issued Date</th>
-            <th>Return Date</th>
-            <th>Overdue Fine (Rs.)</th>
-        </tr>
-    </thead>
-    <tbody>
-        <?php
-        while ($row = mysqli_fetch_assoc($result)) {
-            $issued_date = $row['IssuedDate'];
-            $return_date = date('Y-m-d', strtotime($issued_date . ' +14 days'));
-            $current_date = date('Y-m-d');
+        <table>
+            <thead>
+                <tr>
+                    <th>Roll No</th>
+                    <th>Book ID</th>
+                    <th>Book Name</th>
+                    <th>Issued Date</th>
+                    <th>Due Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                if ($result->num_rows > 0) {
+                    while ($row = $result->fetch_assoc()) {
+                        echo "<tr>
+                                <td>{$row['RollNo']}</td>
+                                <td>{$row['BookId']}</td>
+                                <td>{$row['BookName']}</td>
+                                <td>{$row['AcceptDate']}</td>
+                                <td>{$row['DueDate']}</td>
+                              </tr>";
+                    }
+                } else {
+                    echo "<tr><td colspan='5'>No currently reserved books</td></tr>";
+                }
+                ?>
+            </tbody>
+        </table>
+    </main>
 
-            $due_fund = "-"; // if not overdue
-            $row_class = ""; 
-
-            if ($current_date > $return_date) {
-                $days_late = (strtotime($current_date) - strtotime($return_date)) / (60 * 60 * 24);
-                $due_fund = 120 + ($days_late * 10);
-                $row_class = "style='color: red; font-weight: bold;'"; // Highlighting the overdue issued book details
-            }
-
-            echo "<tr $row_class>
-                    <td>{$row['UserID']}</td>
-                    <td>{$row['BookId']}</td>
-                    <td>{$row['BookName']}</td>
-                    <td>{$issued_date}</td>
-                    <td>{$return_date}</td>
-                    <td>{$due_fund}</td>
-                  </tr>";
-        }
-        ?>
-    </tbody>
-</table>
-
-</main>
+    <footer>
+        <div class="footer-content">
+            <div>
+                <h3>Million Library</h3>
+                <p>OLMS</p>
+            </div>
+            <div>
+                <ul>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="#">Terms and Conditions</a></li>
+                </ul>
+            </div>
+            <div>
+                <ul>
+                    <li><a href="#">Plans</a></li>
+                    <li><a href="#">FAQs</a></li>
+                    <li><a href="#">Help</a></li>
+                </ul>
+            </div>
+        </div>
+    </footer>
 
 </body>
 </html>

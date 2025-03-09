@@ -48,7 +48,7 @@ if ($userStmt) {
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Boxicons CSS -->
     <link href="https://unpkg.com/boxicons@latest/css/boxicons.min.css" rel="stylesheet" />
-    <title>return</title>
+    <title>Reservation Requests</title>
     <link rel="stylesheet" href="style.css">
 </head>
 
@@ -228,6 +228,7 @@ if ($userStmt) {
 
         <a href="requests.php" class="table_btn">Back</a>
     </main>
+    <script src="script.js"></script>
 </body>
 
 </html>

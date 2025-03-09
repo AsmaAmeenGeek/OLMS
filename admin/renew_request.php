@@ -65,12 +65,12 @@ if ($userStmt) {
 <html lang="en">
 
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <!-- Boxicons CSS -->
-  <link href="https://unpkg.com/boxicons@latest/css/boxicons.min.css" rel="stylesheet" />
-  <title>Profile</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Boxicons CSS -->
+    <link href="https://unpkg.com/boxicons@latest/css/boxicons.min.css" rel="stylesheet" />
+    <title>requests</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
@@ -222,6 +222,7 @@ if ($userStmt) {
         </table><br>
         <a href="requests.php" class="table_btn">Back</a>
     </main>
+    <script src="script.js"></script>
 </body>
 
 </html>
