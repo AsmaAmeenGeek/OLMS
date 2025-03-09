@@ -497,8 +497,11 @@ th {
 }
 
 .main-reserved{
-  margin: 100px 0 0 280px;
+  margin: 100px 0 0 270px;
   padding: 20px;
+  width: calc(100% - 250px);
+  overflow-x: auto;
+  transition: margin 0.3s ease-in-out, width 0.3s ease-in-out;
 }
 
 /* Edit Profile */
@@ -760,6 +763,13 @@ footer h3 {
     padding: 5px 10px;
   }
 
+/* Currently reserved */
+  .main-reserved {
+    margin: 100px auto 0 auto;
+    padding: 15px;
+    max-width: 95%; 
+  }
+
 }
 
 @media screen and (max-width: 768px) {
@@ -892,6 +902,14 @@ table th,
 table td {
   padding: 8px;
 }
+
+/* Currently reserved */
+.main-reserved {
+  margin: 80px 10px 0 10px; 
+  padding: 10px;
+  width: 100%;
+}
+
 }
 
 @media screen and (max-width: 480px) {
@@ -993,5 +1011,12 @@ table td {
   .button-container {
     flex-direction: column;
     gap: 5px;
+  }
+
+  /* Currently reserved */
+  .main-reserved {
+    margin: 20px 5px 0 5px; 
+    padding: 5px;
+    width: 100%;
   }
 }
