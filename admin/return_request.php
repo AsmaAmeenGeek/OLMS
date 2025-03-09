@@ -211,5 +211,6 @@ $ProfilePicture = ($userResult->num_rows > 0) ? $userResult->fetch_assoc()['Prof
         <a href="requests.php" class="table_btn">Back</a>
     </main>
 </body>
+<script src="script.js"></script>
 
 </html>
