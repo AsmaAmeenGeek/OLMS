@@ -180,7 +180,7 @@ if ($userResult && $userResult->num_rows > 0) {
   </div>
 
 
-  <p style="margin-left: 650px; margin-top: 20px;">&copy; 2024 Million Library. All rights reserved.</p>
+  <p class="site-name">&copy; 2024 Million Library. All rights reserved.</p>
 
   <script src="script.js"></script>
 </body>

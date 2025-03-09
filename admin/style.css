@@ -601,6 +601,11 @@ input {
   line-height: 1.5;
 }
 
+.site-name{
+  text-align: center; 
+  margin-top: 20px;
+}
+
 /* Footer */
 footer {
   background-color: #fff;
