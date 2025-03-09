@@ -31,7 +31,7 @@ if ($result && $result->num_rows > 0) {
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Boxicons CSS -->
     <link href="https://unpkg.com/boxicons@latest/css/boxicons.min.css" rel="stylesheet" />
-    <title>requests</title>
+    <title>Manage Requests </title>
     <link rel="stylesheet" href="style.css">
 </head>
 
