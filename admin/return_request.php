@@ -50,7 +50,7 @@ $ProfilePicture = ($userResult->num_rows > 0) ? $userResult->fetch_assoc()['Prof
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Boxicons CSS -->
     <link href="https://unpkg.com/boxicons@latest/css/boxicons.min.css" rel="stylesheet" />
-    <title>return</title>
+    <title>Return Requests</title>
     <link rel="stylesheet" href="style.css">
 </head>
 
