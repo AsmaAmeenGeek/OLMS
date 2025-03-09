@@ -30,7 +30,7 @@ if ($userResult && $userResult->num_rows > 0) {
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <!-- Boxicons CSS -->
   <link href="https://unpkg.com/boxicons@latest/css/boxicons.min.css" rel="stylesheet" />
-  <title>Update Book Details</title>
+  <title>Edit Book</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 
