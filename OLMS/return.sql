@@ -2,9 +2,9 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1:3307
--- Generation Time: Dec 27, 2024 at 07:23 AM
--- Server version: 10.4.32-MariaDB
+-- Host: 127.0.0.1
+-- Generation Time: Mar 09, 2025 at 11:32 AM
+-- Server version: 8.0.23
 -- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -28,20 +28,11 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `return` (
+  `id` int NOT NULL,
   `RollNo` varchar(50) NOT NULL,
-  `BookId` int(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `return`
---
-
-INSERT INTO `return` (`RollNo`, `BookId`) VALUES
-('s001', 1),
-('s002', 8),
-('s005', 3),
-('s006', 4),
-('s008', 5);
+  `BookId` int NOT NULL,
+  `Date_Returned` timestamp NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Indexes for dumped tables
@@ -51,7 +42,18 @@ INSERT INTO `return` (`RollNo`, `BookId`) VALUES
 -- Indexes for table `return`
 --
 ALTER TABLE `return`
-  ADD PRIMARY KEY (`RollNo`,`BookId`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_return_book` (`BookId`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `return`
+--
+ALTER TABLE `return`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

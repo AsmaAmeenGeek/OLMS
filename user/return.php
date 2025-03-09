@@ -18,22 +18,46 @@ if (isset($_GET['bookid'])) {
     $result = $stmt->get_result();
 
     if ($result->num_rows > 0) {
-        // Set return date as today
-        $returnDate = date('Y-m-d');
-        $updateQuery = "UPDATE olms.record SET Date_Return = ? WHERE BookId = ? AND RollNo = ? AND Date_Return IS NULL";
-        $stmt = $conn->prepare($updateQuery);
-        $stmt->bind_param("sis", $returnDate, $bookid, $rollno);
+        // Book is issued, handle the return process
+        $insertReturnQuery = "INSERT INTO olms.return (RollNo, BookId, Date_Returned) VALUES (?, ?, ?)";
+        $stmt = $conn->prepare($insertReturnQuery);
+        $returnDate = date('Y-m-d H:i:s'); // Get current date and time
+
+        $stmt->bind_param("sis", $rollno, $bookid, $returnDate);
 
         if ($stmt->execute()) {
-            echo "<script type='text/javascript'>alert('Book returned successfully!');window.location.href='pre_borrowed_book.php';</script>";
+            // Book returned successfully, now update the status in the `record` table
+            $updateRecordQuery = "UPDATE olms.record SET Date_Return = ? WHERE BookId = ? AND RollNo = ? AND Date_Return IS NULL";
+            $stmt = $conn->prepare($updateRecordQuery);
+            $stmt->bind_param("sis", $returnDate, $bookid, $rollno);
+
+            if ($stmt->execute()) {
+                echo "<script type='text/javascript'>
+                        alert('Book returned successfully!');
+                        window.location.href='pre_borrowed_book.php';
+                      </script>";
+            } else {
+                echo "<script type='text/javascript'>
+                        alert('Error updating record! Try again.');
+                        window.location.href='pre_borrowed_book.php';
+                      </script>";
+            }
         } else {
-            echo "<script type='text/javascript'>alert('Error returning book! Try again.');window.location.href='pre_borrowed_book.php';</script>";
+            echo "<script type='text/javascript'>
+                    alert('Error inserting return record! Try again.');
+                    window.location.href='pre_borrowed_book.php';
+                  </script>";
         }
     } else {
-        echo "<script type='text/javascript'>alert('No active record found for this book under your account!');window.location.href='pre_borrowed_book.php';</script>";
+        echo "<script type='text/javascript'>
+                alert('No active record found for this book under your account!');
+                window.location.href='pre_borrowed_book.php';
+              </script>";
     }
 } else {
-    echo "<script type='text/javascript'>alert('Invalid Request!');window.location.href='pre_borrowed_book.php';</script>";
+    echo "<script type='text/javascript'>
+            alert('Invalid Request!');
+            window.location.href='pre_borrowed_book.php';
+          </script>";
 }
-
 ?>

@@ -8,12 +8,10 @@ if (!isset($_SESSION['RollNo'])) {
 
 $user_id = $_SESSION['RollNo'];
 
-$rollno = $_SESSION['RollNo'];
-
 // Fetch user details for profile picture and other info
 $userQuery = "SELECT * FROM olms.user WHERE RollNo=?";
 $userStmt = $conn->prepare($userQuery);
-$userStmt->bind_param("s", $rollno);
+$userStmt->bind_param("s", $user_id);
 $userStmt->execute();
 $userResult = $userStmt->get_result();
 
@@ -34,6 +32,7 @@ $stmt_reserved = $conn->prepare($query_reserved);
 $stmt_reserved->bind_param("s", $user_id);
 $stmt_reserved->execute();
 $result_reserved = $stmt_reserved->get_result();
+
 ?>
 
 <!DOCTYPE html>
@@ -135,21 +134,8 @@ $result_reserved = $stmt_reserved->get_result();
                         <span class="navlink">Logout</span>
                     </a>
                 </li>
-
-                </ul>
-
-                <!-- Sidebar Open / Close -->
-                <div class="bottom_content">
-                    <div class="bottom expand_sidebar">
-                        <span> Expand</span>
-                        <i class='bx bx-log-in'></i>
-                    </div>
-                    <div class="bottom collapse_sidebar">
-                        <span> Collapse</span>
-                        <i class='bx bx-log-out'></i>
-                    </div>
-                </div>
             </div>
+        </div>
     </nav>
 
     <main class="main-reserved">

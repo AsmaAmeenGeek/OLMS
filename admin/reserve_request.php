@@ -6,7 +6,7 @@ if (!isset($_SESSION['RollNo'])) {
     exit();
 }
 
-// Fetch success/error messages using session (better than URL parameters)
+// Fetch success/error messages using session
 $successMessage = isset($_SESSION['success']) ? $_SESSION['success'] : '';
 $errorMessage = isset($_SESSION['error']) ? $_SESSION['error'] : '';
 unset($_SESSION['success'], $_SESSION['error']); // Clear messages after displaying
@@ -15,7 +15,7 @@ unset($_SESSION['success'], $_SESSION['error']); // Clear messages after display
 $sql = "SELECT r.id, r.RollNo, b.BookId, b.Title, r.Date_Reserved, r.Status 
         FROM olms.reservation r 
         JOIN olms.book b ON r.BookId = b.BookId 
-        WHERE r.Status = 'Approved'";
+        WHERE r.Status = 'Pending'"; // Only fetch pending requests
 
 $stmt = $conn->prepare($sql);
 if ($stmt) {
@@ -48,7 +48,7 @@ if ($userStmt) {
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Boxicons CSS -->
     <link href="https://unpkg.com/boxicons@latest/css/boxicons.min.css" rel="stylesheet" />
-    <title>reserve</title>
+    <title>return</title>
     <link rel="stylesheet" href="style.css">
 </head>
 
@@ -177,58 +177,55 @@ if ($userStmt) {
 
     <main class="main-content">
         <h2>Manage Reservations</h2>
-
-        <!-- Flash Messages -->
+        
+        <!-- Display success or error message -->
         <?php if ($successMessage): ?>
-            <div class="alert success"><?php echo htmlspecialchars($successMessage); ?></div>
+            <div class="message success">
+                <?php echo $successMessage; ?>
+            </div>
         <?php endif; ?>
         <?php if ($errorMessage): ?>
-            <div class="alert error"><?php echo htmlspecialchars($errorMessage); ?></div>
+            <div class="message error">
+                <?php echo $errorMessage; ?>
+            </div>
         <?php endif; ?>
 
-        <table border="1">
-            <tr>
-                <th>#</th>
-                <th>Roll No</th>
-                <th>Book ID</th>
-                <th>Book Name</th>
-                <th>Date Reserved</th>
-                <th>Status</th>
-                <th>Action</th>
-            </tr>
-            <?php $serial = 1; while ($row = $result->fetch_assoc()): ?>
+        <!-- Reservations table -->
+        <table>
+            <thead>
                 <tr>
-                    <td><?php echo $serial++; ?></td>
-                    <td><?php echo htmlspecialchars($row['RollNo']); ?></td>
-                    <td><?php echo htmlspecialchars($row['BookId']); ?></td>
-                    <td><?php echo htmlspecialchars($row['Title']); ?></td>
-                    <td><?php echo htmlspecialchars($row['Date_Reserved']); ?></td>
-                    <td><?php echo htmlspecialchars($row['Status']); ?></td>
-                    <td>
-                        <a href="update_reservation.php?action=approve&id=<?php echo $row['id']; ?>" class="table_btn">Approve</a>
-                        <a href="update_reservation.php?action=cancel&id=<?php echo $row['id']; ?>" class="table_btn">Cancel</a>
-                    </td>
+                    <th>Book ID</th>
+                    <th>Book Name</th>
+                    <th>Reserve Date</th>
+                    <th>Status</th>
+                    <th>Action</th>
                 </tr>
-            <?php endwhile; ?>
+            </thead>
+            <tbody>
+                <?php if ($result->num_rows > 0): ?>
+                    <?php while ($row = $result->fetch_assoc()): ?>
+                        <tr>
+                            <td><?php echo ($row['BookId']); ?></td>
+                            <td><?php echo ($row['Title']); ?></td>
+                            <td><?php echo ($row['Date_Reserved']); ?></td>
+                            <td><?php echo ($row['Status']); ?></td>
+                            <td>
+                                <a href="update_reservation.php?id=<?php echo $row['id']; ?>&action=approve" class="table_btn">Approve</a>
+                                <a href="update_reservation.php?id=<?php echo $row['id']; ?>&action=cancel" class="table_btn" 
+                                   onclick="return confirm('Cancel this reservation?');">Cancel</a>
+                            </td>
+                        </tr>
+                    <?php endwhile; ?>
+                <?php else: ?>
+                    <tr>
+                        <td colspan="5">No pending reservations.</td>
+                    </tr>
+                <?php endif; ?>
+            </tbody>
         </table><br>
+
         <a href="requests.php" class="table_btn">Back</a>
     </main>
-
-    <!-- JavaScript for alert messages -->
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            setTimeout(() => {
-                const alerts = document.querySelectorAll('.alert');
-                alerts.forEach(alert => alert.style.display = 'none');
-            }, 3000);
-        });
-    </script>
-    <script src="script.js"></script>
 </body>
-</html>
 
-<?php
-$stmt->close();
-$userStmt->close();
-$conn->close();
-?>
+</html>
