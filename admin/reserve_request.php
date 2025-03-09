@@ -228,6 +228,7 @@ if ($userStmt) {
 
         <a href="requests.php" class="table_btn">Back</a>
     </main>
+    <script src="script.js"></script>
 </body>
 
 </html>
