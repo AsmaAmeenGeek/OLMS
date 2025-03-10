@@ -30,9 +30,9 @@ if (isset($_GET['BookId'])) {
     $stmt->bind_param("si", $rollNo, $bookId);
     
     if ($stmt->execute()) {
-        echo "<script>alert('Book reserved successfully!'); window.location.href='currently_reserved.php';</script>";
+        echo "<script>alert('Reserve request sent successfully! Awaiting approval.'); window.location.href='currently_reserved.php';</script>";
     } else {
-        echo "<script>alert('Reservation failed. Try again!'); window.location.href='books_details.php?BookId=$bookId';</script>";
+        echo "<script>alert('Reservation request failed. Please try again!'); window.location.href='books_details.php?BookId=$bookId';</script>";
     }
     
     $stmt->close();
