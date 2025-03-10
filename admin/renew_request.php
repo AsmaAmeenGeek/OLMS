@@ -1,5 +1,10 @@
 <?php
-include 'dbconn.php'; // Include database connection
+include 'dbconn.php';
+
+if (!isset($_SESSION['RollNo'])) {
+  header("Location: index.php");
+  exit();
+}
 
 // Handle approve or reject renewal request
 if (isset($_GET['action']) && isset($_GET['id'])) {
@@ -69,7 +74,7 @@ if ($userStmt) {
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Boxicons CSS -->
     <link href="https://unpkg.com/boxicons@latest/css/boxicons.min.css" rel="stylesheet" />
-    <title>requests</title>
+    <title>Renew Request</title>
     <link rel="stylesheet" href="style.css">
 </head>
 
@@ -206,7 +211,8 @@ if ($userStmt) {
                 <th>Book Title</th>
                 <th>Action</th>
             </tr>
-            <?php while ($row = mysqli_fetch_assoc($result)) { ?>
+            <?php if ($result->num_rows > 0): ?>
+              <?php while ($row = $result->fetch_assoc()): ?>
                 <tr>
                     <td><?php echo $row['id']; ?></td>
                     <td><?php echo $row['RollNo']; ?></td>
@@ -218,7 +224,12 @@ if ($userStmt) {
                         <a href="renew_request.php?action=reject&id=<?php echo $row['id']; ?>" class="table_btn">Reject</a>
                     </td>
                 </tr>
-            <?php } ?>
+                <?php endwhile; ?>
+                <?php else: ?>
+                    <tr>
+                        <td colspan="5">No pending renewals.</td>
+                    </tr>
+                <?php endif; ?>
         </table><br>
         <a href="requests.php" class="table_btn">Back</a>
     </main>
