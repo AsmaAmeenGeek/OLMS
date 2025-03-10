@@ -6,42 +6,58 @@ if (!isset($_SESSION['RollNo'])) {
     exit();
 }
 
-// Handle approve or reject actions
-if (isset($_GET['action']) && isset($_GET['id']) && in_array($_GET['action'], ['approve', 'reject'])) {
-    $requestId = intval($_GET['id']);
+// Check if an action is provided (either accept or reject)
+if (isset($_GET['action']) && isset($_GET['id'])) {
     $action = $_GET['action'];
+    $requestId = $_GET['id'];
 
-    $status = ($action == 'approve') ? 'Accepted' : 'Declined';
-
-    $updateQuery = "UPDATE olms.requests SET status = ? WHERE id = ?";
-    $stmt = $conn->prepare($updateQuery);
-    $stmt->bind_param("si", $status, $requestId);
-
-    if ($stmt->execute()) {
-        $_SESSION['message'] = "Book Return " . ucfirst($action) . " Successfully!";
-    } else {
-        $_SESSION['message'] = "Error processing request!";
+    if ($action == 'accept') {
+        // Update the status to 'Accepted'
+        $updateQuery = "UPDATE olms.`return` SET status = 'Accepted' WHERE id = ?";
+        $stmt = $conn->prepare($updateQuery);
+        $stmt->bind_param("i", $requestId);
+        $stmt->execute();
+        $stmt->close();
+        $_SESSION['message'] = "Return request accepted successfully!";
+        $_SESSION['message_type'] = 'success'; // Optional: You can use this for styling (success or error)
+    } elseif ($action == 'reject') {
+        // Update the status to 'Declined'
+        $updateQuery = "UPDATE olms.`return` SET status = 'Declined' WHERE id = ?";
+        $stmt = $conn->prepare($updateQuery);
+        $stmt->bind_param("i", $requestId);
+        $stmt->execute();
+        $stmt->close();
+        $_SESSION['message'] = "Return request rejected!";
+        $_SESSION['message_type'] = 'error'; // Optional: You can use this for styling (success or error)
     }
+
+    // Redirect back to the return request page after action is performed
     header("Location: return_request.php");
     exit();
 }
 
-// Fetch all pending return requests
-$query = "SELECT id, book_id, book_name, user_id, status FROM olms.requests WHERE status = 'Pending'";
-$stmt = $conn->prepare($query);
-$stmt->execute();
-$result = $stmt->get_result();
+// Fetch the return requests from the database
+$query = "SELECT `return`.id, `return`.RollNo, `return`.BookId, `return`.Date_Returned, `return`.status, book.Title
+          FROM olms.`return`
+          JOIN olms.book AS book ON `return`.BookId = book.BookId
+          ORDER BY `return`.id DESC";
+$result = $conn->query($query);
 
-// Fetch profile
+// Fetch user profile efficiently
 $rollno = $_SESSION['RollNo'];
-$userQuery = "SELECT ProfilePicture FROM olms.user WHERE RollNo=?";
+$userQuery = "SELECT ProfilePicture FROM olms.user WHERE RollNo = ?";
 $userStmt = $conn->prepare($userQuery);
-$userStmt->bind_param("s", $rollno);
-$userStmt->execute();
-$userResult = $userStmt->get_result();
-$ProfilePicture = ($userResult->num_rows > 0) ? $userResult->fetch_assoc()['ProfilePicture'] : 'images/profile.jpg';
-
+if ($userStmt) {
+    $userStmt->bind_param("s", $rollno);
+    $userStmt->execute();
+    $userResult = $userStmt->get_result();
+    $userRow = $userResult->fetch_assoc();
+    $ProfilePicture = !empty($userRow['ProfilePicture']) ? htmlspecialchars($userRow['ProfilePicture']) : 'images/profile.jpg';
+} else {
+    $ProfilePicture = 'images/profile.jpg';
+}
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -177,40 +193,52 @@ $ProfilePicture = ($userResult->num_rows > 0) ? $userResult->fetch_assoc()['Prof
         </div>
     </nav>
 
+
+    <?php if (isset($_SESSION['message'])): ?>
+        <script type="text/javascript">
+            // Display the alert message
+            alert("<?php echo $_SESSION['message']; ?>");
+        </script>
+        <?php 
+        // Unset the message after displaying the alert to avoid it showing again
+        unset($_SESSION['message']);
+        unset($_SESSION['message_type']);
+        ?>
+    <?php endif; ?>
+
     <main class="main-content">
-        <h2>Return Requests</h2>
-
-        <?php if (isset($_SESSION['message'])) { ?>
-            <p style="color: green;"><?php echo $_SESSION['message']; unset($_SESSION['message']); ?></p>
-        <?php } ?>
-
-        <table border="1">
+    <h1>Return Requests</h1>
+    <table>
+        <thead>
             <tr>
-            <th>User ID</th>
                 <th>Request ID</th>
-                <th>Book ID</th>
-                <th>Book Name</th>
+                <th>Roll No</th>
+                <th>Book Title</th>
+                <th>Date Returned</th>
                 <th>Status</th>
                 <th>Action</th>
             </tr>
-            <?php while ($row = $result->fetch_assoc()) { ?>
+        </thead>
+        <tbody>
+            <?php while ($row = $result->fetch_assoc()): ?>
                 <tr>
-                <td><?php echo htmlspecialchars($row['user_id']); ?></td>
-                    <td><?php echo htmlspecialchars($row['id']); ?></td>
-                    <td><?php echo htmlspecialchars($row['book_id']); ?></td>
-                    <td><?php echo htmlspecialchars($row['book_name']); ?></td>
-                    <td><?php echo htmlspecialchars($row['status']); ?></td>
+                    <td><?php echo $row['id']; ?></td>
+                    <td><?php echo $row['RollNo']; ?></td>
+                    <td><?php echo $row['Title']; ?></td>
+                    <td><?php echo $row['Date_Returned']; ?></td>
+                    <td><?php echo $row['status']; ?></td>
                     <td>
-                        <button onclick="confirmAction('approve', <?php echo $row['id']; ?>)">Approve</button>
-                        <button onclick="confirmAction('reject', <?php echo $row['id']; ?>)">Reject</button>
+                        <?php if ($row['status'] == 'Pending'): ?>
+                            <a href="update_return.php?action=accept&id=<?php echo $row['id']; ?>" onclick="return confirm('Are you sure you want to accept this request?')" class="table_btn">Accept</a>
+                            <a href="update_return.php?action=reject&id=<?php echo $row['id']; ?>" onclick="return confirm('Are you sure you want to reject this request?')" class="table_btn">Reject</a>
+                        <?php else: ?>
+                            <span>Processed</span>
+                        <?php endif; ?>
                     </td>
                 </tr>
-            <?php } ?>
-        </table><br>
-
-        <a href="requests.php" class="table_btn">Back</a>
+            <?php endwhile; ?>
+        </tbody>
+    </table>
     </main>
 </body>
-<script src="script.js"></script>
-
 </html>
