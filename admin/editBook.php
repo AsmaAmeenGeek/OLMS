@@ -49,7 +49,10 @@ if ($userResult && $userResult->num_rows > 0) {
     <div class="navbar_content">
       <i class="bi bi-grid"></i>
       <i class='bx bx-sun' id="darkLight"></i>
-      <img src="<?php echo ($ProfilePicture); ?>" alt="Profile Picture" class="profile" />
+      <img src="<?php echo ($ProfilePicture); ?>" alt="Profile Picture" class="profile"  id="profilePic" />
+                <div class="profile-dropdown" id="profileDropdown">
+                    <a href="profile.php">My Profile</a>
+                    <a href="logout.php">Logout</a>
     </div>
   </nav>
 
