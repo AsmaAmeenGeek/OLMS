@@ -179,7 +179,7 @@ if ($userStmt) {
             <th>Book Name</th>
             <th>Issued Date</th>
             <th>Return Date</th>
-            <th>Overdue Fine (Rs.)</th>
+            <th>Overdue Amount (Rs.)</th>
         </tr>
     </thead>
     <tbody>
