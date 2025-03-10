@@ -18,7 +18,6 @@ if (!$result) {
     die("Query failed: " . mysqli_error($conn));
 }
 
-
 $rollno = $_SESSION['RollNo'];
 $userQuery = "SELECT ProfilePicture FROM olms.user WHERE RollNo = ?";
 $userStmt = $conn->prepare($userQuery);
@@ -171,7 +170,7 @@ if ($userStmt) {
 <body>
 
 <main class="main-content">
-<h2>Currently Issued Books</h2>
+<h2>Currently Issued Book</h2>
 <table border="1">
     <thead>
         <tr>

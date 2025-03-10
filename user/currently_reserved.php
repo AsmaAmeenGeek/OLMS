@@ -43,7 +43,7 @@ $result_reserved = $stmt_reserved->get_result();
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <!-- Boxicons CSS -->
     <link href="https://unpkg.com/boxicons@latest/css/boxicons.min.css" rel="stylesheet" />
-    <title>OLMS</title>
+    <title>Home</title>
     <link rel="stylesheet" href="style.css" />
 </head>
 
@@ -52,7 +52,7 @@ $result_reserved = $stmt_reserved->get_result();
     <nav class="navbar">
         <div class="logo_item">
             <i class="bx bx-menu" id="sidebarOpen"></i>
-            <img src="images/logo.jpg" alt="">MillionOLMS
+            <img src="images/logo.jpg" alt=""> MillionOLMS
         </div>
 
         <div class="search_bar">
@@ -62,7 +62,7 @@ $result_reserved = $stmt_reserved->get_result();
         <div class="navbar_content">
             <i class="bi bi-grid"></i>
             <i class='bx bx-sun' id="darkLight"></i>
-            <img src="<?php echo htmlspecialchars($ProfilePicture); ?>" alt="Profile Picture" class="profile" />
+            <img src="<?php echo ($ProfilePicture); ?>" alt="Profile Picture" class="profile" />
         </div>
     </nav>
 
@@ -111,7 +111,7 @@ $result_reserved = $stmt_reserved->get_result();
                 <li class="item">
                     <a href="pre_borrowed_book.php" class="nav_link submenu_item">
                         <span class="navlink_icon">
-                            <i class='bx bx-book-add'></i> 
+                            <i class='bx bx-book-add'></i>
                         </span>
                         <span class="navlink">Previously Borrowed <br> Books</span>
                     </a>
@@ -134,8 +134,19 @@ $result_reserved = $stmt_reserved->get_result();
                         <span class="navlink">Logout</span>
                     </a>
                 </li>
+
+                <!-- Sidebar Open / Close -->
+                <div class="bottom_content">
+                    <div class="bottom expand_sidebar">
+                        <span> Expand</span>
+                        <i class='bx bx-log-in'></i>
+                    </div>
+                    <div class="bottom collapse_sidebar">
+                        <span> Collapse</span>
+                        <i class='bx bx-log-out'></i>
+                    </div>
+                </div>
             </div>
-        </div>
     </nav>
 
     <main class="main-reserved">

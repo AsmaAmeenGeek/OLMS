@@ -123,8 +123,6 @@ if ($userResult && $userResult->num_rows > 0) {
                     </a>
                 </li>
 
-                </ul>
-
                 <!-- Sidebar Open / Close -->
                 <div class="bottom_content">
                     <div class="bottom expand_sidebar">

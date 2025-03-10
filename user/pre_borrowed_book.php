@@ -139,8 +139,6 @@ $result = $stmt->get_result();
                     </a>
                 </li>
 
-                </ul>
-
                 <!-- Sidebar Open / Close -->
                 <div class="bottom_content">
                     <div class="bottom expand_sidebar">
