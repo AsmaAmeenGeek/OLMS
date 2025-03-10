@@ -99,3 +99,15 @@ function cancelEdit(messageId, originalText) {
   document.getElementById("message_" + messageId).innerText = originalText;
 }
 
+// profile pic dropdown
+document.getElementById('profilePic').addEventListener('click', function() {
+  var dropdown = document.getElementById('profileDropdown');
+  dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+});
+document.addEventListener('click', function(event) {
+  var dropdown = document.getElementById('profileDropdown');
+  var profilePic = document.getElementById('profilePic');
+  if (!profilePic.contains(event.target) && !dropdown.contains(event.target)) {
+      dropdown.style.display = 'none';
+  }
+});
