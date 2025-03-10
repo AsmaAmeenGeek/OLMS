@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 09, 2025 at 11:32 AM
+-- Generation Time: Mar 10, 2025 at 08:51 AM
 -- Server version: 8.0.23
 -- PHP Version: 8.2.12
 
@@ -31,8 +31,17 @@ CREATE TABLE `return` (
   `id` int NOT NULL,
   `RollNo` varchar(50) NOT NULL,
   `BookId` int NOT NULL,
-  `Date_Returned` timestamp NULL DEFAULT CURRENT_TIMESTAMP
+  `Date_Returned` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `status` enum('Pending','Accepted','Declined') NOT NULL DEFAULT 'Pending'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `return`
+--
+
+INSERT INTO `return` (`id`, `RollNo`, `BookId`, `Date_Returned`, `status`) VALUES
+(1, 's001', 10, '2025-03-10 07:49:38', 'Pending'),
+(2, 's001', 10, '2025-03-10 07:50:12', 'Pending');
 
 --
 -- Indexes for dumped tables
@@ -53,7 +62,7 @@ ALTER TABLE `return`
 -- AUTO_INCREMENT for table `return`
 --
 ALTER TABLE `return`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
