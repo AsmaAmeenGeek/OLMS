@@ -215,6 +215,6 @@ if ($userStmt) {
 </table>
 
 </main>
-
+<script src="script.js"></script>
 </body>
 </html>
