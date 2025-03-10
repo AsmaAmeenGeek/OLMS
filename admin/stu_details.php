@@ -63,10 +63,6 @@ if (isset($_GET['RollNo'])) {
                     <img src="images/logo.jpg" alt="">MillionOLMS
                 </div>
 
-                <div class="search_bar">
-                    <input type="text" placeholder="Search" />
-                </div>
-
                 <div class="navbar_content">
                     <i class="bi bi-grid"></i>
                     <i class='bx bx-sun' id="darkLight"></i>

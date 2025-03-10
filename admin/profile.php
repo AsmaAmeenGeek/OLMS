@@ -41,11 +41,7 @@ if ($result && $result->num_rows > 0) {
       <i class="bx bx-menu" id="sidebarOpen"></i>
       <img src="images/logo.jpg" alt="">MillionOLMS
     </div>
-
-    <div class="search_bar">
-      <input type="text" placeholder="Search" />
-    </div>
-
+    
     <div class="navbar_content">
       <i class="bi bi-grid"></i>
       <i class='bx bx-sun' id="darkLight"></i>
