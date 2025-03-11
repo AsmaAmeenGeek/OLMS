@@ -1,5 +1,6 @@
 <?php
 session_start();
+// Include database connection file
 require('dbconn.php');
 
 // Check if an action is provided (either accept or reject)
@@ -33,6 +34,7 @@ if (isset($_GET['action']) && isset($_GET['id'])) {
         $row = $result->fetch_assoc();
         $stmt->close();
 
+        // If no matching return request is found
         if (!$row) {
             $_SESSION['message'] = "Return request not found!";
             $_SESSION['message_type'] = 'error';
@@ -86,7 +88,7 @@ if (isset($_GET['action']) && isset($_GET['id'])) {
         exit();
     } catch (Exception $e) {
         // Log the error and show a general error message
-        error_log("Error executing query: " . $e->getMessage());
+        error_log("Error on executing query: " . $e->getMessage());
         $_SESSION['message'] = "An error occurred while processing the request.";
         $_SESSION['message_type'] = 'error';
         header("Location: return_request.php");
