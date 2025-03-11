@@ -1,12 +1,14 @@
 <?php
+// Include database connection
 require('dbconn.php');
 
+// Redirect to login page if RollNo session is not set
 if (!isset($_SESSION['RollNo'])) {
     header("Location: index.php");
     exit();
 }
 
-// Fetch success/error messages using session
+// Fetch success/error messages from session for user feedback
 $successMessage = isset($_SESSION['success']) ? $_SESSION['success'] : '';
 $errorMessage = isset($_SESSION['error']) ? $_SESSION['error'] : '';
 unset($_SESSION['success'], $_SESSION['error']); // Clear messages after displaying
@@ -53,12 +55,12 @@ if ($userStmt) {
 </head>
 
 <body>
+    <!-- Navbar section -->
     <nav class="navbar">
         <div class="logo_item">
             <i class="bx bx-menu" id="sidebarOpen"></i>
             <img src="images/logo.jpg" alt="">MillionOLMS
         </div>
-
 
         <div class="navbar_content">
             <i class="bi bi-grid"></i>
