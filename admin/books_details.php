@@ -1,32 +1,32 @@
 <?php
-require('dbconn.php');
+require('dbconn.php');//connect the database connection file
 
-if (!isset($_SESSION['RollNo'])) {
+if (!isset($_SESSION['RollNo'])) {// check if the user is logged in by verifying if the session variable 'RollNo' exists
     header("Location: index.php");
     exit();
 }
 
-if (isset($_GET['BookId'])) {
-    $bookId = $_GET['BookId'];
-    $sql = "SELECT * FROM olms.book WHERE BookId = ?";
-    $stmt = $conn->prepare($sql);
+if (isset($_GET['BookId'])) { // check if book Id is passed in the URL query string by GET request parameter
+    $bookId = $_GET['BookId']; //retrieve the book id from the URL and store it in a variable
+    $sql = "SELECT * FROM olms.book WHERE BookId = ?"; // prepare the SQL query to fetch book details by book id
+    $stmt = $conn->prepare($sql); //prepare query, used prepare and bind methods to prevent sql injection
     $stmt->bind_param("i", $bookId);
     $stmt->execute();
     $result = $stmt->get_result();
 
-    if ($result->num_rows > 0) {
-        $book = $result->fetch_assoc();
+    if ($result->num_rows > 0) { //if matching book is find 
+        $book = $result->fetch_assoc(); //fetch book details
 
-        $rollno = $_SESSION['RollNo'];
+        $rollno = $_SESSION['RollNo']; // get the logged in user's roll no from session 
 
-        $userQuery = "SELECT * FROM olms.user WHERE RollNo=?";
+        $userQuery = "SELECT * FROM olms.user WHERE RollNo=?"; //prepare sql query to fetch user details
         $userStmt = $conn->prepare($userQuery);
         $userStmt->bind_param("s", $rollno);
         $userStmt->execute();
         $userResult = $userStmt->get_result();
 
-        if ($userResult && $userResult->num_rows > 0) {
-            $userRow = $userResult->fetch_assoc();
+        if ($userResult && $userResult->num_rows > 0) { //if user detail found
+            $userRow = $userResult->fetch_assoc(); // fetch detail
             $ProfilePicture = !empty($userRow['ProfilePicture']) ? $userRow['ProfilePicture'] : 'images/profile.jpg';
         } else {
             $ProfilePicture = 'images/profile.jpg';
@@ -165,14 +165,14 @@ if (isset($_GET['BookId'])) {
                     <div class="book-details">
                         <h1>Book Details</h1>
                         <?php
-                        $x = $_GET['BookId']; // Using BookId from the GET parameter
+                        $x = $_GET['BookId']; // Using book id from the GET parameter
                         $sql = "SELECT * FROM OLMS.book WHERE BookId = ?";
                         $stmt = $conn->prepare($sql);
                         $stmt->bind_param("i", $x);
                         $stmt->execute();
                         $result = $stmt->get_result();
 
-                        if ($result->num_rows > 0) {
+                        if ($result->num_rows > 0) { //check any book details found
                             $row = $result->fetch_assoc();
                             $bookid = $row['BookId'];
                             $name = $row['Title'];
@@ -180,24 +180,24 @@ if (isset($_GET['BookId'])) {
                             $year = $row['Year'];
                             $avail = $row['Availability'];
 
-                            echo "<p><strong>Book ID:</strong> $bookid</p>";
+                            echo "<p><strong>Book ID:</strong> $bookid</p>"; // display book details
                             echo "<p><strong>Title:</strong> $name</p>";
 
                             // Fetch authors
                             $sql1 = "SELECT * FROM OLMS.author WHERE BookId = ?";
-                            $stmt1 = $conn->prepare($sql1);
-                            $stmt1->bind_param("i", $bookid);
+                            $stmt1 = $conn->prepare($sql1); //prepare query for authors
+                            $stmt1->bind_param("i", $bookid); //bind the book id as int
                             $stmt1->execute();
                             $authorResult = $stmt1->get_result();
 
                             echo "<p><strong>Author:</strong> ";
                             $authors = [];
-                            while ($authorRow = $authorResult->fetch_assoc()) {
-                                $authors[] = $authorRow['Author'];
+                            while ($authorRow = $authorResult->fetch_assoc()) { // create loop through all related authors
+                                $authors[] = $authorRow['Author']; // adding all authors to the array
                             }
-                            echo implode(", ", $authors) . "</p>";
+                            echo implode(", ", $authors) . "</p>"; //show all users 
 
-                            echo "<p><strong>Publisher:</strong> $publisher</p>";
+                            echo "<p><strong>Publisher:</strong> $publisher</p>"; //display publisher , year and availabilty
                             echo "<p><strong>Year:</strong> $year</p>";
                             echo "<p><strong>Availability:</strong> ";
                             echo $avail > 0 ? "$avail copies" : "Not Available";
@@ -224,9 +224,9 @@ if (isset($_GET['BookId'])) {
 
         <?php
     } else {
-        echo "Book not found.";
+        echo "Book not found."; // display error message if no book id is provided / book is not found
     }
 } else {
-    echo "No BookId provided.";
+    echo "No BookId provided.";// display error message if book id is not passed in the URL
 }
 ?>

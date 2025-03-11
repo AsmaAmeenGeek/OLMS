@@ -1,7 +1,7 @@
 <?php
-require('dbconn.php');
+require('dbconn.php');//connect the database connection file
 
-if (!isset($_SESSION['RollNo'])) {
+if (!isset($_SESSION['RollNo'])) { // check if the user is logged in by verifying if the session variable 'RollNo' exists
   header("Location: index.php");
   exit();
 }
@@ -36,12 +36,12 @@ if ($userResult && $userResult->num_rows > 0) {
   <script>
     // JavaScript function to confirm deletion
     function confirmDelete(bookId) {
-      // Show confirmation popup
+      // show confirmation popup (confirm() function will popup a confirmation msg with yes and cancel btns )
       if (confirm("Do you really want to delete the book?")) {
-        // Redirect to the delete PHP script if admin clicks 'Yes'
+        // redirect to the delete PHP script if admin clicks Yes it mean true
         window.location.href = 'deleteBook.php?BookId=' + bookId;
       } else {
-        // Do nothing if user admin 'Cancel'
+        // do nothing if user admin Cancel it mean false
         return false;
       }
     }
@@ -182,18 +182,18 @@ if ($userResult && $userResult->num_rows > 0) {
 
 
     <?php
-    if (isset($_POST['submit'])) {
+    if (isset($_POST['submit'])) { //check if the form is submit
       $s = $_POST['title']; // Get the search term from the form
-      $sql = "SELECT * FROM olms.book WHERE BookId='$s' OR Title LIKE '%$s%'";
+      $sql = "SELECT * FROM olms.book WHERE BookId='$s' OR Title LIKE '%$s%'"; // SQL query to search for book with the BookId or title and LIKE '%$s%' is ensure the partial matching
     } else {
       // Default query to show all books ordered by BookId
       $sql = "SELECT * FROM olms.book ORDER BY BookId ASC";
     }
 
-    $result = $conn->query($sql);
-    $rowcount = mysqli_num_rows($result);
+    $result = $conn->query($sql); //execute SQL query
+    $rowcount = mysqli_num_rows($result); // count the num of rows return by the query
 
-    if (!$rowcount) {
+    if (!$rowcount) { //if no book found
       echo "<br><center><h2><b><i>No Results</i></b></h2></center>";
     } else {
       // Display the search results in a table
@@ -209,16 +209,16 @@ if ($userResult && $userResult->num_rows > 0) {
         </thead>
         <tbody>
           <?php
-          while ($row = $result->fetch_assoc()) {
-            $bookid = $row['BookId'];
-            $name = $row['Title'];
-            $avail = $row['Availability'];
+          while ($row = $result->fetch_assoc()) { // create loop thrgh the result and display each book's details
+            $bookid = $row['BookId']; //get book id
+            $name = $row['Title']; // get book title
+            $avail = $row['Availability']; // get availability status of book
             ?>
             <tr>
               <td><?php echo $bookid ?></td>
               <td><?php echo $name ?></td>
               <td><b><?php
-              if ($avail > 0)
+              if ($avail > 0) //check the book availability
                 echo "<font color=\"green\">Available</font>";
               else
                 echo "<font color=\"red\">Not Available</font>";

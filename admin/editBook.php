@@ -1,7 +1,7 @@
 <?php
-require('dbconn.php');
+require('dbconn.php'); //connect the database connection file
 
-if (!isset($_SESSION['RollNo'])) {
+if (!isset($_SESSION['RollNo'])) { // check if the user is logged in by verifying if the session variable 'RollNo' exists
   header("Location: index.php");
   exit();
 }
@@ -163,14 +163,14 @@ if ($userResult && $userResult->num_rows > 0) {
         <h2>Update Book Details</h2>
 
         <?php
-        $bookId = $_GET['BookId'];
+        $bookId = $_GET['BookId']; // get the book id from the URL parameter (GET request)
         $sql = "SELECT * FROM olms.book WHERE BookId = '$bookId'";
         $result = $conn->query($sql);
         $row = $result->fetch_assoc();
-        $name = $row['Title'];
-        $publisher = $row['Publisher'];
-        $year = $row['Year'];
-        $avail = $row['Availability'];
+        $name = $row['Title'];  // assign book details to variables
+        $publisher = $row['Publisher']; // ""
+        $year = $row['Year']; // ""
+        $avail = $row['Availability']; //""
         ?>
 
         <form class="form-horizontal row-fluid" action="editBook.php?BookId=<?php echo $bookId; ?>" method="post">
@@ -225,22 +225,22 @@ if ($userResult && $userResult->num_rows > 0) {
     <script src="script.js"></script>
 
     <?php
-    if (isset($_POST['submit'])) {
-      $bookId = $_GET['BookId'];
-      $name = $_POST['Title'];
-      $publisher = $_POST['Publisher'];
-      $year = $_POST['Year'];
-      $avail = $_POST['Availability'];
+    if (isset($_POST['submit'])) { // check if the form is submit or not
+      $bookId = $_GET['BookId']; //get updated book  details from the form
+      $name = $_POST['Title']; // ""
+      $publisher = $_POST['Publisher'];  // ""
+      $year = $_POST['Year']; // ""
+      $avail = $_POST['Availability']; // ""
 
-      $sql1 = "UPDATE book SET Title=?, Publisher=?, Year=?, Availability=? WHERE BookId=?";
-      $stmt = $conn->prepare($sql1);
+      $sql1 = "UPDATE book SET Title=?, Publisher=?, Year=?, Availability=? WHERE BookId=?"; // SQL query to update the book details using a prepared statement
+      $stmt = $conn->prepare($sql1); // prepared statement for prevent sql injection attacks
       $stmt->bind_param("sssii", $name, $publisher, $year, $avail, $bookId);
 
       // Execute the prepared statement
       if ($stmt->execute()) {
         echo "<script>
                 alert('Book Details updated successfully!');
-                window.location.href = 'admin_allBooks.php';
+                window.location.href = 'admin_allBooks.php'; // redirect to the all book age
             </script>";
         exit();
       } else {
@@ -253,6 +253,6 @@ if ($userResult && $userResult->num_rows > 0) {
 </html>
 
 <?php
-$userStmt->close();
+$userStmt->close(); //close prepared stat & db connection
 $conn->close();
 ?>

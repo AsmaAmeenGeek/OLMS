@@ -1,7 +1,7 @@
 <?php
-require('dbconn.php');
+require('dbconn.php'); //connect the database connection file
 
-if (!isset($_SESSION['RollNo'])) {
+if (!isset($_SESSION['RollNo'])) { // check if the user is logged in by verifying if the session variable 'RollNo' exists
   header("Location: index.php");
   exit();
 }
@@ -166,7 +166,7 @@ if ($userResult && $userResult->num_rows > 0) {
 
 
     <?php
-    $s = ""; // Define $s before checking if the form is submitted
+    $s = ""; // Define $s before checking if the form is submitted to prvent potential errors
     
     if (isset($_POST['submit'])) {
       $s = $_POST['title'];

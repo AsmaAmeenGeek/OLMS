@@ -1,7 +1,7 @@
 <?php
-require('dbconn.php');
+require('dbconn.php'); //connect the database connection file
 
-if (!isset($_SESSION['RollNo'])) {
+if (!isset($_SESSION['RollNo'])) { // check if the user is logged in by verifying if the session variable 'RollNo' exists
   header("Location: index.php");
   exit();
 }
@@ -24,23 +24,23 @@ if ($result && $result->num_rows > 0) {
   exit;
 }
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-  $newName = $_POST['Name'];
-  $newEmail = $_POST['EmailId'];
-  $newMobno = $_POST['MobNo'];
-  $newPassword = $_POST['Password'];
+if ($_SERVER["REQUEST_METHOD"] == "POST") { // check whether the form is sumbitted or not
+  $newName = $_POST['Name']; // get the user updated inputs
+  $newEmail = $_POST['EmailId']; // get the user updated inputs
+  $newMobno = $_POST['MobNo']; // get the user updated inputs
+  $newPassword = $_POST['Password']; // get the user updated inputs
 
   // Handle Profile Image Upload
-  if (!empty($_FILES['profile_image']['name'])) {
-    $file_name = basename($_FILES["profile_image"]["name"]);
-    $targetDir = "../Assets/profile/";
-    $targetFile = $targetDir . $file_name;
-    $imageFileType = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
+  if (!empty($_FILES['profile_image']['name'])) { //check if file was uploaded
+    $file_name = basename($_FILES["profile_image"]["name"]); //get file name
+    $targetDir = "../Assets/profile/"; // define a directry to store the pics
+    $targetFile = $targetDir . $file_name; 
+    $imageFileType = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));// convert file expension into lowercase
     $allowedTypes = array("jpg", "jpeg", "png", "gif");
 
-    if (in_array($imageFileType, $allowedTypes)) {
-      if (move_uploaded_file($_FILES["profile_image"]["tmp_name"], $targetFile)) {
-        $ProfilePicture = $targetFile;
+    if (in_array($imageFileType, $allowedTypes)) { // check if the uploaded image is an allowed type
+      if (move_uploaded_file($_FILES["profile_image"]["tmp_name"], $targetFile)) { // move uploaded image from temperory location to the target loca.
+        $ProfilePicture = $targetFile; //strore file location
       } else {
         echo "<p>Error uploading file.</p>";
       }
@@ -49,10 +49,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
   }
 
-  // Update user details
+  // Update user details in db
   $updateQuery = "UPDATE olms.user SET Name=?, EmailId=?, MobNo=?, ProfilePicture=? WHERE RollNo=?";
   $stmt = $conn->prepare($updateQuery);
-  $stmt->bind_param("sssss", $newName, $newEmail, $newMobno, $ProfilePicture, $rollno);
+  $stmt->bind_param("sssss", $newName, $newEmail, $newMobno, $ProfilePicture, $rollno); // binding variabls to the query,  ssssss mean all are strings
 
   if ($stmt->execute() === TRUE) {
     $_SESSION['success'] = "Profile updated successfully!";
