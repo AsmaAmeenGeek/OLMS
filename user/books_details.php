@@ -3,7 +3,7 @@ require('dbconn.php');
 
 $rollno = $_SESSION['RollNo'];
 
-// Fetch user details for profile picture and other info
+// Fetch user details for profile picture
 $userQuery = "SELECT * FROM olms.user WHERE RollNo=?";
 $userStmt = $conn->prepare($userQuery);
 $userStmt->bind_param("s", $rollno);
@@ -14,10 +14,10 @@ if ($userResult && $userResult->num_rows > 0) {
     $userRow = $userResult->fetch_assoc();
     $ProfilePicture = !empty($userRow['ProfilePicture']) ? $userRow['ProfilePicture'] : 'images/profile.jpg';
 } else {
-    $ProfilePicture = 'images/profile.jpg'; // Default picture if none found
+    $ProfilePicture = 'images/profile.jpg';
 }
 
-// Book details
+// Fetch book details
 if (isset($_GET['BookId'])) {
     $bookId = $_GET['BookId'];
     $sql = "SELECT * FROM olms.book WHERE BookId = ?";
@@ -47,19 +47,18 @@ if (isset($_GET['BookId'])) {
             <nav class="navbar">
                 <div class="logo_item">
                     <i class="bx bx-menu" id="sidebarOpen"></i>
-                    <img src="images/logo.jpg" alt=""></i>MillionOLMS
+                    <img src="images/logo.jpg" alt="">MillionOLMS
                 </div>
 
                 <div class="navbar_content">
                     <i class="bi bi-grid"></i>
                     <i class='bx bx-sun' id="darkLight"></i>
-                    <img src="<?php echo $ProfilePicture; ?>" alt="Profile Picture" class="profile"  id="profilePic" />
-                <div class="profile-dropdown" id="profileDropdown">
-                    <a href="profile.php">My Profile</a>
-                    <a href="logout.php">Logout</a>
-                </div>
+                    <img src="<?php echo ($ProfilePicture); ?>" alt="Profile Picture" class="profile" id="profilePic" />
+                    <div class="profile-dropdown" id="profileDropdown">
+                        <a href="profile.php">My Profile</a>
+                        <a href="logout.php">Logout</a>
+                    </div>
             </nav>
-
 
             <!-- sidebar -->
             <nav class="sidebar">
@@ -106,7 +105,7 @@ if (isset($_GET['BookId'])) {
                         <li class="item">
                             <a href="pre_borrowed_book.php" class="nav_link submenu_item">
                                 <span class="navlink_icon">
-                                    <i class='bx bx-book-add'></i>                                
+                                    <i class='bx bx-book-add'></i>
                                 </span>
                                 <span class="navlink">Previously Borrowed <br> Books</span>
                             </a>
@@ -144,53 +143,55 @@ if (isset($_GET['BookId'])) {
                     </div>
             </nav>
 
-            <!-- Book details Page -->
             <main class="main-content">
                 <div class="content">
                     <div class="book-details">
                         <h1>Book Details</h1>
+                        <p><strong>Book ID:</strong> <?php echo $book['BookId']; ?></p>
+                        <p><strong>Title:</strong> <?php echo $book['Title']; ?></p>
+
                         <?php
-                        $x = $_GET['BookId']; // Using BookId from the GET parameter
-                        $sql = "SELECT * FROM OLMS.book WHERE BookId = ?";
-                        $stmt = $conn->prepare($sql);
-                        $stmt->bind_param("i", $x);
-                        $stmt->execute();
-                        $result = $stmt->get_result();
+                        // Fetch authors
+                        $authorQuery = "SELECT * FROM OLMS.author WHERE BookId = ?";
+                        $authorStmt = $conn->prepare($authorQuery);
+                        $authorStmt->bind_param("i", $bookId);
+                        $authorStmt->execute();
+                        $authorResult = $authorStmt->get_result();
+                        $authors = [];
+                        while ($authorRow = $authorResult->fetch_assoc()) {
+                            $authors[] = $authorRow['Author'];
+                        }
+                        echo "<p><strong>Author:</strong> " . implode(", ", $authors) . "</p>";
+                        ?>
 
-                        if ($result->num_rows > 0) {
-                            $row = $result->fetch_assoc();
-                            $bookid = $row['BookId'];
-                            $name = $row['Title'];
-                            $publisher = $row['Publisher'];
-                            $year = $row['Year'];
-                            $avail = $row['Availability'];
+                        <p><strong>Publisher:</strong> <?php echo $book['Publisher']; ?></p>
+                        <p><strong>Year:</strong> <?php echo $book['Year']; ?></p>
+                        <p><strong>Availability:</strong>
+                            <?php echo $book['Availability'] > 0 ? $book['Availability'] . " copies" : "Not Available"; ?>
+                        </p>
 
-                            echo "<p><strong>Book ID:</strong> $bookid</p>";
-                            echo "<p><strong>Title:</strong> $name</p>";
+                        <!-- PDF Access Section -->
+                        <?php
+                        // Check if the user has an approved reservation and UnlockPDF is 1
+                        $reservationQuery = "SELECT * FROM reservation WHERE RollNo = ? AND BookId = ? AND UnlockPDF = 1";
+                        $reservationStmt = $conn->prepare($reservationQuery);
+                        $reservationStmt->bind_param("si", $rollno, $bookId);
+                        $reservationStmt->execute();
+                        $reservationResult = $reservationStmt->get_result();
 
-                            // Fetch authors
-                            $sql1 = "SELECT * FROM OLMS.author WHERE BookId = ?";
-                            $stmt1 = $conn->prepare($sql1);
-                            $stmt1->bind_param("i", $bookid);
-                            $stmt1->execute();
-                            $authorResult = $stmt1->get_result();
-
-                            echo "<p><strong>Author:</strong> ";
-                            $authors = [];
-                            while ($authorRow = $authorResult->fetch_assoc()) {
-                                $authors[] = $authorRow['Author'];
+                        if ($reservationResult->num_rows > 0) {
+                            // User has an approved reservation and PDF is unlocked, allow PDF access
+                            if (!empty($book['PDF_Link'])) {
+                                echo "<p><strong>Book PDF:</strong> <a href='" . $book['PDF_Link'] . "' target='_blank'>View PDF</a></p>";
+                            } else {
+                                echo "<p><strong>Book PDF:</strong> Not available</p>";
                             }
-                            echo implode(", ", $authors) . "</p>";
-
-                            echo "<p><strong>Publisher:</strong> $publisher</p>";
-                            echo "<p><strong>Year:</strong> $year</p>";
-                            echo "<p><strong>Availability:</strong> ";
-                            echo $avail > 0 ? "$avail copies" : "Not Available";
-                            echo "</p>";
                         } else {
-                            echo "<p>Book details not found.</p>";
+                            // PDF is locked
+                            echo "<p><strong>Book PDF:</strong> <span style='color: red;'>Access Locked (Reserve to Unlock)</span></p>";
                         }
                         ?>
+
                         <div class="button-container">
                             <a href="all_books.php" class="btn-link">
                                 <button class="table_btn">Go back</button>

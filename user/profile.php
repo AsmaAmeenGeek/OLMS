@@ -13,7 +13,6 @@ $result = $conn->query($sql);
 if ($result && $result->num_rows > 0) {
   $row = $result->fetch_assoc();
   $name = $row['Name'];
-  $category = $row['Category'];
   $email = $row['EmailId'];
   $mobno = $row['MobNo'];
   $ProfilePicture = !empty($row['ProfilePicture']) ? $row['ProfilePicture'] : 'images/profile.jpg';
@@ -148,8 +147,6 @@ if ($result && $result->num_rows > 0) {
       <p><b>Email ID: </b><?php echo ($email); ?></p>
       <br>
       <p><b>Roll No: </b><?php echo ($rollno); ?></p>
-      <br>
-      <p><b>Category: </b><?php echo ($category); ?></p>
       <br>
       <p><b>Mobile number: </b><?php echo ($mobno); ?></p>
       <br>

@@ -16,7 +16,6 @@ $result = $stmt->get_result();
 if ($result && $result->num_rows > 0) {
     $row = $result->fetch_assoc();
     $name = $row['Name'];
-    $category = $row['Category'];
     $email = $row['EmailId'];
     $mobno = $row['MobNo'];
     $ProfilePicture = !empty($row['ProfilePicture']) ? $row['ProfilePicture'] : 'images/profile.jpg';
@@ -27,7 +26,6 @@ if ($result && $result->num_rows > 0) {
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $newName = $_POST['Name'];
-    $newCategory = $_POST['Category'];
     $newEmail = $_POST['EmailId'];
     $newMobno = $_POST['MobNo'];
     $newPassword = $_POST['Password'];
@@ -52,9 +50,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     // Update user details
-    $updateQuery = "UPDATE olms.user SET Name=?, Category=?, EmailId=?, MobNo=?, ProfilePicture=? WHERE RollNo=?";
+    $updateQuery = "UPDATE olms.user SET Name=?, EmailId=?, MobNo=?, ProfilePicture=? WHERE RollNo=?";
     $stmt = $conn->prepare($updateQuery);
-    $stmt->bind_param("ssssss", $newName, $newCategory, $newEmail, $newMobno, $ProfilePicture, $rollno);
+    $stmt->bind_param("sssss", $newName, $newEmail, $newMobno, $ProfilePicture, $rollno);
 
     if ($stmt->execute() === TRUE) {
         $_SESSION['success'] = "Profile updated successfully!";
@@ -187,15 +185,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <label for="name">Name:</label>
             <input type="text" id="name" placeholder="Enter your name" name="Name" value="<?php echo ($name); ?>">
 
-            <label for="Category"><b>Category:</b></label>
-            <select name="Category">
-                <option value="<?php echo ($category); ?>"><?php echo ($category); ?>
-                </option>
-                <option value="GEN">GEN</option>
-                <option value="OBC">OBC</option>
-                <option value="SC">SC</option>
-                <option value="ST">ST</option>
-            </select>
 
             <label for="email">E-mail ID:</label>
             <input type="email" id="email" placeholder="Enter your email" name="EmailId"
