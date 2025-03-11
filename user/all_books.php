@@ -1,22 +1,22 @@
 <?php
 require('dbconn.php');
 
-if (!isset($_SESSION['RollNo'])) {
-    header("Location: index.php");
+if (!isset($_SESSION['RollNo'])) { // check if th user is logged in by veryfing roll no session
+    header("Location: index.php"); // if not exist redirect to the login page
     exit();
 }
 
-$rollno = $_SESSION['RollNo'];
+$rollno = $_SESSION['RollNo']; // retrieve the roll no from session for get user details
 
 // Fetch user details for profile picture and other info
 $userQuery = "SELECT * FROM olms.user WHERE RollNo=?";
-$userStmt = $conn->prepare($userQuery);
-$userStmt->bind_param("s", $rollno);
+$userStmt = $conn->prepare($userQuery); // prepare the statmnt
+$userStmt->bind_param("s", $rollno);// bind the roll no as a string parametr
 $userStmt->execute();
 $userResult = $userStmt->get_result();
 
-if ($userResult && $userResult->num_rows > 0) {
-    $userRow = $userResult->fetch_assoc();
+if ($userResult && $userResult->num_rows > 0) { // check if user is found
+    $userRow = $userResult->fetch_assoc(); // fetch user data
     $ProfilePicture = !empty($userRow['ProfilePicture']) ? $userRow['ProfilePicture'] : 'images/profile.jpg';
 } else {
     $ProfilePicture = 'images/profile.jpg'; // Default picture if none found
@@ -148,7 +148,7 @@ if ($userResult && $userResult->num_rows > 0) {
         </form>
 
         <?php
-        if (isset($_POST['submit'])) {
+        if (isset($_POST['submit'])) { // check if form is submitted
             $s = $_POST['title']; // Get the search term from the form
             $sql = "SELECT * FROM olms.book WHERE BookId='$s' OR Title LIKE '%$s%'";
         } else {
@@ -157,9 +157,9 @@ if ($userResult && $userResult->num_rows > 0) {
         }
 
         $result = $conn->query($sql);
-        $rowcount = mysqli_num_rows($result);
+        $rowcount = mysqli_num_rows($result); //get the num of matching rows
 
-        if (!$rowcount) {
+        if (!$rowcount) { // if no result found
             echo "<br><center><h2><b><i>No Results</i></b></h2></center>";
         } else {
             // Display the search results in a table
@@ -175,12 +175,12 @@ if ($userResult && $userResult->num_rows > 0) {
                 </thead>
                 <tbody>
                     <?php
-                    while ($row = $result->fetch_assoc()) {
-                        $bookid = $row['BookId'];
-                        $name = $row['Title'];
-                        $avail = $row['Availability'];
+                    while ($row = $result->fetch_assoc()) { // loop throuh each row in the result set
+                        $bookid = $row['BookId']; // get details from current row
+                        $name = $row['Title']; //""
+                        $avail = $row['Availability']; //""
                         ?>
-                        <tr>
+                        <tr> <!-- Display each book's details in the table -->
                             <td><?php echo $bookid ?></td>
                             <td><?php echo $name ?></td>
                             <td><b><?php
