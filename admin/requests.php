@@ -1,20 +1,25 @@
 <?php
+// Include database connection
 require('dbconn.php');
 
+// Ensure the user is logged in, otherwise redirect to login page
 if (!isset($_SESSION['RollNo'])) {
     header("Location: index.php");
     exit();
 }
 
+// Fetch user details from the database
 $rollno = $_SESSION['RollNo'];
 $sql = "SELECT * FROM olms.user WHERE RollNo='$rollno'";
 $result = $conn->query($sql);
 
+// Check if user data is found and retrieve details
 if ($result && $result->num_rows > 0) {
     $row = $result->fetch_assoc();
     $name = $row['Name'];
     $email = $row['EmailId'];
     $mobno = $row['MobNo'];
+    // Use profile picture if available; otherwise, use default image
     $ProfilePicture = !empty($row['ProfilePicture']) ? $row['ProfilePicture'] : 'images/profile.jpg';
 } else {
     echo "<p>Error: No user found with Roll No: $rollno</p>";
@@ -36,6 +41,7 @@ if ($result && $result->num_rows > 0) {
 </head>
 
 <body>
+    <!-- Navigation Bar -->
     <nav class="navbar">
         <div class="logo_item">
             <i class="bx bx-menu" id="sidebarOpen"></i>
