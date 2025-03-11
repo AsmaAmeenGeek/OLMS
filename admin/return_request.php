@@ -1,6 +1,8 @@
 <?php
+// Include database connection
 require('dbconn.php');
 
+// Redirect to login page if RollNo session is not set
 if (!isset($_SESSION['RollNo'])) {
     header("Location: index.php");
     exit();
@@ -11,6 +13,7 @@ if (isset($_GET['action']) && isset($_GET['id'])) {
     $action = $_GET['action'];
     $requestId = $_GET['id'];
 
+    // Process 'Accept' action
     if ($action == 'accept') {
         // Update the status to 'Accepted'
         $updateQuery = "UPDATE olms.`return` SET status = 'Accepted' WHERE id = ?";
@@ -20,7 +23,9 @@ if (isset($_GET['action']) && isset($_GET['id'])) {
         $stmt->close();
         $_SESSION['message'] = "Return request accepted successfully!";
         $_SESSION['message_type'] = 'success'; // Optional: You can use this for styling (success or error)
-    } elseif ($action == 'reject') {
+    }
+     // Process 'Reject' action 
+    elseif ($action == 'reject') {
         // Update the status to 'Declined'
         $updateQuery = "UPDATE olms.`return` SET status = 'Declined' WHERE id = ?";
         $stmt = $conn->prepare($updateQuery);
@@ -71,6 +76,7 @@ if ($userStmt) {
 </head>
 
 <body>
+    <!-- Navbar Section -->
     <nav class="navbar">
         <div class="logo_item">
             <i class="bx bx-menu" id="sidebarOpen"></i>
