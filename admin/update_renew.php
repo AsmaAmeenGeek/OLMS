@@ -1,6 +1,7 @@
 <?php
+// Start the session to manage user messages and authentication
 session_start();
-require('dbconn.php');
+require('dbconn.php'); // Include the database connection file
 
 // Check if an action is provided (either accept or reject)
 if (isset($_GET['action']) && isset($_GET['id'])) {
@@ -33,6 +34,7 @@ if (isset($_GET['action']) && isset($_GET['id'])) {
         $row = $result->fetch_assoc();
         $stmt->close();
 
+        // Check if the renew request exists
         if (!$row) {
             $_SESSION['message'] = "renew request not found!";
             $_SESSION['message_type'] = 'error';
@@ -43,6 +45,7 @@ if (isset($_GET['action']) && isset($_GET['id'])) {
         $bookId = $row['BookId'];
         $rollNo = $row['RollNo'];
 
+        // Process the 'accept' action
         if ($action == 'accept') {
             // Update the renew request status to 'Accepted'
             $updateQuery = "UPDATE olms.`renew` SET status = 'Accepted' WHERE id = ?";
@@ -52,7 +55,7 @@ if (isset($_GET['action']) && isset($_GET['id'])) {
             $stmt->close();
 
             // Increase the book's availability by 1
-            $updateBookQuery = "UPDATE olms.book SET Availability = Availability + 1 WHERE BookId = ?";
+            $updateBookQuery = "UPDATE olms.book SET Availability = Availability - 1 WHERE BookId = ?";
             $stmt = $conn->prepare($updateBookQuery);
             $stmt->bind_param("i", $bookId);
             $stmt->execute();
@@ -69,7 +72,9 @@ if (isset($_GET['action']) && isset($_GET['id'])) {
 
             $_SESSION['message'] = "renew request accepted, book availability updated!";
             $_SESSION['message_type'] = 'success';
-        } elseif ($action == 'reject') {
+        } 
+        // Process the 'reject' action
+        elseif ($action == 'reject') {
             // Update the renew request status to 'Declined'
             $updateQuery = "UPDATE olms.`renew` SET status = 'Declined' WHERE id = ?";
             $stmt = $conn->prepare($updateQuery);
@@ -87,6 +92,7 @@ if (isset($_GET['action']) && isset($_GET['id'])) {
     } catch (Exception $e) {
         // Log the error and show a general error message
         error_log("Error executing query: " . $e->getMessage());
+        // Display a generic error message for the user
         $_SESSION['message'] = "An error occurred while processing the request.";
         $_SESSION['message_type'] = 'error';
         header("Location: renew_request.php");
