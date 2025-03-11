@@ -9,7 +9,7 @@ if (!isset($_SESSION['RollNo'])) {
 $user_id = $_SESSION['RollNo']; // Get the user ID from the session
 
 if (isset($_GET['id'])) {
-    $reservation_id = $_GET['id'];
+    $reservation_id = $_GET['id']; // get the reserve  id from the url param
 
     // Prepare the SQL statement to delete the reservation
     $query = "DELETE FROM reservation WHERE id = ? AND RollNo = ?";
@@ -34,10 +34,10 @@ if (isset($_GET['id'])) {
         echo "<script>alert('No reservation found or you do not have permission to cancel this reservation.');</script>";
     }
 
-    $stmt->close();
+    $stmt->close(); // close the prepared statmnt
 } else {
     echo "<script>alert('Invalid request.');</script>";
 }
 
-header("Location: currently_reserved.php");
+header("Location: currently_reserved.php"); // redirect back to the currently reserved page
 exit();

@@ -124,8 +124,6 @@ if ($userStmt) {
                 </li>
 
                 <li class="item">
-
-
                     <a href="addBook.php" class="nav_link submenu_item">
                         <span class="navlink_icon">
                             <i class='bx bxs-edit'></i>

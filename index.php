@@ -37,13 +37,6 @@ require('dbconn.php');
                         <input type="password" name="Password" placeholder="Password" required>
                         <input type="text" name="PhoneNumber" placeholder="Phone Number" required>
                         <input type="text" name="RollNo" placeholder="Roll Number" required>
-                        <select name="Category" required>
-                            <option value="">Select Category</option>
-                            <option value="GEN">General</option>
-                            <option value="OBC">OBC</option>
-                            <option value="SC">SC</option>
-                            <option value="ST">ST</option>
-                        </select>
                         <button type="submit" name="signup" class="edit_button">Sign Up</button>
                     </form>
                 </div>

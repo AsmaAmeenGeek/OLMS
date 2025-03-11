@@ -33,7 +33,7 @@ if (isset($_SESSION['RollNo'])) {
     $delete_sql->bind_param("i", $message_id);
     // Show appropriate message for deletion success/failure
     if ($delete_sql->execute()) {
-      echo "<script>alert('Message deleted successfully!');</script>";
+      echo "<script>alert('Messages deleted successfully!');</script>";
     } else {
       echo "<script>alert('Error deleting message!');</script>";
     }

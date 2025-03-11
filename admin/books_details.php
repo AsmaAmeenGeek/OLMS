@@ -49,24 +49,25 @@ if (isset($_GET['BookId'])) { // check if book Id is passed in the URL query str
             <nav class="navbar">
                 <div class="logo_item">
                     <i class="bx bx-menu" id="sidebarOpen"></i>
-                    <img src="images/logo.jpg" alt="">MillionOLMS
+                    <img src="images/logo.jpg" alt=""></i>MillionOLMS
                 </div>
 
 
                 <div class="navbar_content">
                     <i class="bi bi-grid"></i>
                     <i class='bx bx-sun' id="darkLight"></i>
-                    <img src="<?php echo ($ProfilePicture); ?>" alt="Profile Picture" class="profile"  id="profilePic" />
-                <div class="profile-dropdown" id="profileDropdown">
-                    <a href="profile.php">My Profile</a>
-                    <a href="logout.php">Logout</a>
-                </div>
+                    <img src="<?php echo ($ProfilePicture); ?>" alt="Profile Picture" class="profile" id="profilePic" />
+                    <div class="profile-dropdown" id="profileDropdown">
+                        <a href="profile.php">My Profile</a>
+                        <a href="logout.php">Logout</a>
+                    </div>
             </nav>
 
             <!-- sidebar -->
             <nav class="sidebar">
                 <div class="menu_content">
                     <ul class="menu_items">
+                        <div class="menu_title menu_dahsboard"></div>
                         <li class="item">
                             <a href="home.php" class="nav_link submenu_item">
                                 <span class="navlink_icon">
@@ -75,6 +76,7 @@ if (isset($_GET['BookId'])) { // check if book Id is passed in the URL query str
                                 <span class="navlink">Home</span>
                             </a>
                         </li>
+
                         <li class="item">
                             <a href="profile.php" class="nav_link submenu_item">
                                 <span class="navlink_icon">
@@ -83,6 +85,7 @@ if (isset($_GET['BookId'])) { // check if book Id is passed in the URL query str
                                 <span class="navlink">My Profile</span>
                             </a>
                         </li>
+
                         <li class="item">
                             <a href="message.php" class="nav_link submenu_item">
                                 <span class="navlink_icon">
@@ -91,6 +94,7 @@ if (isset($_GET['BookId'])) { // check if book Id is passed in the URL query str
                                 <span class="navlink">Messages</span>
                             </a>
                         </li>
+
                         <li class="item">
                             <a href="admin_manageStud.php" class="nav_link submenu_item">
                                 <span class="navlink_icon">
@@ -99,6 +103,7 @@ if (isset($_GET['BookId'])) { // check if book Id is passed in the URL query str
                                 <span class="navlink">Manage Students</span>
                             </a>
                         </li>
+
                         <li class="item">
                             <a href="admin_allBooks.php" class="nav_link submenu_item">
                                 <span class="navlink_icon">
@@ -107,7 +112,9 @@ if (isset($_GET['BookId'])) { // check if book Id is passed in the URL query str
                                 <span class="navlink">All Books</span>
                             </a>
                         </li>
+
                         <li class="item">
+
                             <a href="addBook.php" class="nav_link submenu_item">
                                 <span class="navlink_icon">
                                     <i class='bx bxs-edit'></i>
@@ -133,6 +140,7 @@ if (isset($_GET['BookId'])) { // check if book Id is passed in the URL query str
                                 <span class="navlink">Currently Issued<br>Books</span>
                             </a>
                         </li>
+
                         <li class="item">
                             <a href="logout.php" class="nav_link submenu_item">
                                 <span class="navlink_icon">
@@ -141,6 +149,7 @@ if (isset($_GET['BookId'])) { // check if book Id is passed in the URL query str
                                 <span class="navlink">Logout</span>
                             </a>
                         </li>
+
                     </ul>
 
                     <!-- Sidebar Open / Close -->
@@ -157,15 +166,13 @@ if (isset($_GET['BookId'])) { // check if book Id is passed in the URL query str
                 </div>
             </nav>
 
-
-
             <!-- Book details Page -->
             <main class="main-content">
                 <div class="content">
                     <div class="book-details">
                         <h1>Book Details</h1>
                         <?php
-                        $x = $_GET['BookId']; // Using book id from the GET parameter
+                        $x = $_GET['BookId']; // Using BookId from the GET parameter
                         $sql = "SELECT * FROM OLMS.book WHERE BookId = ?";
                         $stmt = $conn->prepare($sql);
                         $stmt->bind_param("i", $x);
@@ -179,31 +186,42 @@ if (isset($_GET['BookId'])) { // check if book Id is passed in the URL query str
                             $publisher = $row['Publisher'];
                             $year = $row['Year'];
                             $avail = $row['Availability'];
-
+                            $PDF_Link = $row['PDF_Link']; // Fetch PDF path from the database
+                
                             echo "<p><strong>Book ID:</strong> $bookid</p>"; // display book details
                             echo "<p><strong>Title:</strong> $name</p>";
 
                             // Fetch authors
                             $sql1 = "SELECT * FROM OLMS.author WHERE BookId = ?";
-                            $stmt1 = $conn->prepare($sql1); //prepare query for authors
-                            $stmt1->bind_param("i", $bookid); //bind the book id as int
+                            $stmt1 = $conn->prepare($sql1);
+                            $stmt1->bind_param("i", $bookid);
                             $stmt1->execute();
                             $authorResult = $stmt1->get_result();
 
                             echo "<p><strong>Author:</strong> ";
                             $authors = [];
                             while ($authorRow = $authorResult->fetch_assoc()) { // create loop through all related authors
-                                $authors[] = $authorRow['Author']; // adding all authors to the array
+                                $authors[] = $authorRow['Author'];
                             }
                             echo implode(", ", $authors) . "</p>"; //show all users 
-
+                
                             echo "<p><strong>Publisher:</strong> $publisher</p>"; //display publisher , year and availabilty
                             echo "<p><strong>Year:</strong> $year</p>";
                             echo "<p><strong>Availability:</strong> ";
                             echo $avail > 0 ? "$avail copies" : "Not Available";
                             echo "</p>";
+
+                            // Check if PDF path exists and display the PDF
+                            if (!empty($PDF_Link) && file_exists($PDF_Link)) {
+                                echo "<h3>Download or View PDF</h3>";
+                                echo "<iframe src='$PDF_Link' width='100%' height='600px' frameborder='0'></iframe>";
+                                // Alternatively, you can provide a download link
+                                // echo "<a href='$PDF_Link' target='_blank'>Download PDF</a>";
+                            } else {
+                                echo "<p>No PDF available for this book.</p>"; // display error message if no pdf for book 
+                            }
                         } else {
-                            echo "<p>Book details not found.</p>";
+                            echo "<p>Book details not found.</p>"; // display error message if book details is not passed in the URL
                         }
                         ?>
                         <div class="button-container">
@@ -215,8 +233,6 @@ if (isset($_GET['BookId'])) { // check if book Id is passed in the URL query str
                 </div>
             </main>
 
-
-
             <script src="script.js"></script>
         </body>
 
@@ -227,6 +243,6 @@ if (isset($_GET['BookId'])) { // check if book Id is passed in the URL query str
         echo "Book not found."; // display error message if no book id is provided / book is not found
     }
 } else {
-    echo "No BookId provided.";// display error message if book id is not passed in the URL
+    echo "No BookId provided."; // display error message if book id is not passed in the URL
 }
 ?>

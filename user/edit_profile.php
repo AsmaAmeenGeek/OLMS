@@ -16,7 +16,6 @@ $result = $stmt->get_result();
 if ($result && $result->num_rows > 0) {
     $row = $result->fetch_assoc();
     $name = $row['Name'];
-    $category = $row['Category'];
     $email = $row['EmailId'];
     $mobno = $row['MobNo'];
     $ProfilePicture = !empty($row['ProfilePicture']) ? $row['ProfilePicture'] : 'images/profile.jpg';
@@ -25,23 +24,22 @@ if ($result && $result->num_rows > 0) {
     exit;
 }
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if ($_SERVER["REQUEST_METHOD"] == "POST") { // check whether the form is sumbitted or not
     $newName = $_POST['Name'];
-    $newCategory = $_POST['Category'];
     $newEmail = $_POST['EmailId'];
     $newMobno = $_POST['MobNo'];
     $newPassword = $_POST['Password'];
 
     // Handle Profile Image Upload
     if (!empty($_FILES['profile_image']['name'])) {
-        $file_name = basename($_FILES["profile_image"]["name"]);
+        $file_name = basename($_FILES["profile_image"]["name"]);  //get file name
         $targetDir = "../Assets/profile/";
-        $targetFile = $targetDir . $file_name;
-        $imageFileType = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
+        $targetFile = $targetDir . $file_name; //set full path for target pic
+        $imageFileType = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION)); // get file extension and change itto the lowercase
         $allowedTypes = array("jpg", "jpeg", "png", "gif");
 
         if (in_array($imageFileType, $allowedTypes)) {
-            if (move_uploaded_file($_FILES["profile_image"]["tmp_name"], $targetFile)) {
+            if (move_uploaded_file($_FILES["profile_image"]["tmp_name"], $targetFile)) { // move the pic from temporery dit=rec to target direc
                 $ProfilePicture = $targetFile;
             } else {
                 echo "<p>Error uploading file.</p>";
@@ -52,9 +50,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     // Update user details
-    $updateQuery = "UPDATE olms.user SET Name=?, Category=?, EmailId=?, MobNo=?, ProfilePicture=? WHERE RollNo=?";
+    $updateQuery = "UPDATE olms.user SET Name=?, EmailId=?, MobNo=?, ProfilePicture=? WHERE RollNo=?";
     $stmt = $conn->prepare($updateQuery);
-    $stmt->bind_param("ssssss", $newName, $newCategory, $newEmail, $newMobno, $ProfilePicture, $rollno);
+    $stmt->bind_param("sssss", $newName, $newEmail, $newMobno, $ProfilePicture, $rollno);
 
     if ($stmt->execute() === TRUE) {
         $_SESSION['success'] = "Profile updated successfully!";
@@ -187,15 +185,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <label for="name">Name:</label>
             <input type="text" id="name" placeholder="Enter your name" name="Name" value="<?php echo ($name); ?>">
 
-            <label for="Category"><b>Category:</b></label>
-            <select name="Category">
-                <option value="<?php echo ($category); ?>"><?php echo ($category); ?>
-                </option>
-                <option value="GEN">GEN</option>
-                <option value="OBC">OBC</option>
-                <option value="SC">SC</option>
-                <option value="ST">ST</option>
-            </select>
 
             <label for="email">E-mail ID:</label>
             <input type="email" id="email" placeholder="Enter your email" name="EmailId"

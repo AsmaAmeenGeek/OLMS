@@ -62,11 +62,11 @@ $result = $stmt->get_result();
         <div class="navbar_content">
             <i class="bi bi-grid"></i>
             <i class='bx bx-sun' id="darkLight"></i>
-            <img src="<?php echo $ProfilePicture; ?>" alt="Profile Picture" class="profile"  id="profilePic" />
-                <div class="profile-dropdown" id="profileDropdown">
-                    <a href="profile.php">My Profile</a>
-                    <a href="logout.php">Logout</a>
-        </div>
+            <img src="<?php echo $ProfilePicture; ?>" alt="Profile Picture" class="profile" id="profilePic" />
+            <div class="profile-dropdown" id="profileDropdown">
+                <a href="profile.php">My Profile</a>
+                <a href="logout.php">Logout</a>
+            </div>
     </nav>
 
     <!-- sidebar -->
@@ -114,7 +114,7 @@ $result = $stmt->get_result();
                 <li class="item">
                     <a href="pre_borrowed_book.php" class="nav_link submenu_item">
                         <span class="navlink_icon">
-                            <i class='bx bx-book-add'></i> 
+                            <i class='bx bx-book-add'></i>
                         </span>
                         <span class="navlink">Previously Borrowed <br> Books</span>
                     </a>
@@ -172,11 +172,22 @@ $result = $stmt->get_result();
                             <td><?php echo ($row['BookId']); ?></td>
                             <td><?php echo ($row['Title']); ?></td>
                             <td><?php echo ($row['Date_Issue']); ?></td>
-                            <td><?php echo $row['Date_Return'] ? ($row['Date_Return']) : '-'; ?></td>
+                            <td>
+                                <?php
+                                if ($row['Date_Return']) {
+                                    echo $row['Date_Return'];
+                                } else {
+                                    $return_date = date('Y-m-d', strtotime($row['Date_Issue'] . ' +14 days'));
+                                    echo $return_date;
+                                }
+                                ?>
+                            </td>
+
                             <td><?php echo ($row['Status']); ?></td>
                             <td>
-                                <a href="renew.php?bookid=<?php echo($row['BookId']); ?>" class="table_btn">Renew</a>
-                                <a href="return.php?bookid=<?php echo($row['BookId']); ?>" class="table_btn">Return</a></td>
+                                <a href="renew.php?bookid=<?php echo ($row['BookId']); ?>" class="table_btn">Renew</a>
+                                <a href="return.php?bookid=<?php echo ($row['BookId']); ?>" class="table_btn">Return</a>
+                            </td>
                         </tr>
                     <?php }
                 } else {

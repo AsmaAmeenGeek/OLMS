@@ -35,12 +35,14 @@ if ($userResult && $userResult->num_rows > 0) {
 </head>
 
 <body>
+
   <!-- navbar -->
   <nav class="navbar">
     <div class="logo_item">
       <i class="bx bx-menu" id="sidebarOpen"></i>
       <img src="images/logo.jpg" alt=""></i>MillionOLMS
     </div>
+
 
     <div class="navbar_content">
       <i class="bi bi-grid"></i>
@@ -104,7 +106,8 @@ if ($userResult && $userResult->num_rows > 0) {
         </li>
 
         <li class="item">
-          <a href="#" class="nav_link submenu_item">
+
+          <a href="addBook.php" class="nav_link submenu_item">
             <span class="navlink_icon">
               <i class='bx bxs-edit'></i>
             </span>
@@ -142,6 +145,7 @@ if ($userResult && $userResult->num_rows > 0) {
       </ul>
 
 
+
       <!-- Sidebar Open / Close -->
       <div class="bottom_content">
         <div class="bottom expand_sidebar">
@@ -156,24 +160,25 @@ if ($userResult && $userResult->num_rows > 0) {
     </div>
   </nav>
 
+  
   <div class="span9">
     <div class="container1">
       <div class="container1_box">
-
         <h2>Update Book Details</h2>
 
         <?php
-        $bookId = $_GET['BookId']; // get the book id from the URL parameter (GET request)
+        $bookId = $_GET['BookId'];
         $sql = "SELECT * FROM olms.book WHERE BookId = '$bookId'";
         $result = $conn->query($sql);
         $row = $result->fetch_assoc();
         $name = $row['Title'];  // assign book details to variables
-        $publisher = $row['Publisher']; // ""
-        $year = $row['Year']; // ""
-        $avail = $row['Availability']; //""
+        $publisher = $row['Publisher'];
+        $year = $row['Year'];
+        $avail = $row['Availability'];
+        $PDF_Link = $row['PDF_Link'];  // Fetch current PDF path
         ?>
 
-        <form class="form-horizontal row-fluid" action="editBook.php?BookId=<?php echo $bookId; ?>" method="post">
+        <form class="form-horizontal row-fluid" action="editBook.php?BookId=<?php echo $bookId; ?>" method="post" enctype="multipart/form-data">
 
           <div class="control-group">
             <b>
@@ -189,8 +194,7 @@ if ($userResult && $userResult->num_rows > 0) {
               <label class="control-label" for="Publisher">Publisher:</label>
             </b>
             <div class="controls">
-              <input type="text" id="Publisher" name="Publisher" value="<?php echo htmlspecialchars($publisher) ?>"
-                class="span8">
+              <input type="text" id="Publisher" name="Publisher" value="<?php echo htmlspecialchars($publisher) ?>" class="span8">
             </div>
           </div>
 
@@ -208,8 +212,17 @@ if ($userResult && $userResult->num_rows > 0) {
               <label class="control-label" for="Availability">Availability:</label>
             </b>
             <div class="controls">
-              <input type="text" id="Availability" name="Availability" value="<?php echo htmlspecialchars($avail) ?>"
-                class="span8">
+              <input type="text" id="Availability" name="Availability" value="<?php echo htmlspecialchars($avail) ?>" class="span8">
+            </div>
+          </div>
+
+          <!-- PDF File Upload -->
+          <div class="control-group">
+            <b>
+              <label class="control-label" for="pdfFile">Upload PDF:</label>
+            </b>
+            <div class="controls">
+              <input type="file" id="pdfFile" name="pdfFile" class="span8" accept=".pdf">
             </div>
           </div>
 
@@ -227,24 +240,51 @@ if ($userResult && $userResult->num_rows > 0) {
     <?php
     if (isset($_POST['submit'])) { // check if the form is submit or not
       $bookId = $_GET['BookId']; //get updated book  details from the form
-      $name = $_POST['Title']; // ""
-      $publisher = $_POST['Publisher'];  // ""
-      $year = $_POST['Year']; // ""
-      $avail = $_POST['Availability']; // ""
+      $name = $_POST['Title'];
+      $publisher = $_POST['Publisher'];
+      $year = $_POST['Year'];
+      $avail = $_POST['Availability'];
 
-      $sql1 = "UPDATE book SET Title=?, Publisher=?, Year=?, Availability=? WHERE BookId=?"; // SQL query to update the book details using a prepared statement
-      $stmt = $conn->prepare($sql1); // prepared statement for prevent sql injection attacks
-      $stmt->bind_param("sssii", $name, $publisher, $year, $avail, $bookId);
+      // Handle PDF upload
+      $PDF_Link = null;
+      if (isset($_FILES['pdfFile']) && $_FILES['pdfFile']['error'] == 0) {
+        $pdfName = $_FILES['pdfFile']['name'];
+        $pdfTmpName = $_FILES['pdfFile']['tmp_name'];
+        $pdfSize = $_FILES['pdfFile']['size'];
+        $pdfExt = pathinfo($pdfName, PATHINFO_EXTENSION);
+
+        // Validate PDF file type and size
+        if ($pdfExt === 'pdf' && $pdfSize <= 10 * 1024 * 1024) {  // Max size 10MB
+          $pdfNewName = "book_{$bookId}_" . time() . ".pdf"; // Unique name
+          $pdfUploadDir = 'uploads/pdfs/';  // Directory to store PDFs
+          if (!file_exists($pdfUploadDir)) {
+            mkdir($pdfUploadDir, 0777, true);  // Create directory if it doesn't exist
+          }
+
+          $PDF_Link = $pdfUploadDir . $pdfNewName;
+          move_uploaded_file($pdfTmpName, $PDF_Link);
+        } else {
+          echo "<script type='text/javascript'>alert('Invalid PDF file. Please upload a PDF file smaller than 10MB.');</script>";
+        }
+      } else {
+        // If no new file is uploaded, keep the current file path
+        $PDF_Link = $row['PDF_Link'];
+      }
+
+      // Update the book details including PDF path
+      $sql1 = "UPDATE olms.book SET Title=?, Publisher=?, Year=?, Availability=?, PDF_Link=? WHERE BookId=?";
+      $stmt = $conn->prepare($sql1);
+      $stmt->bind_param("sssisi", $name, $publisher, $year, $avail, $PDF_Link, $bookId);
 
       // Execute the prepared statement
       if ($stmt->execute()) {
         echo "<script>
                 alert('Book Details updated successfully!');
-                window.location.href = 'admin_allBooks.php'; // redirect to the all book age
+                window.location.href = 'admin_allBooks.php';
             </script>";
         exit();
       } else {
-        echo "<script type='text/javascript'>alert('Error')</script>";
+        echo "<script type='text/javascript'>alert('Error updating book details.');</script>";
       }
     }
     ?>
@@ -253,6 +293,6 @@ if ($userResult && $userResult->num_rows > 0) {
 </html>
 
 <?php
-$userStmt->close(); //close prepared stat & db connection
+$userStmt->close();
 $conn->close();
 ?>

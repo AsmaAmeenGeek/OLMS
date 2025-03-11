@@ -6,7 +6,7 @@ if (!isset($_SESSION['RollNo'])) {
     exit();
 }
 
-$user_id = $_SESSION['RollNo'];
+$user_id = $_SESSION['RollNo']; // get user id from session vaerible
 
 // Fetch user details for profile picture and other info
 $userQuery = "SELECT * FROM olms.user WHERE RollNo=?";
@@ -15,7 +15,7 @@ $userStmt->bind_param("s", $user_id);
 $userStmt->execute();
 $userResult = $userStmt->get_result();
 
-if ($userResult && $userResult->num_rows > 0) {
+if ($userResult && $userResult->num_rows > 0) { // check if matching user found
     $userRow = $userResult->fetch_assoc();
     $ProfilePicture = !empty($userRow['ProfilePicture']) ? $userRow['ProfilePicture'] : 'images/profile.jpg';
 } else {
