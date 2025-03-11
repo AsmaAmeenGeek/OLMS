@@ -1,6 +1,8 @@
 <?php
+// Include database connection
 require('dbconn.php');
 
+// Ensure the user is logged in
 if (!isset($_SESSION['RollNo'])) {
     header("Location: index.php");
     exit();
@@ -18,6 +20,7 @@ if (isset($_GET['action']) && isset($_GET['id'])) {
         $stmt->bind_param("i", $requestId);
         $stmt->execute();
         $stmt->close();
+        // Store feedback message in session for user notification
         $_SESSION['message'] = "renew request accepted successfully!";
         $_SESSION['message_type'] = 'success'; // Optional: You can use this for styling (success or error)
     } elseif ($action == 'reject') {
