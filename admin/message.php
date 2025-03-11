@@ -1,19 +1,24 @@
 <?php
+// Include database connection
 require('dbconn.php');
 
+// Check if user is logged in
 if (isset($_SESSION['RollNo'])) {
 
+  // Handle message submission
   if (isset($_POST['submit'])) {
     $receiver = $_POST['rollNumber'];
     $message = $_POST['message'];
+    // Set category with default value as 'general'
     $category = isset($_POST['category']) && in_array($_POST['category'], ['general', 'due']) ? $_POST['category'] : 'general';
 
-    // Use prepared statement to prevent SQL injection
+     // Insert message using prepared statement for security
     $sql = $conn->prepare("INSERT INTO message (Sender, Receiver, Message, Date, Time, Category) VALUES ('admin', ?, ?, CURDATE(), CURTIME(), ?)");
     $sql->bind_param("sss", $receiver, $message, $category);
     $sql->execute();  // Execute once
 
-    if ($sql->affected_rows > 0) {  // Check if the message was inserted
+    // Check if the message was inserted successfully
+    if ($sql->affected_rows > 0) {  
       header("Location: message.php");
       exit();
     } else {
@@ -21,10 +26,12 @@ if (isset($_SESSION['RollNo'])) {
     }
   }
 
+  // Handle message deletion
   if (isset($_GET['delete'])) {
     $message_id = $_GET['delete'];
     $delete_sql = $conn->prepare("DELETE FROM message WHERE Message_id = ?");
     $delete_sql->bind_param("i", $message_id);
+    // Show appropriate message for deletion success/failure
     if ($delete_sql->execute()) {
       echo "<script>alert('Message deleted successfully!');</script>";
     } else {
@@ -32,6 +39,7 @@ if (isset($_SESSION['RollNo'])) {
     }
   }
 
+  // Fetch user profile picture
   $rollno = $_SESSION['RollNo'];
 
   $userQuery = "SELECT * FROM olms.user WHERE RollNo=?";
@@ -40,6 +48,7 @@ if (isset($_SESSION['RollNo'])) {
   $userStmt->execute();
   $userResult = $userStmt->get_result();
 
+  // Set default profile picture if not found
   if ($userResult && $userResult->num_rows > 0) {
     $userRow = $userResult->fetch_assoc();
     $ProfilePicture = !empty($userRow['ProfilePicture']) ? $userRow['ProfilePicture'] : 'images/profile.jpg';
@@ -83,7 +92,7 @@ if (isset($_SESSION['RollNo'])) {
       <div class="menu_content">
         <ul class="menu_items">
           <div class="menu_title menu_dahsboard"></div>
-          <!-- start -->
+          <!-- Links to various sections -->
           <li class="item">
             <a href="home.php" class="nav_link submenu_item">
               <span class="navlink_icon">
@@ -181,6 +190,7 @@ if (isset($_SESSION['RollNo'])) {
       </div>
     </nav>
 
+    <!-- Message form -->
     <div class="message-box">
       <h2>Send a Message
         <a href="message_list.php" class="list_icon">
