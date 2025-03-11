@@ -43,7 +43,7 @@ $result_reserved = $stmt_reserved->get_result();
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <!-- Boxicons CSS -->
     <link href="https://unpkg.com/boxicons@latest/css/boxicons.min.css" rel="stylesheet" />
-    <title>Home</title>
+    <title>Currently Reserved Books</title>
     <link rel="stylesheet" href="style.css" />
 </head>
 
@@ -53,10 +53,6 @@ $result_reserved = $stmt_reserved->get_result();
         <div class="logo_item">
             <i class="bx bx-menu" id="sidebarOpen"></i>
             <img src="images/logo.jpg" alt=""> MillionOLMS
-        </div>
-
-        <div class="search_bar">
-            <input type="text" placeholder="Search" />
         </div>
 
         <div class="navbar_content">
