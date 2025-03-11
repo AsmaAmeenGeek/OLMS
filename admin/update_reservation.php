@@ -1,14 +1,17 @@
 <?php
+// Include database connection
 require('dbconn.php');
 
+// Check if user is logged in, otherwise redirect to login page
 if (!isset($_SESSION['RollNo'])) {
     header("Location: index.php");
     exit();
 }
 
+// Check if 'action' and 'id' parameters are provided via GET request
 if (isset($_GET['action']) && isset($_GET['id'])) {
-    $action = $_GET['action'];
-    $id = $_GET['id'];
+    $action = $_GET['action']; // Get the action parameter (approve or cancel)
+    $id = $_GET['id']; // Get the reservation ID
 
     // Fetch the BookId associated with the reservation
     $bookQuery = "SELECT BookId FROM olms.reservation WHERE id = ?";
@@ -18,13 +21,15 @@ if (isset($_GET['action']) && isset($_GET['id'])) {
     $bookResult = $bookStmt->get_result();
     $bookRow = $bookResult->fetch_assoc();
 
+     // If no matching reservation found, alert and redirect
     if (!$bookRow) {
         echo '<script>alert("Invalid Reservation ID!"); window.location.href="reserve_request.php";</script>';
         exit();
     }
-
+    // Extract BookId from the fetched data
     $bookId = $bookRow['BookId'];
 
+    // Handle 'approve' and 'cancel' actions
     if ($action === 'approve') {
         // Update the reservation status to 'Approved'
         $sql = "UPDATE olms.reservation SET Status = 'Approved' WHERE id = ?";
@@ -43,6 +48,7 @@ if (isset($_GET['action']) && isset($_GET['id'])) {
 
         $message = "Reservation Cancelled Successfully!";
     } else {
+        // Handle invalid actions
         echo '<script>alert("Invalid Action!"); window.location.href="reserve_request.php";</script>';
         exit();
     }
@@ -61,9 +67,10 @@ if (isset($_GET['action']) && isset($_GET['id'])) {
             die('Error updating book availability: ' . $conn->error);
         }
 
-        // Success message
+        // Show success message and redirect
         echo '<script>alert("' . $message . '"); window.location.href="reserve_request.php";</script>';
     } else {
+        // Error message if reservation update fails
         echo '<script>alert("Error updating reservation!"); window.location.href="reserve_request.php";</script>';
     }
 
@@ -71,6 +78,7 @@ if (isset($_GET['action']) && isset($_GET['id'])) {
     $stmt->close();
     $conn->close();
 } else {
+    // Handle invalid requests (e.g., missing parameters)
     echo '<script>alert("Invalid Request!"); window.location.href="reserve_request.php";</script>';
     exit();
 }
