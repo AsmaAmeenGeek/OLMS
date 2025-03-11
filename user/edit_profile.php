@@ -32,14 +32,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Handle Profile Image Upload
     if (!empty($_FILES['profile_image']['name'])) {
-        $file_name = basename($_FILES["profile_image"]["name"]);
+        $file_name = basename($_FILES["profile_image"]["name"]);  //get file name
         $targetDir = "../Assets/profile/";
-        $targetFile = $targetDir . $file_name;
-        $imageFileType = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
+        $targetFile = $targetDir . $file_name; //set full path for target pic
+        $imageFileType = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION)); // get file extension and change itto the lowercase
         $allowedTypes = array("jpg", "jpeg", "png", "gif");
 
         if (in_array($imageFileType, $allowedTypes)) {
-            if (move_uploaded_file($_FILES["profile_image"]["tmp_name"], $targetFile)) {
+            if (move_uploaded_file($_FILES["profile_image"]["tmp_name"], $targetFile)) { // move the pic from temporery dit=rec to target direc
                 $ProfilePicture = $targetFile;
             } else {
                 echo "<p>Error uploading file.</p>";
