@@ -59,7 +59,6 @@ if ($userStmt) {
             <img src="images/logo.jpg" alt="">MillionOLMS
         </div>
 
-
         <div class="navbar_content">
             <i class="bi bi-grid"></i>
             <i class='bx bx-sun' id="darkLight"></i>
@@ -122,8 +121,6 @@ if ($userStmt) {
                 </li>
 
                 <li class="item">
-
-
                     <a href="addBook.php" class="nav_link submenu_item">
                         <span class="navlink_icon">
                             <i class='bx bxs-edit'></i>

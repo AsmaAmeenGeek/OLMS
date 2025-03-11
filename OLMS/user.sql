@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 27, 2025 at 02:32 PM
+-- Generation Time: Mar 11, 2025 at 07:00 PM
 -- Server version: 8.0.23
 -- PHP Version: 8.2.12
 
@@ -31,7 +31,6 @@ CREATE TABLE `user` (
   `RollNo` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
   `Name` varchar(250) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `Type` varchar(20) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `Category` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `EmailId` varchar(250) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `MobNo` bigint DEFAULT NULL,
   `Password` varchar(250) COLLATE utf8mb4_general_ci DEFAULT NULL,
@@ -42,17 +41,16 @@ CREATE TABLE `user` (
 -- Dumping data for table `user`
 --
 
-INSERT INTO `user` (`RollNo`, `Name`, `Type`, `Category`, `EmailId`, `MobNo`, `Password`, `ProfilePicture`) VALUES
-('ADMIN', 'Admin', 'Admin', '', 'admin@gmail.com', 701237865, 'admin', NULL),
-('s001', 'Shiva', 'Student', 'GEN', 'shiva@gmail.com', 703237860, 's123', '../Assets/profile/profile_3.png'),
-('s002', 'John', 'Student', 'GEN', 'john@gmail.com', 701234865, 's223', '../Assets/profile/profile_8.jpg'),
-('s003', 'Karthi', 'Student', 'OBC', 'karthi@gmail.com', 701297865, 's323', '../Assets/profile/profile_1.jpg'),
-('s004', 'Moni', 'Student', 'GEN', 'moni@gmail.com', 721237865, 's423', '../Assets/profile/profile_7.jpg'),
-('s005', 'Shakthi', 'Student', 'ST', 'shakthi@gmail.com', 701237065, 's523', '../Assets/profile/profile_6.jpg'),
-('s006', 'Rachel', 'Student', 'OBC', 'rachel@gmail.com', 701231865, 's623', '../Assets/profile/profile_5.jpg'),
-('s007', 'Adam', 'Student', 'GEN', 'adam@gmail.com', 771237865, 's723', '../Assets/profile/profile_9.png'),
-('s008', 'Kevin', 'Student', 'GEN', 'kevin@gmail.com', 701237868, 's823', '../Assets/profile/profile_10.jpg'),
-('s009', 'Bob', 'Student', 'GEN', 'bob@gmail.com', 70123783, 's923', '../Assets/profile/profile_2.png');
+INSERT INTO `user` (`RollNo`, `Name`, `Type`, `EmailId`, `MobNo`, `Password`, `ProfilePicture`) VALUES
+('ADMIN', 'Admin', 'Admin', 'admin@gmail.com', 701237862, 'admin', '../Assets/profile/download.jpeg'),
+('s001', 'Shiva', 'Student', 'shiva@gmail.com', 784567890, 's123', '../Assets/profile/profile_6.jpg'),
+('s002', 'John', 'Student', 'john@gmail.com', 701234865, 's223', '../Assets/profile/profile_7.jpg'),
+('s003', 'Karthi', 'Student', 'karthi@gmail.com', 701297865, 's323', '../Assets/profile/profile_1.jpg'),
+('s004', 'Moni', 'Student', 'Moni@gmail.com', 721237865, 's423', '../Assets/profile/profile_6.jpg'),
+('s005', 'Shakthi', 'Student', 'Shakthi@gmail.com', 701237065, 's523', '../Assets/profile/profile_9.png'),
+('s006', 'Rachel', 'Student', 'rachel@gmail.com', 701231865, 's623', '../Assets/profile/profile_5.jpg'),
+('s007', 'Adam', 'Student', 'adam@gmail.com', 771237865, 's723', '../Assets/profile/profile_9.png'),
+('s008', 'Kevin', 'Student', 'kevin@gmail.com', 701237868, 's823', '../Assets/profile/profile_10.jpg');
 
 --
 -- Indexes for dumped tables
