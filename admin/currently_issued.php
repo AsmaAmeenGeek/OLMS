@@ -6,10 +6,17 @@ if (!isset($_SESSION['RollNo'])) {
     exit();
 }
 
-$query = "SELECT r.RollNo AS UserID, r.BookId, b.Title AS BookName, r.Date_Reserved AS IssuedDate 
-          FROM reservation r 
-          JOIN book b ON r.BookId = b.BookId 
-          WHERE r.Status = 'Approved'";
+$query = "
+    SELECT r.RollNo AS UserID, r.BookId, b.Title AS BookName, r.Date_Reserved AS IssuedDate 
+    FROM reservation r 
+    JOIN book b ON r.BookId = b.BookId 
+    WHERE r.Status = 'Approved'
+    UNION
+    SELECT r.RollNo AS UserID, r.BookId, b.Title AS BookName, r.Date_Renewed AS IssuedDate 
+    FROM renew r 
+    JOIN book b ON r.BookId = b.BookId 
+    WHERE r.Status = 'Approved'
+";         
 
 $result = mysqli_query($conn, $query);
 
