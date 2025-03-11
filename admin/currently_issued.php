@@ -1,11 +1,14 @@
 <?php
+// Include the database connection file
 require('dbconn.php');
 
+// Redirect to login page if the session is not active
 if (!isset($_SESSION['RollNo'])) {
     header("Location: index.php");
     exit();
 }
 
+// SQL query to retrieve approved reservations and renewals
 $query = "
     SELECT r.RollNo AS UserID, r.BookId, b.Title AS BookName, r.Date_Reserved AS IssuedDate 
     FROM reservation r 
@@ -18,13 +21,15 @@ $query = "
     WHERE r.Status = 'Approved'
 ";         
 
+// Execute the query
 $result = mysqli_query($conn, $query);
 
+// Handle query failure
 if (!$result) {
     die("Query failed: " . mysqli_error($conn));
 }
 
-
+// Fetch user's profile picture from the database
 $rollno = $_SESSION['RollNo'];
 $userQuery = "SELECT ProfilePicture FROM olms.user WHERE RollNo = ?";
 $userStmt = $conn->prepare($userQuery);
@@ -52,6 +57,7 @@ if ($userStmt) {
 </head>
 
 <body>
+    <!-- Top navigation bar -->
     <nav class="navbar">
         <div class="logo_item">
             <i class="bx bx-menu" id="sidebarOpen"></i>
@@ -71,7 +77,7 @@ if ($userStmt) {
         <div class="menu_content">
             <ul class="menu_items">
                 <div class="menu_title menu_dahsboard"></div>
-                <!-- start -->
+                <!-- Navigation links for different sections -->
                 <li class="item">
                     <a href="home.php" class="nav_link submenu_item">
                         <span class="navlink_icon">
@@ -173,6 +179,7 @@ if ($userStmt) {
 
 <body>
 
+<!-- Main content area for displaying issued books -->
 <main class="main-content">
 <h2>Currently Issued Books</h2>
 <table border="1">
@@ -189,7 +196,7 @@ if ($userStmt) {
     <tbody>
         <?php
         while ($row = mysqli_fetch_assoc($result)) {
-            // Splitting date and time
+            // Format issued date into readable format
             $date_part = date('Y-m-d', strtotime($row['IssuedDate']));
             $time_part = date('H:i:s', strtotime($row['IssuedDate']));
             
@@ -207,7 +214,7 @@ if ($userStmt) {
                 $due_fund = 120 + ($days_late * 10);
                 $row_class = "style='color: red; font-weight: bold;'"; // Highlighting overdue books
             }
-
+            // Display each book entry in the table
             echo "<tr $row_class>
                     <td>{$row['UserID']}</td>
                     <td>{$row['BookId']}</td>
