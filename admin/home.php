@@ -1,22 +1,22 @@
 <?php
-require('dbconn.php');
+require('dbconn.php'); //connect the database connection file
 
-if (!isset($_SESSION['RollNo'])) {
-  header("Location: index.php");
+if (!isset($_SESSION['RollNo'])) { // check if the user is logged in by verifying if the session variable 'RollNo' exists
+  header("Location: index.php");  // if the 'RollNo' is not set, redirect the user to the login page (index.php)
   exit();
 }
 
-$rollno = $_SESSION['RollNo'];
+$rollno = $_SESSION['RollNo']; // retrieve the RollNo from the session
 
-$userQuery = "SELECT * FROM olms.user WHERE RollNo=?";
-$userStmt = $conn->prepare($userQuery);
-$userStmt->bind_param("s", $rollno);
-$userStmt->execute();
-$userResult = $userStmt->get_result();
+$userQuery = "SELECT * FROM olms.user WHERE RollNo=?"; // SQL query to fetch user details from the user table where the RollNo matches
+$userStmt = $conn->prepare($userQuery); // prepare the SQL query to prevent SQL injection attacks
+$userStmt->bind_param("s", $rollno); // bind the RollNo to the prepared statement as a string parameter
+$userStmt->execute(); //execute the query
+$userResult = $userStmt->get_result(); // get the result
 
-if ($userResult && $userResult->num_rows > 0) {
-  $userRow = $userResult->fetch_assoc();
-  $ProfilePicture = !empty($userRow['ProfilePicture']) ? $userRow['ProfilePicture'] : 'images/profile.jpg';
+if ($userResult && $userResult->num_rows > 0) { // checking if a matching user is found
+  $userRow = $userResult->fetch_assoc(); // Fetch the user data
+  $ProfilePicture = !empty($userRow['ProfilePicture']) ? $userRow['ProfilePicture'] : 'images/profile.jpg'; // check if the user has uploaded a profile pic if not set the defailt profile pic
 } else {
   $ProfilePicture = 'images/profile.jpg';
 }

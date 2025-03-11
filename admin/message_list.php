@@ -1,21 +1,21 @@
 <?php
-require('dbconn.php');
+require('dbconn.php'); //connect the database connection file
 
-if ($_SESSION['RollNo']) {
-  // Handle delete request
-  if (isset($_GET['delete'])) {
-    $id = intval($_GET['delete']);
+if ($_SESSION['RollNo']) { // check the session var if the roll no is exist mean is th euser is loggeding
+  // Handle delete msg request
+  if (isset($_GET['delete'])) { // check if there is a dlte rqst in the url
+    $id = intval($_GET['delete']); //change the msg id from string to int to prevent sql injuction
     $sql = "DELETE FROM message WHERE Message_id = $id";
-    if ($conn->query($sql) === TRUE) {
+    if ($conn->query($sql) === TRUE) { //run dlt qry
       echo "<script>alert('Message deleted successfully!'); window.location.href='message_list.php';</script>";
     } else {
       echo "<script>alert('Error deleting message: " . $conn->error . "');</script>";
     }
   }
 
-  // Handle update request
-  if (isset($_POST['update'])) {
-    $id = intval($_POST['id']);
+  // Handle update msg request
+  if (isset($_POST['update'])) { //check if the updte rqst is triggered
+    $id = intval($_POST['id']); // chnge to int
     $updatedMessage = $conn->real_escape_string($_POST['updatedMessage']);
 
     $sql = "UPDATE message SET Message = '$updatedMessage' WHERE Message_id = $id";
@@ -26,7 +26,7 @@ if ($_SESSION['RollNo']) {
     }
   }
 
-  $rollno = $_SESSION['RollNo'];
+  $rollno = $_SESSION['RollNo']; // check if the user is logged in by verifying if the session variable 'RollNo' exists prevent from unauthorized access
 
   $userQuery = "SELECT * FROM olms.user WHERE RollNo=?";
   $userStmt = $conn->prepare($userQuery);
@@ -194,8 +194,8 @@ if ($_SESSION['RollNo']) {
           $sql = "SELECT * FROM message ORDER BY Date DESC, Time DESC";
           $result = $conn->query($sql);
 
-          if ($result->num_rows > 0) {
-            while ($row = $result->fetch_assoc()) {
+          if ($result->num_rows > 0) { // check if there are mssges in db
+            while ($row = $result->fetch_assoc()) { //loop thru each messges
               $categoryClass = ($row['Category'] === 'due') ? 'due-message' : 'general-message';
               echo "<tr>
                             <td>{$row['Receiver']}</td>
@@ -228,6 +228,6 @@ if ($_SESSION['RollNo']) {
 
   <?php
 } else {
-  echo "<script>alert('Access Denied!!!'); window.location.href='index.php';</script>";
+  echo "<script>alert('Access Denied!!!'); window.location.href='index.php';</script>"; //if user is not logged in show an alert and navigate to the login page
 }
 ?>

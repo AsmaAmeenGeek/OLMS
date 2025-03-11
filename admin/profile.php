@@ -1,7 +1,7 @@
 <?php
-require('dbconn.php');
+require('dbconn.php'); //connect the database connection file
 
-if (!isset($_SESSION['RollNo'])) {
+if (!isset($_SESSION['RollNo'])) { // check if the user is logged in by verifying if the session variable 'RollNo' exists
   header("Location: index.php");
   exit();
 }
@@ -12,13 +12,13 @@ $result = $conn->query($sql);
 
 if ($result && $result->num_rows > 0) {
   $row = $result->fetch_assoc();
-  $name = $row['Name'];
-  $email = $row['EmailId'];
-  $mobno = $row['MobNo'];
+  $name = $row['Name']; //store user details in a variabl
+  $email = $row['EmailId']; //""
+  $mobno = $row['MobNo'];//""
   $ProfilePicture = !empty($row['ProfilePicture']) ? $row['ProfilePicture'] : 'images/profile.jpg';
 } else {
   echo "<p>Error: No user found with Roll No: $rollno</p>";
-  $name = $category = $email = $mobno = "N/A";
+  $name = $category = $email = $mobno = "N/A"; // assign null values if user not found
   $ProfilePicture = 'images/profile.jpg';
 }
 ?>
@@ -164,7 +164,7 @@ if ($result && $result->num_rows > 0) {
   <div class="profile_page">
     <div class="profile_box">
       <img src="<?php echo htmlspecialchars($ProfilePicture) . '?' . time(); ?>" alt="User Image"
-        class="profile_image1" />
+        class="profile_image1" /> <!-- htmlspecialchars for prevent Xss attacks mean cross site scripting -->
       <h2 class="profile_name">
         <center><?php echo htmlspecialchars($name); ?></center>
       </h2>

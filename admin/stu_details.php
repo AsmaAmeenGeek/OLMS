@@ -1,8 +1,8 @@
 <?php
-require('dbconn.php');
+require('dbconn.php'); //connect the database connection file
 
-if (isset($_GET['RollNo'])) {
-    $rollNo = $_GET['RollNo'];
+if (isset($_GET['RollNo'])) {  // ensure roll no is exist in the url
+    $rollNo = $_GET['RollNo']; // store the roll nu in a variable
 
     // SQL Query
     $sql = "SELECT * FROM olms.user WHERE RollNo = ?";
@@ -14,7 +14,7 @@ if (isset($_GET['RollNo'])) {
     if ($result->num_rows > 0) {
         $user = $result->fetch_assoc();
 
-        $rollno = $_SESSION['RollNo'];
+        $rollno = $_SESSION['RollNo']; // get curent loggedin user roll nu from session
 
         $userQuery = "SELECT * FROM olms.user WHERE RollNo=?";
         $userStmt = $conn->prepare($userQuery);
@@ -173,20 +173,20 @@ if (isset($_GET['RollNo'])) {
                     <div class="book-details">
                         <h1>Student Details</h1>
                         <?php
-                        $x = $_GET['RollNo'];
+                        $x = $_GET['RollNo']; //ge the roll no from the get requst url
                         $sql = "SELECT * FROM olms.user WHERE RollNo = ?";
                         $stmt = $conn->prepare($sql);
-                        $stmt->bind_param("s", $x);
+                        $stmt->bind_param("s", $x); //bind roll nu as a string
                         $stmt->execute();
                         $result = $stmt->get_result();
 
-                        if ($result->num_rows > 0) {
+                        if ($result->num_rows > 0) { //if stu exist
                             $row = $result->fetch_assoc();
                             $rollNo = $row['RollNo'];
                             $name = $row['Name'];
                             $emailId = $row['EmailId'];
                             $mobNo = $row['MobNo'];
-
+                             // dsiplay stu details
                             echo "<p><strong>Roll No:</strong> $rollNo</p>";
                             echo "<p><strong>Name:</strong> $name</p>";
                             echo "<p><strong>EmailId :</strong> $emailId</p>";
@@ -196,6 +196,7 @@ if (isset($_GET['RollNo'])) {
                         <div class="button-container">
                             <a href="admin_manageStud.php" class="btn-link">
                                 <button class="go-back-btn">Go back</button>
+                                <!-- calling js remove student confiramtion function -->
                                 <a href="javascript:void(0);" class="table_btn"
                                     onclick="confirmDelete('<?php echo $rollNo; ?>')">Remove Student</a>
                             </a>
@@ -213,8 +214,8 @@ if (isset($_GET['RollNo'])) {
 
         <?php
     } else {
-        echo "Student not found.";
+        echo "Student not found."; // if no student found
     }
 } else {
-    echo "No RollNo provided.";
+    echo "No RollNo provided."; // if roll nu is not in the url
 }
