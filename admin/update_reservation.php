@@ -10,65 +10,67 @@ if (isset($_GET['action']) && isset($_GET['id'])) {
     $action = $_GET['action'];
     $id = $_GET['id'];
 
-    // Prepare the action based on the request
+    // Fetch the BookId associated with the reservation
+    $bookQuery = "SELECT BookId FROM olms.reservation WHERE id = ?";
+    $bookStmt = $conn->prepare($bookQuery);
+    $bookStmt->bind_param("i", $id);
+    $bookStmt->execute();
+    $bookResult = $bookStmt->get_result();
+    $bookRow = $bookResult->fetch_assoc();
+
+    if (!$bookRow) {
+        echo '<script>alert("Invalid Reservation ID!"); window.location.href="reserve_request.php";</script>';
+        exit();
+    }
+
+    $bookId = $bookRow['BookId'];
+
     if ($action === 'approve') {
-        // Query to update the reservation status (Admin side)
+        // Update the reservation status to 'Approved'
         $sql = "UPDATE olms.reservation SET Status = 'Approved' WHERE id = ?";
-
-        // Update the book status to 'Reserved' (Admin side)
-        $updateBookStatus = "UPDATE olms.book SET Status = 'Reserved' WHERE BookId = (SELECT BookId FROM olms.reservation WHERE id = ?)";
         
-        $message = "Reservation Approved Successfully!";
+        // Decrease book availability (if greater than 0)
+        $updateAvailability = "UPDATE olms.book SET Availability = Availability - 1, Status = 'Reserved' 
+                               WHERE BookId = ? AND Availability > 0";
+
+        $message = "Reservations Approved Successfully!";
     } elseif ($action === 'cancel') {
-        // Query to update the reservation status (Admin side)
+        // Update the reservation status to 'Cancelled'
         $sql = "UPDATE olms.reservation SET Status = 'Cancelled' WHERE id = ?";
-
-        // Update the book status to 'Available' (Admin side)
-        $updateBookStatus = "UPDATE olms.book SET Status = 'Available' WHERE BookId = (SELECT BookId FROM olms.reservation WHERE id = ?)";
         
+        // Ensure the book status remains 'Available' if it was reserved but not issued
+        $updateAvailability = "UPDATE olms.book SET Status = 'Available' WHERE BookId = ?";
+
         $message = "Reservation Cancelled Successfully!";
     } else {
-        // Invalid action
         echo '<script>alert("Invalid Action!"); window.location.href="reserve_request.php";</script>';
         exit();
     }
 
-    // Prepare the statement for updating the reservation status (Admin side)
+    // Execute the reservation status update
     $stmt = $conn->prepare($sql);
-    if ($stmt === false) {
-        die('Error preparing query: ' . $conn->error);
-    }
-
-    // Bind the parameter (reservation ID)
     $stmt->bind_param("i", $id);
     
     if ($stmt->execute()) {
-        // Update the book status
-        if (isset($updateBookStatus)) {
-            $stmtBook = $conn->prepare($updateBookStatus);
-            if ($stmtBook === false) {
-                die('Error preparing book status update: ' . $conn->error);
-            }
-            $stmtBook->bind_param("i", $id);
-            if ($stmtBook->execute()) {
-                $stmtBook->close();
-            } else {
-                die('Error updating book status: ' . $conn->error);
-            }
+        // Update book availability
+        $stmtBook = $conn->prepare($updateAvailability);
+        $stmtBook->bind_param("s", $bookId);
+        if ($stmtBook->execute()) {
+            $stmtBook->close();
+        } else {
+            die('Error updating book availability: ' . $conn->error);
         }
 
-        // Alert the user with success message and reload the page
+        // Success message
         echo '<script>alert("' . $message . '"); window.location.href="reserve_request.php";</script>';
     } else {
-        // If the admin query fails
         echo '<script>alert("Error updating reservation!"); window.location.href="reserve_request.php";</script>';
     }
 
-    // Close the statement and connection
+    // Close statements and connection
     $stmt->close();
     $conn->close();
 } else {
-    // Invalid request
     echo '<script>alert("Invalid Request!"); window.location.href="reserve_request.php";</script>';
     exit();
 }
