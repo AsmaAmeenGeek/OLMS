@@ -1,5 +1,5 @@
 <?php
-include 'dbconn.php'; //db connect
+include 'dbconn.php';
 
 if (!isset($_SESSION['RollNo'])) {
     header("Location: index.php");

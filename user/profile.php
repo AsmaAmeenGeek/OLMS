@@ -15,11 +15,16 @@ if ($result && $result->num_rows > 0) {
   $name = $row['Name'];
   $email = $row['EmailId'];
   $mobno = $row['MobNo'];
-  $ProfilePicture = !empty($row['ProfilePicture']) ? $row['ProfilePicture'] : 'images/profile.jpg';
+
+  // Check if the user has a profile picture, otherwise set a default profile picture
+  $ProfilePicture = !empty($row['ProfilePicture']) ? $row['ProfilePicture'] : 'images/profile.jpg';  // If profile picture exists, use it; otherwise, use default image
 } else {
+  // If no user is found, display an error message and set default values for user details
   echo "<p>Error: No user found with Roll No: $rollno</p>";
-  $name = $category = $email = $mobno = "N/A";
-  $ProfilePicture = 'images/profile.jpg';
+
+  // Set default values if user is not found
+  $name = $category = $email = $mobno = "N/A";  // Default values for user details
+  $ProfilePicture = 'images/profile.jpg';  // Default profile picture
 }
 ?>
 
@@ -46,11 +51,11 @@ if ($result && $result->num_rows > 0) {
     <div class="navbar_content">
       <i class="bi bi-grid"></i>
       <i class='bx bx-sun' id="darkLight"></i>
-      <img src="<?php echo ($ProfilePicture); ?>" alt="Profile Picture" class="profile"  id="profilePic" />
-                <div class="profile-dropdown" id="profileDropdown">
-                    <a href="profile.php">My Profile</a>
-                    <a href="logout.php">Logout</a>
-    </div>
+      <img src="<?php echo ($ProfilePicture); ?>" alt="Profile Picture" class="profile" id="profilePic" />
+      <div class="profile-dropdown" id="profileDropdown">
+        <a href="profile.php">My Profile</a>
+        <a href="logout.php">Logout</a>
+      </div>
   </nav>
 
   <!-- sidebar -->
@@ -98,7 +103,7 @@ if ($result && $result->num_rows > 0) {
         <li class="item">
           <a href="pre_borrowed_book.php" class="nav_link submenu_item">
             <span class="navlink_icon">
-              <i class='bx bx-book-add'></i> 
+              <i class='bx bx-book-add'></i>
             </span>
             <span class="navlink">Previously Borrowed <br> Books</span>
           </a>

@@ -5,15 +5,16 @@ $rollno = $_SESSION['RollNo'];
 
 // Fetch user details for profile picture
 $userQuery = "SELECT * FROM olms.user WHERE RollNo=?";
-$userStmt = $conn->prepare($userQuery);
-$userStmt->bind_param("s", $rollno);
+$userStmt = $conn->prepare($userQuery); // Prepare the SQL statement
+$userStmt->bind_param("s", $rollno); // Bind the parameter for RollNo
 $userStmt->execute();
 $userResult = $userStmt->get_result();
 
-if ($userResult && $userResult->num_rows > 0) {
+if ($userResult && $userResult->num_rows > 0) { // If a user is found
     $userRow = $userResult->fetch_assoc();
     $ProfilePicture = !empty($userRow['ProfilePicture']) ? $userRow['ProfilePicture'] : 'images/profile.jpg';
 } else {
+    // If no user is found, set a default profile picture
     $ProfilePicture = 'images/profile.jpg';
 }
 

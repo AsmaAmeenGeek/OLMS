@@ -1,12 +1,12 @@
 <?php
 require('dbconn.php');
 
-if (!isset($_SESSION['RollNo'])) { // check if th user is logged in by veryfing roll no session
-    header("Location: index.php"); // if not exist redirect to the login page
+if (!isset($_SESSION['RollNo'])) {
+    header("Location: index.php"); 
     exit();
 }
 
-$rollno = $_SESSION['RollNo']; // retrieve the roll no from session for get user details
+$rollno = $_SESSION['RollNo'];
 
 // Fetch user details for profile picture and other info
 $userQuery = "SELECT * FROM olms.user WHERE RollNo=?";
@@ -16,7 +16,7 @@ $userStmt->execute();
 $userResult = $userStmt->get_result();
 
 if ($userResult && $userResult->num_rows > 0) { // check if user is found
-    $userRow = $userResult->fetch_assoc(); // fetch user data
+    $userRow = $userResult->fetch_assoc();
     $ProfilePicture = !empty($userRow['ProfilePicture']) ? $userRow['ProfilePicture'] : 'images/profile.jpg';
 } else {
     $ProfilePicture = 'images/profile.jpg'; // Default picture if none found

@@ -24,7 +24,7 @@ if ($result && $result->num_rows > 0) {
     exit;
 }
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if ($_SERVER["REQUEST_METHOD"] == "POST") { // check whether the form is sumbitted or not
     $newName = $_POST['Name'];
     $newEmail = $_POST['EmailId'];
     $newMobno = $_POST['MobNo'];
