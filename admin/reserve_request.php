@@ -66,11 +66,11 @@ if ($userStmt) {
         <div class="navbar_content">
             <i class="bi bi-grid"></i>
             <i class='bx bx-sun' id="darkLight"></i>
-            <img src="<?php echo ($ProfilePicture); ?>" alt="Profile Picture" class="profile"   id="profilePic" />
-                <div class="profile-dropdown" id="profileDropdown">
-                    <a href="profile.php">My Profile</a>
-                    <a href="logout.php">Logout</a>
-        </div>
+            <img src="<?php echo ($ProfilePicture); ?>" alt="Profile Picture" class="profile" id="profilePic" />
+            <div class="profile-dropdown" id="profileDropdown">
+                <a href="profile.php">My Profile</a>
+                <a href="logout.php">Logout</a>
+            </div>
     </nav>
 
     <!-- sidebar -->
@@ -180,7 +180,7 @@ if ($userStmt) {
 
     <main class="main-content">
         <h2>Manage Reservations</h2>
-        
+
         <!-- Display success or error message -->
         <?php if ($successMessage): ?>
             <div class="message success">
@@ -209,21 +209,22 @@ if ($userStmt) {
                 <?php if ($result->num_rows > 0): ?>
                     <?php while ($row = $result->fetch_assoc()): ?>
                         <tr>
-                        <td><?php echo $row['RollNo']; ?></td>
+                            <td><?php echo ($row['RollNo']); ?></td>
                             <td><?php echo ($row['BookId']); ?></td>
                             <td><?php echo ($row['Title']); ?></td>
                             <td><?php echo ($row['Date_Reserved']); ?></td>
                             <td><?php echo ($row['Status']); ?></td>
                             <td>
-                                <a href="update_reservation.php?id=<?php echo $row['id']; ?>&action=approve" class="table_btn">Approve</a>
-                                <a href="update_reservation.php?id=<?php echo $row['id']; ?>&action=cancel" class="table_btn" 
-                                   onclick="return confirm('Cancel this reservation?');">Cancel</a>
+                                <a href="update_reservation.php?id=<?php echo $row['id']; ?>&action=approve"
+                                    class="table_btn">Approve</a>
+                                <a href="update_reservation.php?id=<?php echo $row['id']; ?>&action=cancel" class="table_btn"
+                                    onclick="return confirm('Cancel this reservation?');">Cancel</a>
                             </td>
                         </tr>
                     <?php endwhile; ?>
                 <?php else: ?>
                     <tr>
-                        <td colspan="5">No pending reservations.</td>
+                        <td colspan="6">No pending reservations.</td>
                     </tr>
                 <?php endif; ?>
             </tbody>

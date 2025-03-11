@@ -6,7 +6,6 @@ if (!isset($_SESSION['RollNo'])) {
     exit();
 }
 
-//fetch details from reservation
 $query = "SELECT r.RollNo AS UserID, r.BookId, b.Title AS BookName, r.Date_Reserved AS IssuedDate 
           FROM reservation r 
           JOIN book b ON r.BookId = b.BookId 
@@ -17,6 +16,7 @@ $result = mysqli_query($conn, $query);
 if (!$result) {
     die("Query failed: " . mysqli_error($conn));
 }
+
 
 $rollno = $_SESSION['RollNo'];
 $userQuery = "SELECT ProfilePicture FROM olms.user WHERE RollNo = ?";
@@ -40,7 +40,7 @@ if ($userStmt) {
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Boxicons CSS -->
     <link href="https://unpkg.com/boxicons@latest/css/boxicons.min.css" rel="stylesheet" />
-    <title>Issued Book</title>
+    <title>Issued Books</title>
     <link rel="stylesheet" href="style.css">
 </head>
 
@@ -58,10 +58,7 @@ if ($userStmt) {
         <div class="navbar_content">
             <i class="bi bi-grid"></i>
             <i class='bx bx-sun' id="darkLight"></i>
-            <img src="<?php echo ($ProfilePicture); ?>" alt="Profile Picture" class="profile"  id="profilePic" />
-                <div class="profile-dropdown" id="profileDropdown">
-                    <a href="profile.php">My Profile</a>
-                    <a href="logout.php">Logout</a>
+            <img src="<?php echo ($ProfilePicture); ?>" alt="Profile Picture" class="profile" />
         </div>
     </nav>
 
@@ -173,7 +170,7 @@ if ($userStmt) {
 <body>
 
 <main class="main-content">
-<h2>Currently Issued Book</h2>
+<h2>Currently Issued Books</h2>
 <table border="1">
     <thead>
         <tr>
@@ -182,23 +179,29 @@ if ($userStmt) {
             <th>Book Name</th>
             <th>Issued Date</th>
             <th>Return Date</th>
-            <th>Overdue Amount (Rs.)</th>
+            <th>Overdue Fine (Rs.)</th>
         </tr>
     </thead>
     <tbody>
         <?php
         while ($row = mysqli_fetch_assoc($result)) {
-            $issued_date = $row['IssuedDate'];
-            $return_date = date('Y-m-d', strtotime($issued_date . ' +14 days'));
+            // Splitting date and time
+            $date_part = date('Y-m-d', strtotime($row['IssuedDate']));
+            $time_part = date('H:i:s', strtotime($row['IssuedDate']));
+            
+            // Formatting issued date with added space
+            $issued_date = $date_part . " &nbsp;&nbsp; " . $time_part;
+            
+            $return_date = date('Y-m-d', strtotime($row['IssuedDate'] . ' +14 days'));
             $current_date = date('Y-m-d');
 
-            $due_fund = "-"; // if not overdue
+            $due_fund = "-"; // Default value if not overdue
             $row_class = ""; 
 
             if ($current_date > $return_date) {
                 $days_late = (strtotime($current_date) - strtotime($return_date)) / (60 * 60 * 24);
                 $due_fund = 120 + ($days_late * 10);
-                $row_class = "style='color: red; font-weight: bold;'"; // Highlighting the overdue issued book details
+                $row_class = "style='color: red; font-weight: bold;'"; // Highlighting overdue books
             }
 
             echo "<tr $row_class>
@@ -215,6 +218,8 @@ if ($userStmt) {
 </table>
 
 </main>
-<script src="script.js"></script>
+
+
+
 </body>
 </html>
