@@ -17,7 +17,7 @@ unset($_SESSION['success'], $_SESSION['error']); // Clear messages after display
 $sql = "SELECT r.id, r.RollNo, b.BookId, b.Title, r.Date_Reserved, r.Status 
         FROM olms.reservation r 
         JOIN olms.book b ON r.BookId = b.BookId 
-        WHERE r.Status = 'Pending'"; // Only fetch pending requests
+        WHERE r.Status = 'Pending'"; // fetch only pending requests
 
 $stmt = $conn->prepare($sql);
 if ($stmt) {
