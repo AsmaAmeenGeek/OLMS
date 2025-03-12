@@ -1,7 +1,7 @@
 <?php
-require('dbconn.php'); //connect the database connection file
+require('dbconn.php'); // Connect the database connection file
 
-if (!isset($_SESSION['RollNo'])) { // check if the user is logged in by verifying if the session variable 'RollNo' exists
+if (!isset($_SESSION['RollNo'])) { // Check if the user is logged in by verifying if the session variable 'RollNo' exists
   header("Location: index.php");
   exit();
 }
@@ -36,30 +36,29 @@ if ($userResult && $userResult->num_rows > 0) {
 
 <body>
 
-  <!-- navbar -->
+  <!-- Navbar -->
   <nav class="navbar">
     <div class="logo_item">
       <i class="bx bx-menu" id="sidebarOpen"></i>
       <img src="images/logo.jpg" alt=""></i>MillionOLMS
     </div>
 
-
     <div class="navbar_content">
       <i class="bi bi-grid"></i>
       <i class='bx bx-sun' id="darkLight"></i>
-      <img src="<?php echo ($ProfilePicture); ?>" alt="Profile Picture" class="profile"  id="profilePic" />
-                <div class="profile-dropdown" id="profileDropdown">
-                    <a href="profile.php">My Profile</a>
-                    <a href="logout.php">Logout</a>
+      <img src="<?php echo ($ProfilePicture); ?>" alt="Profile Picture" class="profile" id="profilePic" />
+      <div class="profile-dropdown" id="profileDropdown">
+        <a href="profile.php">My Profile</a>
+        <a href="logout.php">Logout</a>
+      </div>
     </div>
   </nav>
 
-  <!-- sidebar -->
+  <!-- Sidebar -->
   <nav class="sidebar">
     <div class="menu_content">
       <ul class="menu_items">
-        <div class="menu_title menu_dahsboard"></div>
-        <!-- start -->
+        <!-- Menu Items -->
         <li class="item">
           <a href="home.php" class="nav_link submenu_item">
             <span class="navlink_icon">
@@ -106,7 +105,6 @@ if ($userResult && $userResult->num_rows > 0) {
         </li>
 
         <li class="item">
-
           <a href="addBook.php" class="nav_link submenu_item">
             <span class="navlink_icon">
               <i class='bx bxs-edit'></i>
@@ -120,7 +118,7 @@ if ($userResult && $userResult->num_rows > 0) {
             <span class="navlink_icon">
               <i class='bx bx-right-indent'></i>
             </span>
-            <span class="navlink">Reserve/Return<br>Requests</span>
+            <span class="navlink">Reserve/Return Requests</span>
           </a>
         </li>
 
@@ -129,7 +127,7 @@ if ($userResult && $userResult->num_rows > 0) {
             <span class="navlink_icon">
               <i class='bx bx-list-ul'></i>
             </span>
-            <span class="navlink">Currently Issued<br>Books</span>
+            <span class="navlink">Currently Issued Books</span>
           </a>
         </li>
 
@@ -141,26 +139,10 @@ if ($userResult && $userResult->num_rows > 0) {
             <span class="navlink">Logout</span>
           </a>
         </li>
-
       </ul>
-
-
-
-      <!-- Sidebar Open / Close -->
-      <div class="bottom_content">
-        <div class="bottom expand_sidebar">
-          <span> Expand</span>
-          <i class='bx bx-log-in'></i>
-        </div>
-        <div class="bottom collapse_sidebar">
-          <span> Collapse</span>
-          <i class='bx bx-log-out'></i>
-        </div>
-      </div>
     </div>
   </nav>
 
-  
   <div class="span9">
     <div class="container1">
       <div class="container1_box">
@@ -179,7 +161,6 @@ if ($userResult && $userResult->num_rows > 0) {
         ?>
 
         <form class="form-horizontal row-fluid" action="editBook.php?BookId=<?php echo $bookId; ?>" method="post" enctype="multipart/form-data">
-
           <div class="control-group">
             <b>
               <label class="control-label" for="Title">Book Title:</label>
@@ -238,8 +219,8 @@ if ($userResult && $userResult->num_rows > 0) {
     <script src="script.js"></script>
 
     <?php
-    if (isset($_POST['submit'])) { // check if the form is submit or not
-      $bookId = $_GET['BookId']; //get updated book  details from the form
+    if (isset($_POST['submit'])) { // Check if the form is submitted
+      $bookId = $_GET['BookId']; // Get updated book details from the form
       $name = $_POST['Title'];
       $publisher = $_POST['Publisher'];
       $year = $_POST['Year'];
